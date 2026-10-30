@@ -1,0 +1,51 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const entry = await getEntry('pages', `about.${locale}`);
+if (!entry) {
+  throw new Error(`Missing src/content/pages/about.${locale}.md.`);
+}
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={`${entry.data.title} | play.heubes.io`} locale={locale}>
+  <article class="container about">
+    <h1>{entry.data.title}</h1>
+    <Content />
+  </article>
+</BaseLayout>
+
+<style>
+  .about {
+    padding-block: var(--space-6);
+  }
+
+  .about > :global(* + *) {
+    margin-top: var(--space-3);
+  }
+
+  .about > :global(* + h2) {
+    margin-top: var(--space-6);
+  }
+
+  .about :global(h2) {
+    font-size: var(--font-size-xl);
+    scroll-margin-top: calc(var(--header-height) + var(--space-4));
+  }
+
+  .about :global(ul) {
+    max-width: var(--measure);
+    padding-inline-start: var(--space-5);
+  }
+
+  .about :global(li + li) {
+    margin-top: var(--space-2);
+  }
+</style>
