@@ -61,7 +61,7 @@ Routage `/` et `/fr/`, textes d'interface, sélecteur de langue fonctionnel, vue
 
 **Critère :** la page de test existe en `/` et `/fr/`, le sélecteur passe de l'une à l'autre, le pied de page est traduit.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
