@@ -14,4 +14,11 @@ const games = defineCollection({
   }),
 });
 
-export const collections = { games };
+const pages = defineCollection({
+  loader: glob({ pattern: '*.{en,fr}.md', base: './src/content/pages', generateId: ({ entry }) => entry.replace(/\.md$/, '') }),
+  schema: z.object({
+    title: z.string(),
+  }),
+});
+
+export const collections = { games, pages };

@@ -7,6 +7,9 @@
     "about": "About",
     "created-by": "Created by Christophe Heubès"
   },
+  "link": {
+    "new-tab": "opens in a new tab"
+  },
   "home": {
     "title": "Original mini games",
     "intro": "Small games made for the web. No install, no account: pick one and play.",

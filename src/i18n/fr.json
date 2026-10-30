@@ -7,6 +7,9 @@
     "about": "À propos",
     "created-by": "Créé par Christophe Heubès"
   },
+  "link": {
+    "new-tab": "s'ouvre dans un nouvel onglet"
+  },
   "home": {
     "title": "Mini jeux originaux",
     "intro": "Des petits jeux conçus pour le web. Rien à installer, pas de compte : choisis-en un et joue.",

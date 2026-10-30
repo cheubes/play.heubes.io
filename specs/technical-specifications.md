@@ -53,6 +53,7 @@ Versions exactes dans `package.json` (pas de `^` ni de `~`), `package-lock.json`
 | Package | Type | Rôle |
 |---|---|---|
 | `astro` | dépendance | Génération du site. |
+| `@astrojs/markdown-satteri` | dépendance | Moteur Markdown par défaut d'Astro, déjà installé par `astro` : importé dans `astro.config.mjs` pour y brancher un plugin (liens externes en nouvel onglet, voir "Navigation" dans `functional-specifications.md`). Même version que celle requise par `astro`. |
 | `typescript` | dev | Typage. |
 | `@astrojs/check` | dev | Vérification des types des fichiers `.astro` et `.ts`. |
 | `vitest` | dev | Tests unitaires (voir "Tests"). |
@@ -303,6 +304,7 @@ Les règles de `data-model.md` ("Contraintes et règles de validation") sont vé
 - L'aire de jeu a un nom accessible (titre du jeu) et une description qui renvoie aux contrôles. Les changements d'état importants (coup joué, objectif atteint, niveau terminé) sont annoncés par `context.announce()`.
 - Une information de jeu n'est jamais portée par la couleur seule : forme, symbole ou texte la doublent.
 - `lang` correct sur `<html>` ; lien d'évitement vers le contenu principal.
+- Un lien externe, ouvert dans un nouvel onglet (voir "Navigation" dans `functional-specifications.md`), le signale aux lecteurs d'écran : `aria-describedby` pointe vers un texte masqué, présent une fois par page dans `BaseLayout` (`link.new-tab` dans `src/i18n/`).
 
 ## SEO
 

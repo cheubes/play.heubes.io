@@ -199,7 +199,7 @@ Voir `about-page.md`.
 
 **Critère :** `/about/` et `/fr/about/` affichent toutes les sections ; le lien "License" du pied de page mène à l'ancre `#license` ; le fichier `LICENSE` (MIT) existe à la racine.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

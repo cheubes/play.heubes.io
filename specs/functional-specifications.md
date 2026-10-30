@@ -49,6 +49,7 @@ Objectifs :
 
 - L'en-tête (logo menant à l'accueil, sélecteur de langue) et le pied de page fixe (licence, About, crédit) sont présents sur toutes les pages, sauf pendant une partie (voir "Modes de la page" dans `game-page.md`).
 - Pas de menu de navigation : le catalogue est la page d'accueil, et chaque page de jeu y ramène par le logo.
+- Les liens externes (vers un autre site que play.heubes.io) s'ouvrent dans un nouvel onglet, y compris ceux des contenus Markdown.
 
 ### Cycle de vie d'une partie
 

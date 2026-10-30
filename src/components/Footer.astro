@@ -12,7 +12,7 @@ const aboutPath = getLocalizedPath(locale, 'about');
 const links = [
   { label: t('footer.license'), href: `${aboutPath}#license` },
   { label: t('footer.about'), href: aboutPath },
-  { label: t('footer.created-by'), href: 'https://christophe.heubes.org/' },
+  { label: t('footer.created-by'), href: 'https://christophe.heubes.org/', external: true },
 ];
 ---
 
@@ -26,7 +26,9 @@ const links = [
               ·
             </span>
           )}
-          <a href={link.href}>{link.label}</a>
+          <a href={link.href} target={link.external ? '_blank' : undefined} aria-describedby={link.external ? 'new-tab-hint' : undefined}>
+            {link.label}
+          </a>
         </li>
       ))
     }
