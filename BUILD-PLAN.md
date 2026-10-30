@@ -174,7 +174,7 @@ Enveloppe de stockage versionnée, préférences, service audio, sélecteur de n
 
 **Critère :** la progression de `sandbox` survit à un rechargement ; le réglage "Son" est conservé ; la réinitialisation fonctionne ; le site reste utilisable avec `localStorage` bloqué.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

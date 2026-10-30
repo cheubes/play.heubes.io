@@ -1,0 +1,157 @@
+---
+import Icon from '../Icon.astro';
+import { createTranslator, type Locale } from '../../i18n';
+import type { LevelEntry, LevelStatus } from '../../games/shell/types';
+
+interface Props {
+  locale: Locale;
+  levels: LevelEntry[];
+}
+
+const { locale, levels } = Astro.props;
+const t = createTranslator(locale);
+const STATUSES: LevelStatus[] = ['locked', 'available', 'completed', 'perfect'];
+const nextLevelId = levels.find((level) => level.status === 'available')?.id;
+---
+
+<section class="level-selector" aria-labelledby="level-selector-title" data-level-selector data-pending>
+  <h2 id="level-selector-title">{t('game.levels')}</h2>
+  <ol class="level-grid" role="list">
+    {
+      levels.map((level) => (
+        <li>
+          <button
+            type="button"
+            class="level-button"
+            data-level-id={level.id}
+            data-status={level.status}
+            data-next={level.id === nextLevelId ? '' : undefined}
+            disabled={level.status === 'locked'}
+          >
+            <span class="level-number" aria-hidden="true">
+              {level.label}
+            </span>
+            <span class="level-lock" data-for="locked">
+              <Icon name="lock" />
+            </span>
+            <span class="level-corner level-check" data-for="completed">
+              <Icon name="check" size={16} />
+            </span>
+            <span class="level-corner level-star" data-for="perfect">
+              <Icon name="star" size={16} />
+            </span>
+            <span class="visually-hidden">
+              {t('game.level-selector.level').replace('{number}', level.label)},{' '}
+              {STATUSES.map((status) => (
+                <span data-for={status}>{t(`game.level-selector.status.${status}`)}</span>
+              ))}
+            </span>
+          </button>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .level-selector {
+    display: grid;
+    align-content: start;
+    gap: var(--space-4);
+  }
+
+  .level-selector h2 {
+    font-size: var(--font-size-xl);
+  }
+
+  /* Hidden until the host applies the saved statuses, so the initial state never flashes. */
+  .level-selector[data-pending] .level-grid {
+    visibility: hidden;
+  }
+
+  .level-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 56px);
+    gap: var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  .level-button {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    background-color: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+
+  .level-button:hover:not(:disabled) {
+    border-color: var(--color-accent);
+  }
+
+  .level-button[data-next] {
+    box-shadow: var(--glow-accent);
+  }
+
+  .level-button[data-status='perfect'] {
+    border-color: var(--color-highlight);
+  }
+
+  .level-button[data-status='locked'] {
+    background-color: var(--color-surface);
+    border-color: transparent;
+    color: var(--color-text-muted);
+    cursor: default;
+  }
+
+  .level-button:not([data-status='locked']) [data-for='locked'],
+  .level-button:not([data-status='available']) [data-for='available'],
+  .level-button:not([data-status='completed']) [data-for='completed'],
+  .level-button:not([data-status='perfect']) [data-for='perfect'],
+  .level-button[data-status='locked'] .level-number {
+    display: none;
+  }
+
+  .level-corner {
+    position: absolute;
+    top: var(--space-1);
+    right: var(--space-1);
+  }
+
+  .level-check {
+    color: var(--color-success);
+  }
+
+  .level-star {
+    color: var(--color-highlight);
+  }
+
+  @media (min-width: 640px) {
+    .level-grid {
+      grid-template-columns: repeat(auto-fill, 64px);
+    }
+
+    .level-button {
+      width: 64px;
+      height: 64px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .level-button {
+      transition: none;
+    }
+  }
+</style>

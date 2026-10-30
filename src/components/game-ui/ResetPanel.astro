@@ -1,0 +1,25 @@
+---
+import GamePanel from './GamePanel.astro';
+import { createTranslator, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+}
+
+const { locale, title } = Astro.props;
+const t = createTranslator(locale);
+---
+
+<GamePanel id="reset">
+  <h2 id="game-panel-reset-title">{t('game.reset.title').replace('{title}', title)}</h2>
+  <p>{t('game.reset.warning')}</p>
+  <div class="panel-actions">
+    <button type="button" class="button button-danger" data-reset-confirm>
+      {t('game.reset.confirm')}
+    </button>
+    <button type="button" class="button button-secondary" data-reset-cancel>
+      {t('game.reset.cancel')}
+    </button>
+  </div>
+</GamePanel>

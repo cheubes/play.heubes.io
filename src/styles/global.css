@@ -202,6 +202,12 @@ a {
   border-color: var(--color-accent);
 }
 
+.button-danger {
+  background-color: transparent;
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
 .button-icon {
   display: inline-flex;
   align-items: center;

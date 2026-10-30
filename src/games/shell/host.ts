@@ -1,7 +1,11 @@
 import type { Locale } from '../../i18n';
+import { createAudioService } from './audio';
 import { createStatElement, focusFirstButton, requireElement, trapFocus } from './dom';
 import { createHud } from './hud';
 import { createGameTranslator, type Dictionary } from './i18n';
+import { createLevelSelector } from './level-selector';
+import { parseSettings, SETTINGS_FORMAT, SETTINGS_KEY } from './settings';
+import { createSafeBackend, createVersionedStorage, DEFAULT_SAVE_FORMAT, getGameStorageKey } from './storage';
 import type { GameContext, GameDefinition, GameInstance, GameStorage, LevelResult } from './types';
 
 type Mode = 'playing' | 'paused' | 'ended';
@@ -13,6 +17,7 @@ interface LoadedGame {
 
 interface Session {
   definition: GameDefinition;
+  storage: GameStorage;
   instance: GameInstance;
   controller: AbortController;
   levelId: string | undefined;
@@ -40,17 +45,6 @@ async function loadGame(slug: string, locale: Locale): Promise<LoadedGame> {
     document.head.append(style);
   }
   return { definition, dictionary };
-}
-
-// Session-only storage until the versioned localStorage service lands (BUILD-PLAN.md step 8).
-function createMemoryStorage(): GameStorage {
-  let stored: unknown;
-  return {
-    read: <T>() => stored as T | undefined,
-    write: (data) => {
-      stored = data;
-    },
-  };
 }
 
 function whenIdle(callback: () => void): void {
@@ -84,13 +78,22 @@ export function initGameHost(shell: HTMLElement): void {
   const endStar = requireElement(endPanel, '[data-end-star]');
   const endMessage = requireElement(endPanel, '[data-end-message]');
   const endStats = requireElement(endPanel, '[data-end-stats]');
+  const levelSelectorRoot = document.querySelector<HTMLElement>('[data-level-selector]');
+  const resetButton = requireElement(document, '[data-reset-button]');
+  const resetPanel = requireElement(document, '[data-panel="reset"]');
+  const resetConfirmButton = requireElement(resetPanel, '[data-reset-confirm]');
+  const resetCancelButton = requireElement(resetPanel, '[data-reset-cancel]');
 
-  const storage = createMemoryStorage();
+  const backend = createSafeBackend(() => window.localStorage);
+  const storageKey = getGameStorageKey(slug);
+  const settingsStorage = createVersionedStorage(backend, SETTINGS_KEY, SETTINGS_FORMAT);
+  let settings = parseSettings(settingsStorage.read());
+  const audio = createAudioService(settings.sound);
   const hud = createHud(hudRoot, () => area.focus());
+  const levelSelector = levelSelectorRoot ? createLevelSelector(levelSelectorRoot) : undefined;
   let loading: Promise<LoadedGame> | undefined;
   let session: Session | undefined;
   let mode: Mode | undefined;
-  let soundEnabled = true;
   let pointerStartedInPanel = false;
 
   function load(): Promise<LoadedGame> {
@@ -99,6 +102,25 @@ export function initGameHost(shell: HTMLElement): void {
       throw error;
     });
     return loading;
+  }
+
+  function createGameStorage(definition: GameDefinition): GameStorage {
+    return createVersionedStorage(backend, storageKey, definition.save ?? DEFAULT_SAVE_FORMAT);
+  }
+
+  function refreshProgress(): void {
+    resetButton.hidden = backend.getItem(storageKey) === null;
+    load()
+      .then(({ definition }) => {
+        const levels = definition.getLevels?.(createGameStorage(definition));
+        if (levels) {
+          levelSelector?.render(levels);
+        }
+      })
+      .catch(() => {
+        // Reported when the player presses Play, which retries the load.
+      })
+      .finally(() => levelSelector?.reveal());
   }
 
   function setMode(next: Mode | undefined): void {
@@ -133,12 +155,14 @@ export function initGameHost(shell: HTMLElement): void {
   function enterPlaying(): void {
     closePanels();
     setMode('playing');
+    audio.activate();
   }
 
-  async function play(): Promise<void> {
+  async function play(levelId?: string): Promise<void> {
     if (playButton.getAttribute('aria-busy') === 'true') {
       return;
     }
+    audio.activate();
     playButton.setAttribute('aria-busy', 'true');
     loadError.textContent = '';
     let game: LoadedGame;
@@ -155,19 +179,20 @@ export function initGameHost(shell: HTMLElement): void {
     }
     playLabel.hidden = false;
     retryLabel.hidden = true;
-    startSession(game);
+    startSession(game, levelId);
   }
 
-  function startSession({ definition, dictionary }: LoadedGame): void {
+  function startSession({ definition, dictionary }: LoadedGame, requestedLevelId: string | undefined): void {
+    const storage = createGameStorage(definition);
     const levels = definition.getLevels?.(storage);
-    const levelId = levels ? (levels.find((level) => level.status === 'available') ?? levels[0])?.id : undefined;
+    const levelId = requestedLevelId ?? (levels ? (levels.find((level) => level.status === 'available') ?? levels[0])?.id : undefined);
     const controller = new AbortController();
     const context: GameContext = {
       container: area,
       locale,
       t: createGameTranslator(dictionary, locale),
       storage,
-      audio: { context: () => undefined, output: () => undefined },
+      audio: audio.gameAudio,
       hud,
       announce,
       reducedMotion: () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
@@ -180,7 +205,7 @@ export function initGameHost(shell: HTMLElement): void {
     };
     content.inert = true;
     shell.hidden = false;
-    session = { definition, controller, levelId, nextLevelId: undefined, completed: false, instance: definition.create(context) };
+    session = { definition, storage, controller, levelId, nextLevelId: undefined, completed: false, instance: definition.create(context) };
     startLevel(levelId);
   }
 
@@ -210,6 +235,7 @@ export function initGameHost(shell: HTMLElement): void {
       return;
     }
     session.instance.pause();
+    audio.suspend();
     openPanel(pausePanel, 'paused');
   }
 
@@ -227,7 +253,7 @@ export function initGameHost(shell: HTMLElement): void {
       return;
     }
     session.completed = true;
-    const levels = session.definition.getLevels?.(storage) ?? [];
+    const levels = session.definition.getLevels?.(session.storage) ?? [];
     const index = levels.findIndex((level) => level.id === session?.levelId);
     const nextLevel = index >= 0 ? levels[index + 1] : undefined;
     const isLastLevel = index >= 0 && index === levels.length - 1;
@@ -256,6 +282,7 @@ export function initGameHost(shell: HTMLElement): void {
     session.instance.destroy();
     session.controller.abort();
     session = undefined;
+    audio.suspend();
     area.replaceChildren();
     hud.reset();
     closePanels();
@@ -266,11 +293,32 @@ export function initGameHost(shell: HTMLElement): void {
       document.exitFullscreen().catch((error: unknown) => console.error(error));
     }
     playButton.focus();
+    refreshProgress();
   }
 
   function toggleSound(): void {
-    soundEnabled = !soundEnabled;
-    soundButton.setAttribute('aria-pressed', String(soundEnabled));
+    settings = { ...settings, sound: !settings.sound };
+    settingsStorage.write(settings);
+    audio.setEnabled(settings.sound);
+    soundButton.setAttribute('aria-pressed', String(settings.sound));
+  }
+
+  function openResetPanel(): void {
+    content.inert = true;
+    resetPanel.hidden = false;
+    resetCancelButton.focus();
+  }
+
+  function closeResetPanel(focusTarget: HTMLElement): void {
+    resetPanel.hidden = true;
+    content.inert = false;
+    focusTarget.focus();
+  }
+
+  function pauseOnFocusLoss(): void {
+    pause();
+    // Also silences the end panel, which pause() leaves alone.
+    audio.suspend();
   }
 
   function toggleFullscreen(): void {
@@ -279,6 +327,27 @@ export function initGameHost(shell: HTMLElement): void {
   }
 
   playButton.addEventListener('click', () => void play());
+
+  levelSelectorRoot?.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest<HTMLButtonElement>('button[data-level-id]') : null;
+    if (button?.dataset.levelId !== undefined) {
+      void play(button.dataset.levelId);
+    }
+  });
+
+  resetButton.addEventListener('click', openResetPanel);
+  resetCancelButton.addEventListener('click', () => closeResetPanel(resetButton));
+  resetConfirmButton.addEventListener('click', () => {
+    backend.removeItem(storageKey);
+    refreshProgress();
+    closeResetPanel(playButton);
+  });
+  resetPanel.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeResetPanel(resetButton);
+    }
+  });
 
   // A tap that completes a level opens the end panel before the browser sends that tap's click,
   // which could then land on a panel button: panel buttons only accept pointers that went down in the panel.
@@ -289,7 +358,7 @@ export function initGameHost(shell: HTMLElement): void {
   // The same late compatibility mousedown, or a click on the scrim, would otherwise move the focus out of the panel.
   document.addEventListener('mousedown', (event) => {
     const isControl = event.target instanceof Element && event.target.closest('button, a') !== null;
-    if ((mode === 'paused' || mode === 'ended') && !isControl) {
+    if ((mode === 'paused' || mode === 'ended' || !resetPanel.hidden) && !isControl) {
       event.preventDefault();
     }
   });
@@ -344,11 +413,12 @@ export function initGameHost(shell: HTMLElement): void {
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') {
-      pause();
+      pauseOnFocusLoss();
     }
   });
-  window.addEventListener('blur', () => pause());
+  window.addEventListener('blur', pauseOnFocusLoss);
 
+  soundButton.setAttribute('aria-pressed', String(settings.sound));
   fullscreenButton.hidden = !document.fullscreenEnabled;
   document.addEventListener('fullscreenchange', () => {
     fullscreenButton.setAttribute('aria-pressed', String(document.fullscreenElement !== null));
@@ -358,10 +428,7 @@ export function initGameHost(shell: HTMLElement): void {
 
   trapFocus(pausePanel);
   trapFocus(endPanel);
+  trapFocus(resetPanel);
 
-  whenIdle(() => {
-    load().catch(() => {
-      // Reported when the player presses Play, which retries the load.
-    });
-  });
+  whenIdle(refreshProgress);
 }

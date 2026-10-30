@@ -2,6 +2,7 @@
 import GameHud, { type HudAction } from './GameHud.astro';
 import PausePanel from './PausePanel.astro';
 import EndPanel from './EndPanel.astro';
+import ResetPanel from './ResetPanel.astro';
 import { createTranslator, type Locale } from '../../i18n';
 
 interface Props {
@@ -32,6 +33,7 @@ const t = createTranslator(locale);
   <PausePanel locale={locale} hasLevels={hasLevels} />
   <EndPanel locale={locale} hasLevels={hasLevels} />
 </div>
+<ResetPanel locale={locale} title={title} />
 <p id="game-area-description" class="visually-hidden">{t('game.area-description')}</p>
 <div class="visually-hidden" aria-live="polite" data-game-announcer></div>
 

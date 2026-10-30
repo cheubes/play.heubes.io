@@ -17,7 +17,7 @@ Un jeu publié dans le catalogue. Chaque jeu est décrit par deux fichiers de co
 | `cover` | image | non | Image de couverture, `public/covers/<slug>.webp` (voir "Images de couverture" dans `style-guide.md`). |
 | corps du fichier | Markdown | oui | Règles du jeu, avec deux sections obligatoires : "How to play" / "Comment jouer" et "Controls" / "Contrôles" (voir `game-page.md`). |
 
-Slugs réservés, interdits pour un jeu parce qu'ils entrent en conflit avec des routes du site : `about`, `fr`, `en`, `covers`, `fonts`.
+Slugs réservés, interdits pour un jeu parce qu'ils entrent en conflit avec des routes du site : `about`, `fr`, `en`, `covers`, `fonts` ; ou avec la clé de stockage des préférences : `settings` (voir "Persistance").
 
 ### Genre
 
@@ -65,6 +65,7 @@ Pour les jeux à niveaux, le sélecteur de niveaux commun (voir `game-page.md`) 
 - Lecture : une valeur illisible, de version inconnue ou non migrable est ignorée et remplacée par l'état initial à la prochaine écriture.
 - Migration : quand le format de `data` change, le jeu incrémente `version` et fournit une migration depuis la version précédente si la progression mérite d'être conservée. Sinon, l'ancienne sauvegarde est ignorée.
 - Un jeu n'accède jamais directement à `localStorage` : il passe par le service de stockage fourni par l'hôte de jeu (voir "Contrat d'un jeu" dans `technical-specifications.md`), qui applique ces conventions et gère l'indisponibilité du stockage.
+- Stockage indisponible (bloqué ou plein) : le service conserve les écritures en mémoire le temps de la visite, pour que la progression reste cohérente pendant la partie (niveau suivant déverrouillé, sélecteur à jour au retour). Rien ne survit à un rechargement.
 
 ### Réinitialisation
 

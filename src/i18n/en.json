@@ -20,6 +20,15 @@
     "area-description": "Use the keys and gestures listed under Controls.",
     "levels": "Levels",
     "quit": "Quit",
+    "level-selector": {
+      "level": "Level {number}",
+      "status": {
+        "locked": "locked",
+        "available": "available",
+        "completed": "completed",
+        "perfect": "perfect"
+      }
+    },
     "keys": {
       "escape": "Esc"
     },
@@ -42,6 +51,13 @@
       "next": "Next level",
       "replay": "Replay",
       "play-again": "Play again"
+    },
+    "reset": {
+      "button": "Reset progress",
+      "title": "Reset your progress in {title}?",
+      "warning": "This can't be undone.",
+      "confirm": "Reset",
+      "cancel": "Cancel"
     }
   },
   "genre": {
