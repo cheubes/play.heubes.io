@@ -1,8 +1,18 @@
 ---
+import { createTranslator, getLocalizedPath, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = createTranslator(locale);
+const aboutPath = getLocalizedPath(locale, 'about');
+
 const links = [
-  { label: 'License', href: '/about/#license' },
-  { label: 'About', href: '/about/' },
-  { label: 'Created by Christophe Heubès', href: 'https://christophe.heubes.org/' },
+  { label: t('footer.license'), href: `${aboutPath}#license` },
+  { label: t('footer.about'), href: aboutPath },
+  { label: t('footer.created-by'), href: 'https://christophe.heubes.org/' },
 ];
 ---
 

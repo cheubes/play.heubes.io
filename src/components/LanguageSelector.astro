@@ -1,9 +1,16 @@
 ---
-const languages = [
-  { code: 'en', label: 'EN', name: 'English', href: '/' },
-  { code: 'fr', label: 'FR', name: 'Français', href: '/fr/' },
+import { getAlternatePath, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale: currentLanguage } = Astro.props;
+
+const languages: { code: Locale; label: string; name: string; href: string }[] = [
+  { code: 'en', label: 'EN', name: 'English', href: getAlternatePath(Astro.url.pathname, 'en') },
+  { code: 'fr', label: 'FR', name: 'Français', href: getAlternatePath(Astro.url.pathname, 'fr') },
 ];
-const currentLanguage = 'en';
 ---
 
 <ul class="language-selector">

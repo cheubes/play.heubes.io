@@ -1,0 +1,14 @@
+{
+  "header": {
+    "language": "Langue"
+  },
+  "footer": {
+    "license": "Licence",
+    "about": "À propos",
+    "created-by": "Créé par Christophe Heubès"
+  },
+  "home": {
+    "title": "Mini jeux originaux",
+    "intro": "Des petits jeux conçus pour le web. Rien à installer, pas de compte : choisis-en un et joue."
+  }
+}
