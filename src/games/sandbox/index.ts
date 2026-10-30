@@ -44,6 +44,23 @@ const sandbox: GameDefinition = {
     board.append(counter, dots, hint);
     container.append(board);
 
+    function playTone(frequency: number): void {
+      const audioContext = context.audio.context();
+      const output = context.audio.output();
+      if (!audioContext || !output) {
+        return;
+      }
+      const oscillator = audioContext.createOscillator();
+      const envelope = audioContext.createGain();
+      const now = audioContext.currentTime;
+      oscillator.frequency.value = frequency;
+      envelope.gain.setValueAtTime(0.2, now);
+      envelope.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+      oscillator.connect(envelope).connect(output);
+      oscillator.start(now);
+      oscillator.stop(now + 0.2);
+    }
+
     function render(): void {
       counter.textContent = `${state.presses} / ${state.target}`;
       dots.replaceChildren(
@@ -68,7 +85,10 @@ const sandbox: GameDefinition = {
         counter.animate([{ transform: 'scale(1.15)' }, { transform: 'scale(1)' }], { duration: 160, easing: 'ease-out' });
       }
       if (isComplete(state)) {
+        playTone(880);
         finish();
+      } else {
+        playTone(440);
       }
     }
 

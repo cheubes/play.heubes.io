@@ -174,7 +174,15 @@ export interface GameDefinition {
   getLevels?(storage: GameStorage): LevelEntry[];
   // Actions propres au jeu affichées dans le HUD (ex. annuler un coup).
   actions?: GameAction[];
+  // Format de la sauvegarde. Absent : version 1, sans migration.
+  save?: SaveFormat;
   create(context: GameContext): GameInstance;
+}
+
+export interface SaveFormat {
+  version: number;
+  // migrations[n] convertit les données d'une sauvegarde en version n vers la version n + 1.
+  migrations?: Record<number, (data: unknown) => unknown>;
 }
 
 export interface LevelEntry {
@@ -243,7 +251,7 @@ Règles :
 - L'hôte pose la classe `.game-<slug>` sur `container`.
 - `destroy()` libère toutes les ressources. L'usage de `signal` pour les écouteurs est obligatoire.
 - `complete()` est appelé une seule fois par niveau. Le jeu ne traite plus d'entrée ensuite, jusqu'au prochain `start()` ou `restart()`.
-- Le versionnement de la sauvegarde est déclaré par le jeu (numéro de version et migrations) et appliqué par l'hôte (voir "Persistance" dans `data-model.md`).
+- Le versionnement de la sauvegarde est déclaré par le jeu (`save` : numéro de version et migrations) et appliqué par l'hôte (voir "Persistance" dans `data-model.md`). Une migration qui lève une exception rend la sauvegarde non migrable.
 
 ## Règles communes à tous les jeux
 

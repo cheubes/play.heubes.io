@@ -33,6 +33,12 @@ export interface GameStorage {
   write<T>(data: T): void;
 }
 
+export interface SaveFormat {
+  version: number;
+  // migrations[n] converts the data of a version n save to version n + 1.
+  migrations?: Record<number, (data: unknown) => unknown>;
+}
+
 export interface GameAudio {
   context(): AudioContext | undefined;
   output(): AudioNode | undefined;
@@ -70,5 +76,7 @@ export interface GameInstance {
 export interface GameDefinition {
   getLevels?(storage: GameStorage): LevelEntry[];
   actions?: GameAction[];
+  // Absent: version 1, without migrations.
+  save?: SaveFormat;
   create(context: GameContext): GameInstance;
 }

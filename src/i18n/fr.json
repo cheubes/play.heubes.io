@@ -20,6 +20,15 @@
     "area-description": "Utilise les touches et les gestes décrits dans la section Contrôles.",
     "levels": "Niveaux",
     "quit": "Quitter",
+    "level-selector": {
+      "level": "Niveau {number}",
+      "status": {
+        "locked": "verrouillé",
+        "available": "disponible",
+        "completed": "terminé",
+        "perfect": "parfait"
+      }
+    },
     "keys": {
       "escape": "Échap"
     },
@@ -42,6 +51,13 @@
       "next": "Niveau suivant",
       "replay": "Rejouer",
       "play-again": "Rejouer"
+    },
+    "reset": {
+      "button": "Réinitialiser la progression",
+      "title": "Réinitialiser ta progression dans {title} ?",
+      "warning": "C'est irréversible.",
+      "confirm": "Réinitialiser",
+      "cancel": "Annuler"
     }
   },
   "genre": {

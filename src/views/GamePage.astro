@@ -3,9 +3,10 @@ import { render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import GameHost from '../components/game-ui/GameHost.astro';
+import LevelSelector from '../components/game-ui/LevelSelector.astro';
 import { createTranslator, type Locale } from '../i18n';
 import { createGameTranslator, type Dictionary } from '../games/shell/i18n';
-import type { GameDefinition } from '../games/shell/types';
+import type { GameDefinition, GameStorage } from '../games/shell/types';
 
 interface Props {
   locale: Locale;
@@ -33,17 +34,20 @@ const actions = (definition.actions ?? []).map((action) => ({
   label: tGame(action.labelKey),
   shortcut: action.shortcut,
 }));
+const EMPTY_STORAGE: GameStorage = { read: () => undefined, write: () => {} };
+const levels = definition.getLevels?.(EMPTY_STORAGE);
 ---
 
 <BaseLayout title={`${game.title} | play.heubes.io`} locale={locale}>
   <noscript slot="head">
     <style is:inline>
-      .play-action .play-button {
+      .play-action .play-button,
+      .level-selector {
         display: none;
       }
     </style>
   </noscript>
-  <div class="container game-page" data-game-content>
+  <div class:list={['container', 'game-page', { 'has-levels': levels }]} data-game-content>
     <section class="game-intro">
       <h1>{game.title}</h1>
       <span class="genre-badge">{t(`genre.${game.genre}`)}</span>
@@ -60,11 +64,17 @@ const actions = (definition.actions ?? []).map((action) => ({
         </noscript>
       </div>
     </section>
+    {levels && <LevelSelector locale={locale} levels={levels} />}
     <div class="rules">
       <Content />
     </div>
+    <div class="reset-progress">
+      <button type="button" class="button button-danger" data-reset-button hidden>
+        {t('game.reset.button')}
+      </button>
+    </div>
   </div>
-  <GameHost locale={locale} slug={slug} title={game.title} actions={actions} hasLevels={definition.getLevels !== undefined} />
+  <GameHost locale={locale} slug={slug} title={game.title} actions={actions} hasLevels={levels !== undefined} />
 </BaseLayout>
 
 <style>
@@ -92,6 +102,10 @@ const actions = (definition.actions ?? []).map((action) => ({
   }
 
   .play-error:empty {
+    display: none;
+  }
+
+  .reset-progress:has(> [hidden]) {
     display: none;
   }
 
@@ -147,6 +161,16 @@ const actions = (definition.actions ?? []).map((action) => ({
     .rules :global(th),
     .rules :global(td) {
       padding-inline: var(--space-4);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .game-page.has-levels {
+      grid-template-columns: minmax(0, 23rem) minmax(0, 1fr);
+    }
+
+    .game-page.has-levels > :not(.level-selector, .rules) {
+      grid-column: 1 / -1;
     }
   }
 </style>

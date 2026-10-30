@@ -76,7 +76,7 @@ Contenu, dans l'ordre :
 - **Chargement du jeu** : le module du jeu est chargé en arrière-plan dès l'affichage de la page. Si le joueur appuie sur "Play" avant la fin du chargement, le bouton affiche un indicateur de chargement et la partie démarre dès que le module est prêt.
 - **Erreur de chargement** : message "The game couldn't be loaded." / "Le jeu n'a pas pu être chargé." sous le bouton "Play", qui devient "Retry" / "Réessayer".
 - **JavaScript désactivé** : le mode hors partie s'affiche (règles comprises), avec un message `<noscript>` "This game needs JavaScript." / "Ce jeu a besoin de JavaScript." à la place du bouton "Play".
-- **Stockage indisponible** : aucun message, le sélecteur de niveaux affiche l'état initial et la progression n'est pas sauvegardée (voir "Persistance" dans `functional-specifications.md`).
+- **Stockage indisponible** : aucun message, le sélecteur de niveaux affiche l'état initial au chargement de la page et la progression n'est conservée que le temps de la visite (voir "Persistance" dans `data-model.md`).
 - **Orientation non prise en charge** (jeux qui l'imposent seulement) : invite d'orientation par-dessus l'aire de jeu, et pause automatique.
 
 ## Responsive
