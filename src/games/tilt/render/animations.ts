@@ -55,7 +55,14 @@ function animateImpact(element: HTMLElement, motion: Motion, direction: Directio
 }
 
 // Blocks are already placed at their final position, glow included: the animations only replay the move.
-export function animateMove(view: BoardView, motions: readonly Motion[], direction: Direction, reducedMotion: boolean): void {
+// Returns when each moving block stops, in milliseconds from now.
+export function animateMove(
+  view: BoardView,
+  motions: readonly Motion[],
+  direction: Direction,
+  reducedMotion: boolean,
+): Map<string, number> {
+  const arrivals = new Map<string, number>();
   let longestSlide = 0;
   for (const motion of motions) {
     const element = view.blocks.get(motion.blockId);
@@ -63,6 +70,7 @@ export function animateMove(view: BoardView, motions: readonly Motion[], directi
       continue;
     }
     const duration = reducedMotion ? REDUCED_SLIDE_DURATION : slideDuration(motion);
+    arrivals.set(motion.blockId, duration);
     longestSlide = Math.max(longestSlide, duration);
     element.animate([{ transform: blockTransform(motion.from) }, { transform: blockTransform(motion.to) }], {
       duration,
@@ -88,6 +96,7 @@ export function animateMove(view: BoardView, motions: readonly Motion[], directi
       { duration: total, easing: 'ease-out' },
     );
   }
+  return arrivals;
 }
 
 export function animateBlockedTilt(view: BoardView, direction: Direction, reducedMotion: boolean): void {
@@ -104,10 +113,7 @@ export function animateBlockedTilt(view: BoardView, direction: Direction, reduce
 // The pulses are scheduled after the running move animations rather than chained to them,
 // so that finishing every animation of the board on an input also ends the victory at once.
 export async function animateVictory(view: BoardView, blockIds: readonly string[]): Promise<void> {
-  const moveEnd = Math.max(
-    0,
-    ...view.element.getAnimations({ subtree: true }).map((animation) => Number(animation.effect?.getComputedTiming().endTime ?? 0)),
-  );
+  const moveEnd = runningAnimationsEnd(view);
   const pulses = blockIds.flatMap((blockId, index) => {
     const element = view.blocks.get(blockId);
     if (!element) {
@@ -122,6 +128,13 @@ export async function animateVictory(view: BoardView, blockIds: readonly string[
     ];
   });
   await Promise.all(pulses.map((pulse) => pulse.finished));
+}
+
+export function runningAnimationsEnd(view: BoardView): number {
+  return Math.max(
+    0,
+    ...view.element.getAnimations({ subtree: true }).map((animation) => Number(animation.effect?.getComputedTiming().endTime ?? 0)),
+  );
 }
 
 export function finishAnimations(root: HTMLElement): void {

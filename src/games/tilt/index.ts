@@ -4,9 +4,10 @@ import { parseLevel } from './logic/level-parser';
 import { getLevelStatuses, parseSave, recordResult } from './logic/progress';
 import { createState, isOnTarget, isSolved, restart, tilt as tiltBoard, undo } from './logic/tilt';
 import type { Direction, Level, TiltState } from './logic/types';
-import { animateBlockedTilt, animateMove, animateVictory, finishAnimations } from './render/animations';
+import { animateBlockedTilt, animateMove, animateVictory, finishAnimations, runningAnimationsEnd } from './render/animations';
 import { createBoardView, fitBoard, placeBlocks, type BoardView } from './render/board';
 import { bindInput, type TiltInput } from './render/input';
+import { createSounds } from './render/sounds';
 
 const tilt: GameDefinition = {
   getLevels(storage) {
@@ -20,6 +21,7 @@ const tilt: GameDefinition = {
     const { container, locale, t, hud, signal } = context;
     const levels: Level[] = LEVELS.map(parseLevel);
     const pluralRules = new Intl.PluralRules(locale);
+    const sounds = createSounds(context.audio);
     let level: Level | undefined;
     let state: TiltState | undefined;
     let view: BoardView | undefined;
@@ -35,6 +37,7 @@ const tilt: GameDefinition = {
     }
 
     function load(next: Level): void {
+      sounds.cancelPending();
       level = next;
       state = createState(next);
       view = createBoardView(next);
@@ -81,6 +84,7 @@ const tilt: GameDefinition = {
       const save = recordResult(parseSave(context.storage.read()), current.id, final.moves);
       context.storage.write(save);
       const best = save.best[current.id] ?? final.moves;
+      sounds.victory(runningAnimationsEnd(currentView));
       if (reducedMotion) {
         completeLevel(current, final, best);
         return;
@@ -104,12 +108,21 @@ const tilt: GameDefinition = {
       const { state: next, motions } = tiltBoard(current, state, direction);
       if (motions.length === 0) {
         animateBlockedTilt(currentView, direction, reducedMotion);
+        sounds.blocked();
         context.announce(t('announce.blocked'));
         return;
       }
       state = next;
       placeBlocks(currentView, current, state.blocks);
-      animateMove(currentView, motions, direction, reducedMotion);
+      const arrivals = animateMove(currentView, motions, direction, reducedMotion);
+      sounds.slide();
+      sounds.impact(Math.max(...arrivals.values()));
+      for (const block of state.blocks) {
+        const arrival = arrivals.get(block.id);
+        if (arrival !== undefined && block.kind === 'colored' && isOnTarget(current, block)) {
+          sounds.target(block.color, arrival);
+        }
+      }
       showStats(current, state);
       hud.setActionEnabled('undo', true);
       announceMove(current, state);
@@ -128,6 +141,7 @@ const tilt: GameDefinition = {
       }
       state = previous;
       placeBlocks(currentView, current, state.blocks);
+      sounds.undo();
       showStats(current, state);
       hud.setActionEnabled('undo', state.history.length > 0);
       context.announce(t('announce.undo', { moves: state.moves }));
@@ -142,6 +156,7 @@ const tilt: GameDefinition = {
       if (solved) {
         return;
       }
+      sounds.cancelPending();
       if (input.type === 'tilt') {
         tiltTowards(level, view, input.direction);
       } else {
@@ -173,6 +188,7 @@ const tilt: GameDefinition = {
       restart() {
         if (level && view) {
           finishAnimations(container);
+          sounds.cancelPending();
           // The pause panel's Restart button restarts without calling resume().
           paused = false;
           solved = false;
@@ -194,6 +210,8 @@ const tilt: GameDefinition = {
         }
       },
       destroy() {
+        // The host keeps its AudioContext across sessions: sounds left scheduled would play in the next one.
+        sounds.cancelPending();
         container.replaceChildren();
       },
     };
