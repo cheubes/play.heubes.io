@@ -9,6 +9,15 @@
   },
   "home": {
     "title": "Mini jeux originaux",
-    "intro": "Des petits jeux conçus pour le web. Rien à installer, pas de compte : choisis-en un et joue."
+    "intro": "Des petits jeux conçus pour le web. Rien à installer, pas de compte : choisis-en un et joue.",
+    "empty": "De nouveaux jeux arrivent bientôt."
+  },
+  "genre": {
+    "puzzle": "Réflexion",
+    "platformer": "Plateforme",
+    "hack-and-slash": "Hack 'n' slash",
+    "point-and-click": "Point & click",
+    "action-adventure": "Action-aventure",
+    "real-time-strategy": "Stratégie en temps réel"
   }
 }

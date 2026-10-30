@@ -9,6 +9,15 @@
   },
   "home": {
     "title": "Original mini games",
-    "intro": "Small games made for the web. No install, no account: pick one and play."
+    "intro": "Small games made for the web. No install, no account: pick one and play.",
+    "empty": "New games are on the way."
+  },
+  "genre": {
+    "puzzle": "Puzzle",
+    "platformer": "Platformer",
+    "hack-and-slash": "Hack 'n' slash",
+    "point-and-click": "Point & click",
+    "action-adventure": "Action-adventure",
+    "real-time-strategy": "Real-time strategy"
   }
 }

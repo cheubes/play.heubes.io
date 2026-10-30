@@ -21,7 +21,7 @@ Ordre des tuiles : alphabétique sur le titre, dans la langue de la page (compa
 
 ## États
 
-- **Chargement** : la page est statique, les couvertures sont chargées en différé (`loading="lazy"`) à partir de la deuxième rangée, avec des dimensions fixées pour éviter les décalages de mise en page.
+- **Chargement** : la page est statique, les trois premières couvertures (une rangée complète sur la grille la plus large) sont chargées immédiatement, les suivantes en différé (`loading="lazy"`), avec des dimensions fixées pour éviter les décalages de mise en page.
 - **Catalogue vide** : l'introduction reste affichée, suivie d'un message "New games are on the way." / "De nouveaux jeux arrivent bientôt."
 - **Couverture manquante** : impossible en production (validation, voir `data-model.md`).
 
