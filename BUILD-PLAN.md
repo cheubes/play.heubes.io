@@ -82,7 +82,7 @@ Collection `games`, validation du contenu, jeu de test `sandbox` jetable. Voir "
 
 **Critère :** le build passe avec `sandbox` ; retirer un champ requis ou la couverture fait échouer le build ou les tests.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
