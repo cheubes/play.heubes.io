@@ -107,7 +107,7 @@ Voir `home-page.md`, "Tuiles" et "Badge de genre" dans `style-guide.md`.
 
 **Critère :** la tuile de `sandbox` s'affiche dans les deux langues et mène à sa page ; l'état "catalogue vide" s'affiche si l'on retire temporairement le jeu.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
