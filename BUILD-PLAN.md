@@ -40,7 +40,7 @@ Vérification des types, Vitest, workflow GitHub Actions sans déploiement. Voir
 
 **Critère :** `astro check`, `vitest run` et `astro build` passent en local et dans une pull request.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
