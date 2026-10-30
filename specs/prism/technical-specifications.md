@@ -35,7 +35,7 @@ Alternatives écartées :
 | `render/sounds.ts` | Synthèse des sons. |
 | `index.ts` | `GameDefinition`. |
 
-La progression (statuts des niveaux, record) vient de `src/games/shell/`, partagée avec Tilt.
+La progression (statuts des niveaux, record) vient de `src/games/shell/progress.ts`, partagée avec Tilt.
 
 ## Contrôles
 

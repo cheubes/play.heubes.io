@@ -10,7 +10,7 @@ Extraction de la logique de progression de Tilt vers `src/games/shell/` (elle se
 
 **Critère :** les tests de Tilt passent toujours ; AC-01 à AC-11 de Prism couverts par des tests ; `vitest run` passe.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

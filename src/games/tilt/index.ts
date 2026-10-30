@@ -1,7 +1,7 @@
 import type { GameDefinition } from '../shell/types';
+import { getLevelStatuses, parseSave, recordResult } from '../shell/progress';
 import { LEVELS } from './levels/levels';
 import { parseLevel } from './logic/level-parser';
-import { getLevelStatuses, parseSave, recordResult } from './logic/progress';
 import { createState, isOnTarget, isSolved, restart, tilt as tiltBoard, undo } from './logic/tilt';
 import type { Direction, Level, TiltState } from './logic/types';
 import { animateBlockedTilt, animateMove, animateVictory, finishAnimations, runningAnimationsEnd } from './render/animations';

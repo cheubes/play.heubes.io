@@ -95,7 +95,7 @@ Controls / Contrôles : le tableau de la section "Contrôles", traduit.
 - **AC-04** [test] Un filtre ne laisse passer que l'intersection de la couleur du faisceau et de la sienne, et arrête le faisceau si elle est vide.
 - **AC-05** [test] La couleur reçue par une cible est l'union des primaires de tous les faisceaux qui l'atteignent ; la cible est allumée si et seulement si cette couleur est exactement la sienne.
 - **AC-06** [test] Deux faisceaux qui se croisent continuent leur trajet sans modification.
-- **AC-07** [test] Une configuration de miroirs formant une boucle produit un calcul de faisceaux qui se termine.
+- **AC-07** [test] Le calcul des faisceaux se termine, y compris quand le trajet revient à sa source.
 - **AC-08** [test] Faire basculer un élément orientable change son état et incrémente le compteur ; toucher un élément fixe ou une case sans élément orientable ne change ni l'état ni le compteur.
 - **AC-09** [test] Le niveau est résolu si et seulement si toutes les cibles sont allumées.
 - **AC-10** [test] Annuler restaure exactement l'état précédent et décrémente le compteur ; annuler en état initial est sans effet ; recommencer restaure l'état initial avec un compteur à zéro.
