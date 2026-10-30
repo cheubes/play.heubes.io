@@ -2,7 +2,7 @@
 
 Huit étapes, chacune démontrable avant de passer à la suivante. Specs du jeu : `functional-specifications.md`, `game-model.md`, `technical-specifications.md`, `style-guide.md` de ce dossier.
 
-Prérequis : Tilt fusionné sur `main` (le socle des jeux a été éprouvé par un premier jeu), étape 12 de `BUILD-PLAN.md` (déploiement) faite, branche `game/prism` créée depuis `main`.
+Prérequis : Tilt fusionné sur `dev` (le socle des jeux a été éprouvé par un premier jeu), branche `game/prism` créée depuis `dev`.
 
 ## 1. Progression commune et logique pure
 
@@ -146,8 +146,8 @@ liste-moi ce qui reste à corriger.
 Critère de fin : tous les critères d'acceptation sont vérifiés.
 ```
 
-## 8. Fusion sur `main`
+## 8. Fusion sur `dev`
 
-Relecture de cohérence de l'ensemble des specs (voir "Avant chaque commit" dans `CLAUDE.md`), mise à jour de "Points tranchés à l'implémentation", ajout de Prism aux crédits de "About" s'il utilise des assets tiers (aucun prévu), fusion de `game/prism` sur `main` : le jeu est publié.
+Relecture de cohérence de l'ensemble des specs (voir "Avant chaque commit" dans `CLAUDE.md`), mise à jour de "Points tranchés à l'implémentation", ajout de Prism aux crédits de "About" s'il utilise des assets tiers (aucun prévu), fusion de `game/prism` sur `dev`. Le jeu est publié avec le déploiement (étape 12 de `BUILD-PLAN.md`).
 
 **Statut :** à faire.

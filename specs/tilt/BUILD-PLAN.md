@@ -2,7 +2,7 @@
 
 Huit étapes, chacune démontrable avant de passer à la suivante. Specs du jeu : `functional-specifications.md`, `game-model.md`, `technical-specifications.md`, `style-guide.md` de ce dossier.
 
-Prérequis : étapes 1 à 11 de `BUILD-PLAN.md` faites (socle du site et hôte de jeu), branche `game/tilt` créée depuis `main`.
+Prérequis : étapes 1 à 10 de `BUILD-PLAN.md` faites (socle du site et hôte de jeu), branche `game/tilt` créée depuis `dev`.
 
 ## 1. Logique pure
 
@@ -163,8 +163,8 @@ liste-moi ce qui reste à corriger.
 Critère de fin : tous les critères d'acceptation sont vérifiés.
 ```
 
-## 8. Fusion sur `main`
+## 8. Fusion sur `dev`
 
-Relecture de cohérence de l'ensemble des specs (voir "Avant chaque commit" dans `CLAUDE.md`), mise à jour de "Points tranchés à l'implémentation" dans `technical-specifications.md`, fusion de `game/tilt` sur `main` : le jeu est publié.
+Relecture de cohérence de l'ensemble des specs (voir "Avant chaque commit" dans `CLAUDE.md`), mise à jour de "Points tranchés à l'implémentation" dans `technical-specifications.md`, fusion de `game/tilt` sur `dev`. Le jeu est publié avec le déploiement (étape 12 de `BUILD-PLAN.md`).
 
 **Statut :** à faire.

@@ -2,9 +2,9 @@
 
 Douze étapes pour le site, chacune démontrable dans un navigateur avant de passer à la suivante, plus un plan par jeu. Voir `CLAUDE.md` pour la structure de `specs/` et les règles d'usage des spécifications.
 
-Les étapes 4 à 10 s'appuient sur un jeu de test jetable (`sandbox`, voir étape 4), qui permet de construire et d'éprouver le socle des jeux sans dépendre d'un vrai jeu. L'étape 11 le retire. Le premier vrai jeu, Tilt, est construit selon son propre plan, puis le site est déployé (étape 12).
+Les étapes 4 à 10 s'appuient sur un jeu de test jetable (`sandbox`, voir étape 4), qui permet de construire et d'éprouver le socle des jeux sans dépendre d'un vrai jeu. Il reste en place pendant la construction des deux jeux pilotes, Tilt et Prism, chacun selon son propre plan. L'étape 11 le retire, puis le site est déployé (étape 12).
 
-Ordre global : étapes 1 à 11, Tilt, étape 12, Prism.
+Ordre global : étapes 1 à 10, Tilt, Prism, étape 11, étape 12.
 
 ## 1. Squelette Astro + chrome commun
 
@@ -236,9 +236,18 @@ Critère de fin : Lighthouse mobile au-dessus de 90 en accessibilité, bonnes p
 sur /, /sandbox/ et /about/, dans les deux langues.
 ```
 
+## Jeux
+
+Chaque jeu a son plan et son statut dans son dossier de specs. Cette liste donne seulement l'ordre de construction.
+
+1. **Tilt** : `specs/tilt/BUILD-PLAN.md`. Prérequis : étapes 1 à 10.
+2. **Prism** : `specs/prism/BUILD-PLAN.md`. Prérequis : Tilt fusionné.
+
 ## 11. Retrait du jeu de test
 
-**Critère :** plus aucune trace de `sandbox` ; l'accueil affiche l'état "catalogue vide" ; build et tests passent.
+Prérequis : Tilt et Prism fusionnés.
+
+**Critère :** plus aucune trace de `sandbox` ; l'accueil n'affiche plus que Tilt et Prism ; build et tests passent.
 
 **Statut :** à faire.
 
@@ -250,21 +259,14 @@ Supprime tout ce qui concerne sandbox (contenu, couverture, src/games/sandbox/, 
 références éventuelles). Vérifie qu'aucun code du socle n'en dépendait.
 
 Critère de fin : grep -ri sandbox ne renvoie plus rien hors de BUILD-PLAN.md ; l'accueil
-affiche l'état vide ; astro build et vitest run passent.
+n'affiche plus que Tilt et Prism ; astro build et vitest run passent.
 ```
-
-## Jeux
-
-Chaque jeu a son plan et son statut dans son dossier de specs. Cette liste donne seulement l'ordre de construction.
-
-1. **Tilt** : `specs/tilt/BUILD-PLAN.md`. Prérequis : étapes 1 à 11.
-2. **Prism** : `specs/prism/BUILD-PLAN.md`. Prérequis : Tilt fusionné et étape 12.
 
 ## 12. Déploiement
 
-Job de déploiement GitHub Pages, domaine personnalisé, favicon (à spécifier d'abord dans `style-guide.md`, à côté de l'image de partage). Voir "Hébergement et déploiement" dans `technical-specifications.md`.
+Job de déploiement GitHub Pages, domaine personnalisé, favicon (à spécifier d'abord dans `style-guide.md`, à côté de l'image de partage). Voir "Hébergement et déploiement" dans `technical-specifications.md`. La fusion de `dev` sur `main` publie le site.
 
-Prérequis : Tilt fusionné sur `main`, pour ne pas publier un catalogue vide.
+Prérequis : Tilt et Prism fusionnés, étape 11 faite, pour ne publier ni un catalogue vide ni le jeu de test.
 
 **Critère :** un push sur `main` déploie le site sur `https://play.heubes.io` en HTTPS ; un test en échec bloque le déploiement.
 

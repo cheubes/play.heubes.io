@@ -100,6 +100,6 @@ Les contraintes propres au contenu d'un jeu (validité des niveaux, par exemple)
 
 1. Copier `specs/_template/` vers `specs/<slug>/` et rédiger les cinq fichiers. Faire valider les specs avant toute ligne de code.
 2. Créer la branche du jeu.
-3. Suivre `specs/<slug>/BUILD-PLAN.md`, dont la première étape est la logique pure et ses tests, et la dernière la fusion sur `main`.
+3. Suivre `specs/<slug>/BUILD-PLAN.md`, dont la première étape est la logique pure et ses tests, et la dernière la fusion sur `dev`.
 4. Ajouter le jeu à la section "Jeux" de `BUILD-PLAN.md` dès la création du dossier de specs.
 5. Si le jeu utilise des assets tiers, les ajouter aux crédits de la page "About" (voir `about-page.md`).
