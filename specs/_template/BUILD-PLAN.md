@@ -14,7 +14,7 @@ Modèle et règles dans `logic/`, avec les tests des critères d'acceptation [te
 
 **Prompt :**
 ```
-Implémente l'étape 1 de specs/<slug>/BUILD-PLAN.md : ...
+Implémente l'étape 1 de specs/<slug>/BUILD-PLAN.md : ...
 ```
 
 ## 2. Contenu

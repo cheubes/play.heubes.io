@@ -58,7 +58,7 @@ Les niveaux sont dans `src/games/tilt/levels/levels.ts`, un tableau ordonné de 
 
 ```ts
 interface LevelSource {
-  id: string;          // kebab-case, stable : clé de sauvegarde, jamais renommé après publication
+  id: string;          // kebab-case, stable : clé de sauvegarde, jamais renommé après publication
   par: number;
   terrain: string[];   // une chaîne par rangée
   pieces: string[];    // mêmes dimensions que terrain

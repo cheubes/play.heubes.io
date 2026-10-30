@@ -73,7 +73,7 @@ interface BeamStep {
   from: Position;          // case de départ du tronçon
   direction: Direction;
   color: number;           // masque
-  end: 'cell' | 'blocked'; // 'cell' : jusqu'au centre de la case suivante ; 'blocked' : jusqu'au bord de la case (mur, source, bord du plateau)
+  end: 'cell' | 'blocked'; // 'cell' : jusqu'au centre de la case suivante ; 'blocked' : jusqu'au bord de la case (mur, source, bord du plateau)
 }
 ```
 
@@ -110,7 +110,7 @@ Les niveaux sont dans `src/games/prism/levels/levels.ts`, un tableau ordonné :
 
 ```ts
 interface LevelSource {
-  id: string;                 // kebab-case, stable : clé de sauvegarde
+  id: string;                 // kebab-case, stable : clé de sauvegarde
   par: number;
   rows: number;
   cols: number;
