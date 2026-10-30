@@ -80,6 +80,7 @@ const levels = definition.getLevels?.(EMPTY_STORAGE);
 <style>
   .game-page {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-7);
     padding-block: var(--space-6);
   }
@@ -135,6 +136,8 @@ const levels = definition.getLevels?.(EMPTY_STORAGE);
     text-align: start;
     vertical-align: top;
     overflow-wrap: break-word;
+    /* overflow-wrap does not lower a table's minimum width: only hyphenation lets long words fit at 320px. */
+    hyphens: auto;
   }
 
   .rules :global(th) {
