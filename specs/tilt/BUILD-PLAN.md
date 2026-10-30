@@ -10,7 +10,7 @@ Types, parseur de niveaux, inclinaison, annulation, victoire, progression. Voir 
 
 **Critère :** AC-01 à AC-11 couverts par des tests, `vitest run` passe.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
