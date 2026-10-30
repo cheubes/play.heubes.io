@@ -126,7 +126,7 @@ Voir "Son" dans `technical-specifications.md` et "Sons" dans `style-guide.md`.
 
 **Critère :** chaque son se déclenche au bon moment, respecte le réglage "Son" et se coupe en pause.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -146,7 +146,7 @@ Textes définitifs, couverture, relecture de l'accessibilité et du mobile.
 
 **Critère :** tous les critères [manuel] revérifiés sur un téléphone réel ; Lighthouse sans régression sur la page du jeu.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
