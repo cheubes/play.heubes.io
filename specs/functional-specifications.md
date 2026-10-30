@@ -57,7 +57,7 @@ Chaque jeu suit le même cycle de vie, défini dans `game-page.md` : page du je
 ### Contrôles
 
 - Chaque action d'un jeu est réalisable au clavier et au tactile. Aucune action ne dépend du survol à la souris.
-- La spec fonctionnelle de chaque jeu décrit ses contrôles dans un tableau à deux colonnes (clavier, tactile).
+- La spec fonctionnelle de chaque jeu décrit ses contrôles dans un tableau à trois colonnes (action, clavier, tactile).
 - Raccourcis communs à tous les jeux : `Échap` ou `P` met en pause, `R` recommence le niveau en cours. Un jeu ne réaffecte pas ces touches.
 - La souris est traitée comme un pointeur, au même titre que le doigt : un jeu jouable au tactile l'est à la souris.
 - La manette n'est pas prise en charge (voir "Hors périmètre").

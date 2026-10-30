@@ -26,7 +26,7 @@ Le chrome n'est masqué que pendant le jeu effectif : dès qu'un panneau s'ouvr
 Contenu, dans l'ordre :
 
 1. **Titre** (`h1`), badge de genre, accroche.
-2. **Bouton "Play"** (principal). Il démarre le premier niveau `available` (le prochain à jouer), ou le premier niveau si tous sont terminés. Pour un jeu sans niveaux, il démarre une partie.
+2. **Bouton "Play" / "Jouer"** (principal). Il démarre le premier niveau `available` (le prochain à jouer), ou le premier niveau si tous sont terminés. Pour un jeu sans niveaux, il démarre une partie.
 3. **Sélecteur de niveaux**, pour les jeux à niveaux (voir "Sélecteur de niveaux").
 4. **Règles** : le corps du fichier de contenu du jeu, avec ses deux sections obligatoires :
    - "How to play" / "Comment jouer" : but du jeu et règles, en quelques phrases ;

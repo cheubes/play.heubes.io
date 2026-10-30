@@ -12,6 +12,10 @@
     "intro": "Small games made for the web. No install, no account: pick one and play.",
     "empty": "New games are on the way."
   },
+  "game": {
+    "play": "Play",
+    "no-javascript": "This game needs JavaScript."
+  },
   "genre": {
     "puzzle": "Puzzle",
     "platformer": "Platformer",

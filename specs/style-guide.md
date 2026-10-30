@@ -132,6 +132,12 @@ Chakra Petch 600 `xs` en capitales espacées, texte `--color-text-muted`, bordur
 - Toute la tuile est un lien. Survol et focus : élévation de 4px, bordure `--color-accent`, `--glow-accent`, transition en `--duration-fast`.
 - Grille : une colonne, deux à partir de 640px, trois à partir de 1024px, espacement `--space-5`.
 
+### Règles et contrôles (page de jeu)
+
+- Sections des règles (`h2`) : Chakra Petch 700 `xl`, espacement `--space-5` entre sections. Texte Inter `base`, 68 caractères au plus par ligne.
+- Tableau des contrôles : largeur 100 %, 68 caractères au plus, texte `sm`. En-têtes de colonnes en Chakra Petch 600 `xs`, capitales espacées, `--color-text-muted`. Lignes séparées par une bordure 1px `--color-border`, cellules avec des marges internes de `--space-3` × `--space-2` (`--space-4` horizontalement à partir de 640px). Le texte passe à la ligne, sans défilement horizontal.
+- Touches (code en ligne du Markdown, `` `Espace` ``) : Chakra Petch 600 `sm`, fond `--color-surface-raised`, bordure 1px `--color-border`, `--radius-sm`, marges internes 2px × 6px, sans retour à la ligne à l'intérieur d'une touche.
+
 ## Interface commune des jeux
 
 Composants de `src/components/game-ui/`, utilisés par tous les jeux. Leur comportement est décrit dans `game-page.md`.
