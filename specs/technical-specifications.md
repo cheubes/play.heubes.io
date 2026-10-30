@@ -311,7 +311,7 @@ Les règles de `data-model.md` ("Contraintes et règles de validation") sont vé
 - `<title>` : `<titre de la page> | play.heubes.io` (accueil : `play.heubes.io | <accroche du site>`).
 - Meta description : accroche du jeu, ou texte dédié pour l'accueil et "About" (dans `src/i18n/`).
 - `<link rel="canonical">`, `<link rel="alternate" hreflang>` pour `en`, `fr` et `x-default` (anglais).
-- Open Graph et Twitter Card : titre, description, image (couverture du jeu, image générique du site ailleurs), URL absolues.
+- Open Graph : titre, description, image (couverture du jeu, image générique du site ailleurs), URL absolues, construites à partir de `site` dans `astro.config.mjs`. Twitter Card `summary_large_image`, qui reprend les balises Open Graph.
 - `sitemap.xml` généré par un endpoint Astro (`src/pages/sitemap.xml.ts`), sans dépendance. `robots.txt` statique qui le référence.
 
 ## Conventions de nommage

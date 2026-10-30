@@ -1,6 +1,7 @@
 {
   "header": {
-    "language": "Langue"
+    "language": "Langue",
+    "skip-to-content": "Aller au contenu"
   },
   "footer": {
     "license": "Licence",
@@ -14,6 +15,9 @@
     "title": "Mini jeux originaux",
     "intro": "Des petits jeux conçus pour le web. Rien à installer, pas de compte : choisis-en un et joue.",
     "empty": "De nouveaux jeux arrivent bientôt."
+  },
+  "about": {
+    "description": "Qui fait play.heubes.io, sous quelles licences sont publiés son code et ses contenus, et les ressources tierces utilisées."
   },
   "game": {
     "play": "Jouer",
