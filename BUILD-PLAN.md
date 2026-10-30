@@ -147,7 +147,7 @@ Chargement du module, modes en partie, pause et fin de niveau, HUD, panneaux, ra
 
 **Critère :** avec `sandbox`, on enchaîne Play, partie, pause (bouton, `Échap`, changement d'onglet), reprise, recommencer, fin de niveau et retour, au clavier comme au tactile ; le chrome se masque et réapparaît comme décrit dans `game-page.md`.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
