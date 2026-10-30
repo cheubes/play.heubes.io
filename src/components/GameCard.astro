@@ -1,0 +1,97 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { createTranslator, getLocalizedPath, type Locale } from '../i18n';
+
+interface Props {
+  slug: string;
+  game: CollectionEntry<'games'>['data'];
+  locale: Locale;
+  lazy: boolean;
+}
+
+const { slug, game, locale, lazy } = Astro.props;
+const t = createTranslator(locale);
+---
+
+<a class="game-card" href={getLocalizedPath(locale, slug)}>
+  <img src={`/covers/${slug}.webp`} alt="" width="1280" height="720" loading={lazy ? 'lazy' : 'eager'} decoding="async" />
+  <div class="game-card-body">
+    <h2 class="game-card-title">{game.title}</h2>
+    <p class="game-card-tagline">{game.tagline}</p>
+    <span class="genre-badge">{t(`genre.${game.genre}`)}</span>
+  </div>
+</a>
+
+<style>
+  .game-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+      transform var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+
+  .game-card:hover,
+  .game-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: var(--glow-accent);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .game-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-4);
+  }
+
+  .game-card-title {
+    font-size: var(--font-size-xl);
+  }
+
+  .game-card-tagline {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .genre-badge {
+    margin-top: auto;
+    padding: 2px var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--font-size-xs);
+    letter-spacing: var(--letter-spacing-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .game-card {
+      transition: none;
+    }
+
+    .game-card:hover,
+    .game-card:focus-visible {
+      transform: none;
+    }
+  }
+</style>

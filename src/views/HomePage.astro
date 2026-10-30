@@ -1,56 +1,76 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Icon from '../components/Icon.astro';
+import GameCard from '../components/GameCard.astro';
 import { createTranslator, type Locale } from '../i18n';
 
 interface Props {
   locale: Locale;
 }
 
+// The widest grid has three columns: only the first row is loaded eagerly, whatever the viewport.
+const EAGER_COVER_COUNT = 3;
+
 const { locale } = Astro.props;
 const t = createTranslator(locale);
+const collator = new Intl.Collator(locale, { sensitivity: 'base' });
 
-const iconNames = Object.keys(import.meta.glob('/src/icons/*.svg')).map((path) => path.replace(/^.*\/(.+)\.svg$/, '$1'));
+const games = (await getCollection('games', (entry) => entry.id.endsWith(`.${locale}`)))
+  .map((entry) => ({ slug: entry.id.slice(0, -`.${locale}`.length), game: entry.data }))
+  .sort((a, b) => collator.compare(a.game.title, b.game.title));
 ---
 
 <BaseLayout title="play.heubes.io" locale={locale}>
-  <div class="container test-page">
-    <h1>{t('home.title')}</h1>
-    <p>{t('home.intro')}</p>
-    <ul class="icon-list">
-      {
-        iconNames.map((name) => (
-          <li>
-            <Icon name={name} />
-            <Icon name={name} size={16} />
-            <span>{name}</span>
-          </li>
-        ))
-      }
-    </ul>
+  <div class="container home">
+    <section class="intro">
+      <h1>{t('home.title')}</h1>
+      <p>{t('home.intro')}</p>
+    </section>
+    {
+      games.length > 0 ? (
+        <ul class="game-grid">
+          {games.map(({ slug, game }, index) => (
+            <li>
+              <GameCard slug={slug} game={game} locale={locale} lazy={index >= EAGER_COVER_COUNT} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="empty">{t('home.empty')}</p>
+      )
+    }
   </div>
 </BaseLayout>
 
 <style>
-  .test-page {
+  .home {
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-6);
     padding-block: var(--space-6);
   }
 
-  .icon-list {
+  .intro {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: var(--space-3);
-    padding: 0;
-    list-style: none;
-    color: var(--color-text-muted);
-    font-size: var(--font-size-sm);
   }
 
-  .icon-list li {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
+  .game-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .game-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .game-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 </style>
