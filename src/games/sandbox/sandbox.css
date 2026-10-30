@@ -1,0 +1,40 @@
+.game-sandbox {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.game-sandbox .sandbox-board {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  text-align: center;
+}
+
+.game-sandbox .sandbox-counter {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--font-size-3xl);
+  font-variant-numeric: tabular-nums;
+}
+
+.game-sandbox .sandbox-dots {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.game-sandbox .sandbox-dot {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+}
+
+.game-sandbox .sandbox-dot.is-filled {
+  background-color: var(--color-accent);
+}
+
+.game-sandbox .sandbox-hint {
+  color: var(--color-text-muted);
+}

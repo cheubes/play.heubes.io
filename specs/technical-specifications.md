@@ -238,6 +238,9 @@ Règles :
 
 - Le jeu ne touche qu'à son `container`. Il n'accède ni au reste du DOM, ni à `localStorage`, ni à `document` pour les écouteurs globaux (les raccourcis communs appartiennent à l'hôte). Ses écouteurs clavier sont posés sur `container`, qui reçoit le focus pendant la partie.
 - `pause()` arrête toute boucle d'animation, tout timer et tout traitement des entrées. `resume()` les relance.
+- `start()` et `restart()` laissent le jeu en cours, même s'il était en pause ou si le niveau était terminé. L'hôte n'appelle pas `resume()` ensuite.
+- `index.ts` est aussi importé au build, pour générer les boutons d'action du HUD. Il n'accède pas au DOM au niveau du module et n'importe pas sa feuille de style. L'hôte charge `<slug>.css` avec le module et l'injecte dans la page.
+- L'hôte pose la classe `.game-<slug>` sur `container`.
 - `destroy()` libère toutes les ressources. L'usage de `signal` pour les écouteurs est obligatoire.
 - `complete()` est appelé une seule fois par niveau. Le jeu ne traite plus d'entrée ensuite, jusqu'au prochain `start()` ou `restart()`.
 - Le versionnement de la sauvegarde est déclaré par le jeu (numéro de version et migrations) et appliqué par l'hôte (voir "Persistance" dans `data-model.md`).

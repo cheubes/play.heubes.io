@@ -1,0 +1,66 @@
+---
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<div class="game-panel-layer" data-panel={id} hidden>
+  <div class="game-panel" role="dialog" aria-modal="true" aria-labelledby={`game-panel-${id}-title`}>
+    <slot />
+  </div>
+</div>
+
+<style>
+  .game-panel-layer {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-panels);
+    display: grid;
+    place-items: center;
+    padding: calc(var(--header-height) + var(--space-4)) max(var(--space-4), env(safe-area-inset-right)) calc(var(--footer-height) + var(--space-4))
+      max(var(--space-4), env(safe-area-inset-left));
+    overflow-y: auto;
+    background-color: var(--color-scrim);
+  }
+
+  .game-panel {
+    display: grid;
+    gap: var(--space-5);
+    width: 100%;
+    max-width: 400px;
+    padding: var(--space-6);
+    background-color: var(--color-surface-raised);
+    border-radius: var(--radius-lg);
+    animation: panel-in var(--duration-base) var(--ease-out);
+  }
+
+  .game-panel :global(h2) {
+    font-size: var(--font-size-2xl);
+  }
+
+  .game-panel :global(.panel-actions) {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  @keyframes panel-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+  }
+
+  @keyframes panel-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .game-panel {
+      animation: panel-fade-in var(--duration-fast) var(--ease-out);
+    }
+  }
+</style>
