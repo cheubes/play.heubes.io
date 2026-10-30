@@ -57,7 +57,7 @@ Versions exactes dans `package.json` (pas de `^` ni de `~`), `package-lock.json`
 | `@astrojs/check` | dev | Vérification des types des fichiers `.astro` et `.ts`. |
 | `vitest` | dev | Tests unitaires (voir "Tests"). |
 
-Les versions retenues sont la dernière version stable de chaque package au moment de l'étape 1 de `BUILD-PLAN.md`. Toute autre dépendance est discutée avant ajout et documentée ici (dépendance du site) ou dans le `technical-specifications.md` du jeu (dépendance propre à un jeu).
+Les versions retenues sont la dernière version stable de chaque package au moment de l'étape 1 de `BUILD-PLAN.md`, sous réserve de compatibilité entre elles : TypeScript reste en 6.x tant que `@astrojs/check` n'accepte pas la 7 (pair `typescript ^5 || ^6`). Toute autre dépendance est discutée avant ajout et documentée ici (dépendance du site) ou dans le `technical-specifications.md` du jeu (dépendance propre à un jeu).
 
 ## Structure des fichiers
 
@@ -78,7 +78,7 @@ src/
   i18n/
     en.json, fr.json           textes d'interface du site et de l'interface commune des jeux
     index.ts                   accès aux traductions
-  icons/*.svg
+  icons/*.svg, LICENSE         icônes Lucide et leur licence (ISC)
   styles/
     tokens.css                 tokens de la charte
     global.css                 reset, polices, styles de base

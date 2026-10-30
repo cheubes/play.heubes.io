@@ -101,7 +101,7 @@ En mouvement réduit : plus de translation ni de mise à l'échelle, seules les
 ### Pied de page
 
 - Fixe en bas de l'écran, sur toutes les pages, sauf pendant une partie (voir `game-page.md`).
-- Hauteur 40px plus la zone de sécurité basse, fond `--color-surface`, bordure haute `--color-border`, texte `sm` en `--color-text-muted`, centré.
+- Hauteur 40px plus la zone de sécurité basse, fond `--color-surface`, bordure haute `--color-border`, texte `sm` en `--color-text-muted`, centré. Sous 640px, texte `xs` et séparateurs resserrés (`--space-1`), pour que le contenu tienne sur une ligne dès 320px de large.
 - Contenu, séparé par des points médians : "License" (lien vers la section licences de "About"), "About" (lien vers "About"), "Created by Christophe Heubès" (lien vers https://christophe.heubes.org/, ouvert dans le même onglet). En français : "Licence", "À propos", "Créé par Christophe Heubès".
 - Les liens passent en `--color-text` au survol et au focus.
 - Le corps de la page a une marge basse égale à la hauteur du pied de page, pour que rien ne soit masqué dessous.
