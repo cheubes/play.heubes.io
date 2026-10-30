@@ -9,6 +9,8 @@ const BOARD_TILT_ANGLE = 3;
 const BOARD_RETURN_DURATION = 120;
 const BLOCKED_TILT_ANGLE = 2;
 const BLOCKED_TILT_DURATION = 160;
+const VICTORY_PULSE_GAP = 80;
+const VICTORY_PULSE_DURATION = 320;
 
 const IMPACT_ORIGINS: Record<Direction, string> = {
   up: '50% 0%',
@@ -97,6 +99,29 @@ export function animateBlockedTilt(view: BoardView, direction: Direction, reduce
     duration: BLOCKED_TILT_DURATION,
     easing: 'ease-in-out',
   });
+}
+
+// The pulses are scheduled after the running move animations rather than chained to them,
+// so that finishing every animation of the board on an input also ends the victory at once.
+export async function animateVictory(view: BoardView, blockIds: readonly string[]): Promise<void> {
+  const moveEnd = Math.max(
+    0,
+    ...view.element.getAnimations({ subtree: true }).map((animation) => Number(animation.effect?.getComputedTiming().endTime ?? 0)),
+  );
+  const pulses = blockIds.flatMap((blockId, index) => {
+    const element = view.blocks.get(blockId);
+    if (!element) {
+      return [];
+    }
+    return [
+      element.animate([{ scale: '1' }, { scale: '1.12', filter: 'brightness(1.3)' }, { scale: '1' }], {
+        delay: moveEnd + index * VICTORY_PULSE_GAP,
+        duration: VICTORY_PULSE_DURATION,
+        easing: 'ease-in-out',
+      }),
+    ];
+  });
+  await Promise.all(pulses.map((pulse) => pulse.finished));
 }
 
 export function finishAnimations(root: HTMLElement): void {
