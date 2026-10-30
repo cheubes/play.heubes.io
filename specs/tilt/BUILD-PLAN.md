@@ -33,7 +33,7 @@ Solveur, puis les 20 niveaux selon la courbe de "Progression" (`functional-speci
 
 **Critère :** AC-12 passe pour les 20 niveaux, en moins de 10 secondes.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
