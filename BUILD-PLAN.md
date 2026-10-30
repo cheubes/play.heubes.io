@@ -127,7 +127,7 @@ Titre, accroche, bouton "Play", règles, tableau des contrôles, message sans Ja
 
 **Critère :** `/sandbox/` et `/fr/sandbox/` affichent la fiche complète ; le bouton "Play" est présent mais inactif.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
