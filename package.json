@@ -5,6 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "check": "astro check",
+    "test": "vitest run",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
@@ -13,6 +15,8 @@
     "astro": "7.4.4"
   },
   "devDependencies": {
-    "typescript": "6.0.3"
+    "@astrojs/check": "0.9.12",
+    "typescript": "6.0.3",
+    "vitest": "5.0.5"
   }
 }
