@@ -1,4 +1,4 @@
-import type { Cell, Direction, Level, Motion, Position, TiltState } from './types';
+import type { Block, Cell, Direction, Level, Motion, Position, TiltState } from './types';
 
 const STEPS: Record<Direction, Position> = {
   up: { row: -1, col: 0 },
@@ -95,12 +95,14 @@ export function restart(level: Level): TiltState {
   return createState(level);
 }
 
+export function isOnTarget(level: Level, block: Block): boolean {
+  if (block.kind === 'neutral') {
+    return false;
+  }
+  const cell = cellAt(level, block.position);
+  return cell?.type === 'target' && cell.color === block.color;
+}
+
 export function isSolved(level: Level, state: TiltState): boolean {
-  return state.blocks.every((block) => {
-    if (block.kind === 'neutral') {
-      return true;
-    }
-    const cell = cellAt(level, block.position);
-    return cell?.type === 'target' && cell.color === block.color;
-  });
+  return state.blocks.every((block) => block.kind === 'neutral' || isOnTarget(level, block));
 }

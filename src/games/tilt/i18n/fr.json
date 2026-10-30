@@ -1,3 +1,14 @@
 {
-  "level": "Niveau {number}"
+  "level": "Niveau {number}",
+  "actions": {
+    "undo": "Annuler"
+  },
+  "announce": {
+    "move": {
+      "one": "Coup {moves}. {placed} bloc sur {total} en place.",
+      "other": "Coup {moves}. {placed} blocs sur {total} en place."
+    },
+    "blocked": "Aucun bloc n'a bougé.",
+    "undo": "Annulé. Coup {moves}."
+  }
 }

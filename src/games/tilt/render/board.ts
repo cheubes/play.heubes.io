@@ -1,4 +1,5 @@
-import type { Block, Cell, Color, Level } from '../logic/types';
+import { isOnTarget } from '../logic/tilt';
+import type { Block, Cell, Color, Level, Position } from '../logic/types';
 
 export interface BoardView {
   element: HTMLElement;
@@ -65,17 +66,18 @@ export function createBoardView(level: Level): BoardView {
   return { element, blocks };
 }
 
+export function blockTransform({ row, col }: Position): string {
+  return `translate(calc(${col} * var(--cell)), calc(${row} * var(--cell)))`;
+}
+
 export function placeBlocks(view: BoardView, level: Level, blocks: readonly Block[]): void {
   for (const block of blocks) {
     const element = view.blocks.get(block.id);
     if (!element) {
       continue;
     }
-    const { row, col } = block.position;
-    const cell = level.cells[row]?.[col];
-    const isOnTarget = block.kind === 'colored' && cell?.type === 'target' && cell.color === block.color;
-    element.style.transform = `translate(calc(${col} * var(--cell)), calc(${row} * var(--cell)))`;
-    element.classList.toggle('is-on-target', isOnTarget);
+    element.style.transform = blockTransform(block.position);
+    element.classList.toggle('is-on-target', isOnTarget(level, block));
   }
 }
 
