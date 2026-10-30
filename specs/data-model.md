@@ -89,6 +89,7 @@ Vérifiées automatiquement, la CI échoue en cas d'écart (voir "Validation du 
 - le slug est en kebab-case et n'est pas réservé ;
 - `public/covers/<slug>.webp` et `src/games/<slug>/index.ts` existent ;
 - les fichiers `i18n/en.json` et `i18n/fr.json` d'un jeu ont exactement les mêmes clés ;
+- `src/i18n/en.json` et `src/i18n/fr.json` ont exactement les mêmes clés ;
 - deux jeux n'ont pas le même titre dans une même langue.
 
 Les contraintes propres au contenu d'un jeu (validité des niveaux, par exemple) sont décrites dans son `game-model.md` et vérifiées par ses tests.

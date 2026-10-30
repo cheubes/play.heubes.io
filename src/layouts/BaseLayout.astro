@@ -3,16 +3,18 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/tokens.css';
 import '../styles/global.css';
+import type { Locale } from '../i18n';
 
 interface Props {
   title: string;
+  locale: Locale;
 }
 
-const { title } = Astro.props;
+const { title, locale } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -21,10 +23,10 @@ const { title } = Astro.props;
     <link rel="preload" href="/fonts/chakra-petch/chakra-petch-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
-    <Header />
+    <Header locale={locale} />
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <Footer locale={locale} />
   </body>
 </html>

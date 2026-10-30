@@ -1,0 +1,14 @@
+{
+  "header": {
+    "language": "Language"
+  },
+  "footer": {
+    "license": "License",
+    "about": "About",
+    "created-by": "Created by Christophe Heubès"
+  },
+  "home": {
+    "title": "Original mini games",
+    "intro": "Small games made for the web. No install, no account: pick one and play."
+  }
+}
