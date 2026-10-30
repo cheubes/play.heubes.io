@@ -1,8 +1,17 @@
 {
+  "level": "Niveau {number}",
+  "hint": "Appuie sur Espace ou touche l'aire de jeu.",
   "actions": {
     "undo": "Annuler"
   },
   "stats": {
-    "presses": "Appuis"
+    "presses": "Appuis",
+    "undos": "Annulations"
+  },
+  "announce": {
+    "progress": "{count} sur {target}"
+  },
+  "result": {
+    "perfect": "Sans aucune annulation."
   }
 }

@@ -88,4 +88,4 @@ Contenu, dans l'ordre :
 
 - Voir "Accessibilité" dans `technical-specifications.md` pour la gestion du focus et les annonces.
 - Le tableau des contrôles est un vrai tableau HTML, avec des en-têtes de colonnes.
-- Les boutons du HUD ont un nom accessible et une infobulle indiquant leur raccourci clavier.
+- Les boutons du HUD ont un nom accessible et une infobulle native (attribut `title`) indiquant leur raccourci clavier, doublée de `aria-keyshortcuts`.

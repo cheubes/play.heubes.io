@@ -9,12 +9,40 @@
   },
   "home": {
     "title": "Mini jeux originaux",
-    "intro": "Des petits jeux conçus pour le web. Rien à installer, pas de compte : choisis-en un et joue.",
+    "intro": "Des petits jeux conçus pour le web. Rien à installer, pas de compte : choisis-en un et joue.",
     "empty": "De nouveaux jeux arrivent bientôt."
   },
   "game": {
     "play": "Jouer",
-    "no-javascript": "Ce jeu a besoin de JavaScript."
+    "retry": "Réessayer",
+    "load-error": "Le jeu n'a pas pu être chargé.",
+    "no-javascript": "Ce jeu a besoin de JavaScript.",
+    "area-description": "Utilise les touches et les gestes décrits dans la section Contrôles.",
+    "levels": "Niveaux",
+    "quit": "Quitter",
+    "keys": {
+      "escape": "Échap"
+    },
+    "hud": {
+      "pause": "Pause",
+      "restart": "Recommencer",
+      "sound": "Son",
+      "fullscreen": "Plein écran"
+    },
+    "pause": {
+      "title": "Pause",
+      "resume": "Reprendre",
+      "restart": "Recommencer le niveau"
+    },
+    "end": {
+      "title": "Niveau terminé",
+      "all-complete": "Tous les niveaux sont terminés !",
+      "game-over": "Partie terminée",
+      "perfect": "Parfait",
+      "next": "Niveau suivant",
+      "replay": "Rejouer",
+      "play-again": "Rejouer"
+    }
   },
   "genre": {
     "puzzle": "Réflexion",

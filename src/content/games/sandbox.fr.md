@@ -1,5 +1,5 @@
 ---
-# Jeu de test jetable : à retirer à l'étape 11 de BUILD-PLAN.md.
+# Jeu de test jetable : à retirer à l'étape 11 de BUILD-PLAN.md.
 title: Sandbox
 tagline: Un jeu de test jetable qui sert à construire le site, retiré avant la mise en ligne.
 genre: puzzle

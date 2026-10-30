@@ -1,6 +1,6 @@
 # Spécification fonctionnelle : <Titre du jeu>
 
-> Modèle à copier dans `specs/<slug>/`. Toutes les sections sont obligatoires ; une section sans objet le dit explicitement ("Sans objet : ..."). Les règles communes (`functional-specifications.md`, `game-page.md`) ne sont pas répétées : seul ce qui est propre au jeu figure ici.
+> Modèle à copier dans `specs/<slug>/`. Toutes les sections sont obligatoires ; une section sans objet le dit explicitement ("Sans objet : ..."). Les règles communes (`functional-specifications.md`, `game-page.md`) ne sont pas répétées : seul ce qui est propre au jeu figure ici.
 
 ## Concept
 

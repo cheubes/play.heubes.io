@@ -117,6 +117,8 @@ En mouvement réduit : plus de translation ni de mise à l'échelle, seules les
 
 Désactivé : opacité 0.4, pas de survol.
 
+Chargement : l'icône du bouton est remplacée par un anneau de 20px qui tourne (un tour en 800ms), le libellé reste affiché, avec `aria-busy="true"`. En mouvement réduit, l'anneau ne tourne plus et pulse en opacité.
+
 ### Focus
 
 Contour de 2px en `--color-accent`, décalé de 2px, sur tous les éléments interactifs (`:focus-visible`). Exception : l'aire de jeu elle-même n'affiche pas de contour ; le jeu matérialise le focus par son propre curseur ou sa propre sélection.

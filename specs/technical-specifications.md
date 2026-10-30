@@ -57,7 +57,7 @@ Versions exactes dans `package.json` (pas de `^` ni de `~`), `package-lock.json`
 | `@astrojs/check` | dev | Vérification des types des fichiers `.astro` et `.ts`. |
 | `vitest` | dev | Tests unitaires (voir "Tests"). |
 
-Les versions retenues sont la dernière version stable de chaque package au moment de l'étape 1 de `BUILD-PLAN.md`, sous réserve de compatibilité entre elles : TypeScript reste en 6.x tant que `@astrojs/check` n'accepte pas la 7 (pair `typescript ^5 || ^6`). Toute autre dépendance est discutée avant ajout et documentée ici (dépendance du site) ou dans le `technical-specifications.md` du jeu (dépendance propre à un jeu).
+Les versions retenues sont la dernière version stable de chaque package au moment de l'étape 1 de `BUILD-PLAN.md`, sous réserve de compatibilité entre elles : TypeScript reste en 6.x tant que `@astrojs/check` n'accepte pas la 7 (pair `typescript ^5 || ^6`). Toute autre dépendance est discutée avant ajout et documentée ici (dépendance du site) ou dans le `technical-specifications.md` du jeu (dépendance propre à un jeu).
 
 ## Structure des fichiers
 
@@ -95,9 +95,9 @@ src/
     fr/index.astro, fr/about.astro, fr/[slug].astro
     sitemap.xml.ts
   games/
-    shell/                     hôte de jeu : contrat, cycle de vie, stockage, audio, i18n
+    shell/                     hôte de jeu : contrat, cycle de vie, stockage, audio, i18n
     <slug>/
-      index.ts                 point d'entrée : exporte la définition du jeu
+      index.ts                 point d'entrée : exporte la définition du jeu
       logic/                   logique pure, sans DOM, et ses tests (*.test.ts)
       render/                  rendu et contrôles
       levels/                  contenu (niveaux), si le jeu en a
@@ -170,7 +170,7 @@ Interface indicative, à affiner à l'implémentation sans en changer l'esprit 
 ```ts
 // src/games/<slug>/index.ts exporte par défaut une GameDefinition
 export interface GameDefinition {
-  // Absent pour un jeu sans niveaux : le sélecteur n'est alors pas affiché.
+  // Absent pour un jeu sans niveaux : le sélecteur n'est alors pas affiché.
   getLevels?(storage: GameStorage): LevelEntry[];
   // Actions propres au jeu affichées dans le HUD (ex. annuler un coup).
   actions?: GameAction[];
@@ -204,7 +204,7 @@ export interface GameContext {
   announce(message: string): void;   // région aria-live
   reducedMotion(): boolean;
   complete(result: LevelResult): void;
-  signal: AbortSignal;               // annulé à la destruction : écouteurs ajoutés avec { signal }
+  signal: AbortSignal;               // annulé à la destruction : écouteurs ajoutés avec { signal }
 }
 
 export interface LevelResult {
@@ -238,6 +238,9 @@ Règles :
 
 - Le jeu ne touche qu'à son `container`. Il n'accède ni au reste du DOM, ni à `localStorage`, ni à `document` pour les écouteurs globaux (les raccourcis communs appartiennent à l'hôte). Ses écouteurs clavier sont posés sur `container`, qui reçoit le focus pendant la partie.
 - `pause()` arrête toute boucle d'animation, tout timer et tout traitement des entrées. `resume()` les relance.
+- `start()` et `restart()` laissent le jeu en cours, même s'il était en pause ou si le niveau était terminé. L'hôte n'appelle pas `resume()` ensuite.
+- `index.ts` est aussi importé au build, pour générer les boutons d'action du HUD. Il n'accède pas au DOM au niveau du module et n'importe pas sa feuille de style. L'hôte charge `<slug>.css` avec le module et l'injecte dans la page.
+- L'hôte pose la classe `.game-<slug>` sur `container`.
 - `destroy()` libère toutes les ressources. L'usage de `signal` pour les écouteurs est obligatoire.
 - `complete()` est appelé une seule fois par niveau. Le jeu ne traite plus d'entrée ensuite, jusqu'au prochain `start()` ou `restart()`.
 - Le versionnement de la sauvegarde est déclaré par le jeu (numéro de version et migrations) et appliqué par l'hôte (voir "Persistance" dans `data-model.md`).

@@ -2,7 +2,10 @@
 import { render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
+import GameHost from '../components/game-ui/GameHost.astro';
 import { createTranslator, type Locale } from '../i18n';
+import { createGameTranslator, type Dictionary } from '../games/shell/i18n';
+import type { GameDefinition } from '../games/shell/types';
 
 interface Props {
   locale: Locale;
@@ -13,6 +16,23 @@ const { locale, entry } = Astro.props;
 const t = createTranslator(locale);
 const game = entry.data;
 const { Content } = await render(entry);
+const slug = entry.id.slice(0, -`.${locale}`.length);
+
+const definitions = import.meta.glob<GameDefinition>('/src/games/*/index.ts', { import: 'default' });
+const dictionaries = import.meta.glob<Dictionary>('/src/games/*/i18n/*.json', { import: 'default', eager: true });
+const loadDefinition = definitions[`/src/games/${slug}/index.ts`];
+const dictionary = dictionaries[`/src/games/${slug}/i18n/${locale}.json`];
+if (!loadDefinition || !dictionary) {
+  throw new Error(`Game "${slug}" has no entry point or no "${locale}" translations.`);
+}
+const definition = await loadDefinition();
+const tGame = createGameTranslator(dictionary, locale);
+const actions = (definition.actions ?? []).map((action) => ({
+  id: action.id,
+  icon: action.icon,
+  label: tGame(action.labelKey),
+  shortcut: action.shortcut,
+}));
 ---
 
 <BaseLayout title={`${game.title} | play.heubes.io`} locale={locale}>
@@ -23,16 +43,18 @@ const { Content } = await render(entry);
       }
     </style>
   </noscript>
-  <div class="container game-page">
+  <div class="container game-page" data-game-content>
     <section class="game-intro">
       <h1>{game.title}</h1>
       <span class="genre-badge">{t(`genre.${game.genre}`)}</span>
       <p class="tagline">{game.tagline}</p>
       <div class="play-action">
-        <button type="button" class="button button-primary play-button">
+        <button type="button" class="button button-primary play-button" data-play-button>
           <Icon name="play" />
-          {t('game.play')}
+          <span data-play-label>{t('game.play')}</span>
+          <span data-retry-label hidden>{t('game.retry')}</span>
         </button>
+        <p class="play-error" role="alert" data-load-error data-message={t('game.load-error')}></p>
         <noscript>
           <p>{t('game.no-javascript')}</p>
         </noscript>
@@ -42,6 +64,7 @@ const { Content } = await render(entry);
       <Content />
     </div>
   </div>
+  <GameHost locale={locale} slug={slug} title={game.title} actions={actions} hasLevels={definition.getLevels !== undefined} />
 </BaseLayout>
 
 <style>
@@ -62,7 +85,14 @@ const { Content } = await render(entry);
   }
 
   .play-action {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
     margin-top: var(--space-3);
+  }
+
+  .play-error:empty {
+    display: none;
   }
 
   .rules > :global(* + *) {

@@ -14,7 +14,35 @@
   },
   "game": {
     "play": "Play",
-    "no-javascript": "This game needs JavaScript."
+    "retry": "Retry",
+    "load-error": "The game couldn't be loaded.",
+    "no-javascript": "This game needs JavaScript.",
+    "area-description": "Use the keys and gestures listed under Controls.",
+    "levels": "Levels",
+    "quit": "Quit",
+    "keys": {
+      "escape": "Esc"
+    },
+    "hud": {
+      "pause": "Pause",
+      "restart": "Restart",
+      "sound": "Sound",
+      "fullscreen": "Full screen"
+    },
+    "pause": {
+      "title": "Paused",
+      "resume": "Resume",
+      "restart": "Restart level"
+    },
+    "end": {
+      "title": "Level complete",
+      "all-complete": "All levels complete!",
+      "game-over": "Game over",
+      "perfect": "Perfect",
+      "next": "Next level",
+      "replay": "Replay",
+      "play-again": "Play again"
+    }
   },
   "genre": {
     "puzzle": "Puzzle",

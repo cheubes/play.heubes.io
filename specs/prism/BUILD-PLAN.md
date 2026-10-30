@@ -14,7 +14,7 @@ Extraction de la logique de progression de Tilt vers `src/games/shell/` (elle se
 
 **Prompt :**
 ```
-Implémente l'étape 1 de specs/prism/BUILD-PLAN.md : progression commune et logique pure de Prism.
+Implémente l'étape 1 de specs/prism/BUILD-PLAN.md : progression commune et logique pure de Prism.
 
 1. Déplace la logique de progression de src/games/tilt/logic/progress.ts vers
    src/games/shell/ (statuts des niveaux et record à partir de { best }, avec le par de chaque
@@ -26,7 +26,7 @@ Implémente l'étape 1 de specs/prism/BUILD-PLAN.md : progression commune et log
 Écris les tests de AC-01 à AC-11 de Prism (noms préfixés par l'identifiant du critère).
 Pas de rendu à cette étape.
 
-Critère de fin : vitest run passe, tests de Tilt compris.
+Critère de fin : vitest run passe, tests de Tilt compris.
 ```
 
 ## 2. Niveaux et solveur
@@ -37,7 +37,7 @@ Critère de fin : vitest run passe, tests de Tilt compris.
 
 **Prompt :**
 ```
-Implémente l'étape 2 de specs/prism/BUILD-PLAN.md : solveur et niveaux de Prism.
+Implémente l'étape 2 de specs/prism/BUILD-PLAN.md : solveur et niveaux de Prism.
 
 Crée src/games/prism/logic/solver.ts (voir "Solveur" dans specs/prism/game-model.md) et
 src/games/prism/levels/levels.ts. Conçois 20 niveaux selon "Progression" dans
@@ -48,7 +48,7 @@ que chaque niveau n'a pas de solution triviale au regard de sa place dans la sé
 
 Présente-moi la liste des niveaux (id, mécaniques, par) avant de conclure.
 
-Critère de fin : vitest run passe, le test AC-12 prend moins de 10 secondes.
+Critère de fin : vitest run passe, le test AC-12 prend moins de 10 secondes.
 ```
 
 ## 3. Rendu du plateau et des faisceaux
@@ -59,7 +59,7 @@ Critère de fin : vitest run passe, le test AC-12 prend moins de 10 secondes.
 
 **Prompt :**
 ```
-Implémente l'étape 3 de specs/prism/BUILD-PLAN.md : rendu de Prism.
+Implémente l'étape 3 de specs/prism/BUILD-PLAN.md : rendu de Prism.
 
 Crée src/games/prism/index.ts (GameDefinition), render/board.ts, render/beams.ts et
 prism.css, en suivant "Rendu" dans specs/prism/technical-specifications.md et
@@ -68,7 +68,7 @@ contenu minimal (src/content/games/prism.en.md et .fr.md) et une couverture prov
 
 Pas encore de contrôles ni d'animations.
 
-Critère de fin : la page /prism/ affiche le niveau 1 avec ses faisceaux ; AC-16 et AC-17
+Critère de fin : la page /prism/ affiche le niveau 1 avec ses faisceaux ; AC-16 et AC-17
 vérifiés dans le navigateur, avec un niveau 8 × 8 qui utilise tous les types d'éléments.
 ```
 
@@ -80,14 +80,14 @@ vérifiés dans le navigateur, avec un niveau 8 × 8 qui utilise tous les types 
 
 **Prompt :**
 ```
-Implémente l'étape 4 de specs/prism/BUILD-PLAN.md : contrôles et animations de Prism.
+Implémente l'étape 4 de specs/prism/BUILD-PLAN.md : contrôles et animations de Prism.
 
 Crée src/games/prism/render/input.ts et render/animations.ts selon "Contrôles" et
 "Animations" dans specs/prism/technical-specifications.md. Déclare l'action "undo" dans la
 GameDefinition et gère son état. Ajoute les annonces de "Accessibilité" dans
 specs/prism/functional-specifications.md.
 
-Critère de fin : AC-13, AC-14 et AC-15 vérifiés dans le navigateur, desktop et mobile.
+Critère de fin : AC-13, AC-14 et AC-15 vérifiés dans le navigateur, desktop et mobile.
 ```
 
 ## 5. Progression et résultats
@@ -98,15 +98,15 @@ Critère de fin : AC-13, AC-14 et AC-15 vérifiés dans le navigateur, desktop e
 
 **Prompt :**
 ```
-Implémente l'étape 5 de specs/prism/BUILD-PLAN.md : progression et résultats de Prism.
+Implémente l'étape 5 de specs/prism/BUILD-PLAN.md : progression et résultats de Prism.
 
-Branche la progression commune (src/games/shell/) : getLevels, statistiques du HUD, complete()
+Branche la progression commune (src/games/shell/) : getLevels, statistiques du HUD, complete()
 avec le résultat et les messages de "Statistiques et résultats"
 (specs/prism/functional-specifications.md), sauvegarde PrismSave. Ajoute l'animation de
 victoire.
 
-Critère de fin : AC-18 vérifié ; terminer un niveau déverrouille le suivant, y compris après
-rechargement ; la réinitialisation remet le sélecteur à zéro.
+Critère de fin : AC-18 vérifié ; terminer un niveau déverrouille le suivant, y compris après
+rechargement ; la réinitialisation remet le sélecteur à zéro.
 ```
 
 ## 6. Son
@@ -117,12 +117,12 @@ rechargement ; la réinitialisation remet le sélecteur à zéro.
 
 **Prompt :**
 ```
-Implémente l'étape 6 de specs/prism/BUILD-PLAN.md : sons de Prism.
+Implémente l'étape 6 de specs/prism/BUILD-PLAN.md : sons de Prism.
 
 Crée src/games/prism/render/sounds.ts selon "Son" (specs/prism/technical-specifications.md)
 et "Sons" (style-guide.md), connecté à context.audio.output().
 
-Critère de fin : chaque son se déclenche au bon moment ; couper le son les coupe tous ; aucun
+Critère de fin : chaque son se déclenche au bon moment ; couper le son les coupe tous ; aucun
 son pendant la pause.
 ```
 
@@ -134,7 +134,7 @@ son pendant la pause.
 
 **Prompt :**
 ```
-Implémente l'étape 7 de specs/prism/BUILD-PLAN.md : fiche et finitions de Prism.
+Implémente l'étape 7 de specs/prism/BUILD-PLAN.md : fiche et finitions de Prism.
 
 Finalise src/content/games/prism.en.md et .fr.md ("Textes" dans
 specs/prism/functional-specifications.md), les textes de src/games/prism/i18n/, et la
@@ -143,7 +143,7 @@ couverture public/covers/prism.webp ("Couverture" dans specs/prism/style-guide.m
 Repasse sur tous les critères [manuel] (AC-13 à AC-18) sur desktop et sur un téléphone, et
 liste-moi ce qui reste à corriger.
 
-Critère de fin : tous les critères d'acceptation sont vérifiés.
+Critère de fin : tous les critères d'acceptation sont vérifiés.
 ```
 
 ## 8. Fusion sur `main`

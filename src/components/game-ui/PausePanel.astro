@@ -1,0 +1,31 @@
+---
+import GamePanel from './GamePanel.astro';
+import Icon from '../Icon.astro';
+import { createTranslator, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  hasLevels: boolean;
+}
+
+const { locale, hasLevels } = Astro.props;
+const t = createTranslator(locale);
+---
+
+<GamePanel id="pause">
+  <h2 id="game-panel-pause-title">{t('game.pause.title')}</h2>
+  <div class="panel-actions">
+    <button type="button" class="button button-primary" data-command="resume">
+      <Icon name="play" />
+      {t('game.pause.resume')}
+    </button>
+    <button type="button" class="button button-secondary" data-command="restart">
+      <Icon name="rotate-ccw" />
+      {t('game.pause.restart')}
+    </button>
+    <button type="button" class="button button-secondary" data-command="exit">
+      {hasLevels && <Icon name="layout-grid" />}
+      {hasLevels ? t('game.levels') : t('game.quit')}
+    </button>
+  </div>
+</GamePanel>
