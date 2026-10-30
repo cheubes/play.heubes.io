@@ -1,0 +1,14 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import GamePage from '../../views/GamePage.astro';
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection('games', (entry) => entry.id.endsWith('.fr'));
+  return entries.map((entry) => ({ params: { slug: entry.id.slice(0, -'.fr'.length) }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+---
+
+<GamePage locale="fr" entry={entry} />

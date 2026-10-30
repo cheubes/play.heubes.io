@@ -12,6 +12,10 @@
     "intro": "Des petits jeux conçus pour le web. Rien à installer, pas de compte : choisis-en un et joue.",
     "empty": "De nouveaux jeux arrivent bientôt."
   },
+  "game": {
+    "play": "Jouer",
+    "no-javascript": "Ce jeu a besoin de JavaScript."
+  },
   "genre": {
     "puzzle": "Réflexion",
     "platformer": "Plateforme",

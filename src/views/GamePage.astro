@@ -1,0 +1,122 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { createTranslator, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  entry: CollectionEntry<'games'>;
+}
+
+const { locale, entry } = Astro.props;
+const t = createTranslator(locale);
+const game = entry.data;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={`${game.title} | play.heubes.io`} locale={locale}>
+  <noscript slot="head">
+    <style is:inline>
+      .play-action .play-button {
+        display: none;
+      }
+    </style>
+  </noscript>
+  <div class="container game-page">
+    <section class="game-intro">
+      <h1>{game.title}</h1>
+      <span class="genre-badge">{t(`genre.${game.genre}`)}</span>
+      <p class="tagline">{game.tagline}</p>
+      <div class="play-action">
+        <button type="button" class="button button-primary play-button">
+          <Icon name="play" />
+          {t('game.play')}
+        </button>
+        <noscript>
+          <p>{t('game.no-javascript')}</p>
+        </noscript>
+      </div>
+    </section>
+    <div class="rules">
+      <Content />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .game-page {
+    display: grid;
+    gap: var(--space-7);
+    padding-block: var(--space-6);
+  }
+
+  .game-intro {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
+  }
+
+  .tagline {
+    color: var(--color-text-muted);
+  }
+
+  .play-action {
+    margin-top: var(--space-3);
+  }
+
+  .rules > :global(* + *) {
+    margin-top: var(--space-3);
+  }
+
+  .rules > :global(* + h2) {
+    margin-top: var(--space-5);
+  }
+
+  .rules :global(h2) {
+    font-size: var(--font-size-xl);
+  }
+
+  .rules :global(table) {
+    width: 100%;
+    max-width: var(--measure);
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+  }
+
+  .rules :global(th),
+  .rules :global(td) {
+    padding: var(--space-3) var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+    text-align: start;
+    vertical-align: top;
+    overflow-wrap: break-word;
+  }
+
+  .rules :global(th) {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--font-size-xs);
+    letter-spacing: var(--letter-spacing-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .rules :global(code) {
+    padding: 2px 6px;
+    background-color: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+  }
+
+  @media (min-width: 640px) {
+    .rules :global(th),
+    .rules :global(td) {
+      padding-inline: var(--space-4);
+    }
+  }
+</style>
