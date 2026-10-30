@@ -115,7 +115,11 @@ Un utilitaire n'entre dans `src/games/shell/` que lorsqu'au moins deux jeux en o
 ```ts
 // src/content.config.ts
 const games = defineCollection({
-  loader: glob({ pattern: '*.{en,fr}.md', base: './src/content/games' }),
+  loader: glob({
+    pattern: '*.{en,fr}.md',
+    base: './src/content/games',
+    generateId: ({ entry }) => entry.replace(/\.md$/, ''),
+  }),
   schema: z.object({
     title: z.string().max(30),
     tagline: z.string().max(90),
@@ -123,6 +127,8 @@ const games = defineCollection({
   }),
 });
 ```
+
+L'identifiant d'une entrée est `<slug>.<locale>` (`tilt.en`), d'où le slug et la langue se déduisent. Sans `generateId`, le loader dérive l'identifiant du nom de fichier en supprimant le point (`tilten`), ce qui rend slug et langue indissociables.
 
 ## Architecture
 
@@ -276,7 +282,7 @@ Règles :
 
 ## Validation du contenu
 
-Les règles de `data-model.md` ("Contraintes et règles de validation") sont vérifiées automatiquement : le schéma Zod des content collections fait échouer le build, et les contrôles entre fichiers (couverture et point d'entrée présents, clés de traduction identiques, unicité des titres) sont écrits en tests Vitest dans `src/content/content.test.ts`.
+Les règles de `data-model.md` ("Contraintes et règles de validation") sont vérifiées automatiquement : le schéma Zod des content collections fait échouer le build, et les contrôles entre fichiers (couverture et point d'entrée présents, sections obligatoires des règles, clés de traduction identiques, unicité des titres) sont écrits en tests Vitest dans `src/content/content.test.ts`.
 
 ## Accessibilité
 

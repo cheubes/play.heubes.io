@@ -84,6 +84,7 @@ La réinitialisation de la progression d'un jeu (voir `game-page.md`) supprime s
 Vérifiées automatiquement, la CI échoue en cas d'écart (voir "Validation du contenu" dans `technical-specifications.md`) :
 
 - chaque jeu a ses deux fichiers de contenu (`.en.md` et `.fr.md`), avec les mêmes `genre` ;
+- le corps de chaque fichier de contenu contient ses deux sections obligatoires, en titres de niveau 2 (`## How to play` et `## Controls` en anglais, `## Comment jouer` et `## Contrôles` en français) ;
 - `title` et `tagline` respectent leur longueur maximale ;
 - `genre` appartient à la liste fermée ;
 - le slug est en kebab-case et n'est pas réservé ;
