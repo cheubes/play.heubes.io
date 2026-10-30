@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+const iconNames = Object.keys(import.meta.glob('/src/icons/*.svg')).map((path) => path.replace(/^.*\/(.+)\.svg$/, '$1'));
+---
+
+<BaseLayout title="play.heubes.io">
+  <div class="container test-page">
+    <h1>Skeleton test page</h1>
+    <p>
+      Temporary page to check the site chrome: sticky header, fixed footer, tokens, fonts and icons. It will be replaced
+      by the catalog.
+    </p>
+    <ul class="icon-list">
+      {
+        iconNames.map((name) => (
+          <li>
+            <Icon name={name} />
+            <Icon name={name} size={16} />
+            <span>{name}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>
+
+<style>
+  .test-page {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--space-6);
+  }
+
+  .icon-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--space-3);
+    padding: 0;
+    list-style: none;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .icon-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+</style>

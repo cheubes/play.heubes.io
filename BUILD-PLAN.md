@@ -12,7 +12,7 @@ Projet Astro, tokens de la charte, polices, icônes, en-tête et pied de page fi
 
 **Critère :** `astro dev` tourne ; l'en-tête et le pied de page fixe respectent la charte, sur mobile et sur desktop.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

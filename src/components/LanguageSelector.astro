@@ -1,0 +1,60 @@
+---
+const languages = [
+  { code: 'en', label: 'EN', name: 'English', href: '/' },
+  { code: 'fr', label: 'FR', name: 'Français', href: '/fr/' },
+];
+const currentLanguage = 'en';
+---
+
+<ul class="language-selector">
+  {
+    languages.map((language) => (
+      <li>
+        <a
+          href={language.href}
+          lang={language.code}
+          hreflang={language.code}
+          aria-label={language.name}
+          aria-current={language.code === currentLanguage ? 'true' : undefined}
+        >
+          {language.label}
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .language-selector {
+    display: flex;
+    gap: var(--space-1);
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--touch-target);
+    min-height: var(--touch-target);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    letter-spacing: var(--letter-spacing-caps);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  a:hover {
+    color: var(--color-text);
+  }
+
+  a[aria-current='true'] {
+    color: var(--color-accent);
+    text-decoration-line: underline;
+  }
+</style>
