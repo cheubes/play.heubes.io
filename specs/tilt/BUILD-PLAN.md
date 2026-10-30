@@ -167,4 +167,4 @@ Critère de fin : tous les critères d'acceptation sont vérifiés.
 
 Relecture de cohérence de l'ensemble des specs (voir "Avant chaque commit" dans `CLAUDE.md`), mise à jour de "Points tranchés à l'implémentation" dans `technical-specifications.md`, fusion de `game/tilt` sur `dev`. Le jeu est publié avec le déploiement (étape 12 de `BUILD-PLAN.md`).
 
-**Statut :** à faire.
+**Statut :** fait.

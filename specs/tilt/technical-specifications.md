@@ -78,4 +78,11 @@ Aucune.
 
 ## Points tranchés à l'implémentation
 
-Aucun pour l'instant.
+- **2026-10-30 / Sauvegarde à la résolution** : le record est écrit dès que le niveau est résolu, avant l'animation de victoire. Raison : quitter la page pendant l'animation ne doit pas faire perdre la progression.
+- **2026-10-30 / Entrée après la résolution** : une fois le niveau résolu, une entrée ne joue plus de coup ; elle termine l'animation de victoire, ce qui ouvre le panneau de fin. Raison : le plateau ne doit plus bouger, et le joueur peut passer l'animation.
+- **2026-10-30 / Ordre de la victoire** : seuls les blocs colorés pulsent, dans l'ordre de lecture (rangée, puis colonne). Raison : les blocs neutres n'ont pas de cible, ils ne participent pas à la résolution.
+- **2026-10-30 / Sons interrompus** : les sons programmés pour la fin d'une animation (impact, notes de cible) sont annulés quand une entrée termine cette animation, ainsi qu'au chargement d'un niveau, au redémarrage et à la fermeture du jeu. Raison : un son tardif ne doit pas se superposer au coup suivant, ni à la partie suivante, l'hôte gardant son `AudioContext` d'une partie à l'autre.
+- **2026-10-30 / Hauteur des sons** : notes de cible do6, ré6, mi6, sol6 (ambre, azur, rose, menthe), chacune suivie de sa quinte ; arpège de victoire do5, mi5, sol5, do6. Raison : des intervalles consonants, de plus en plus aigus d'une couleur à l'autre (voir "Sons" dans `style-guide.md`).
+- **2026-10-30 / Touches avec modificateur** : une touche pressée avec `Ctrl`, `Cmd` ou `Alt` n'est pas interceptée. Raison : laisser au navigateur ses propres raccourcis (`Cmd+Z`, `Alt+←` ...).
+- **2026-10-30 / Geste** : seuls le pointeur principal et, à la souris, le bouton gauche démarrent un geste ; un `pointercancel` l'abandonne. Raison : un second doigt ou un clic droit ne doivent pas incliner le plateau.
+- **2026-10-30 / Accord des annonces** : l'annonce d'un coup existe au singulier et au pluriel, choisie par `Intl.PluralRules` selon le nombre de blocs en place. Raison : le français met le singulier à 0 et à 1 ("0 bloc sur 4 en place").
