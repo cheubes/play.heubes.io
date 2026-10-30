@@ -59,7 +59,7 @@ Plateau et blocs en DOM, sans animation, branchés sur le contrat de l'hôte (`s
 
 **Critère :** "Play" affiche le niveau 1 conforme à la charte ; AC-16 et AC-17 vérifiés à la main.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
