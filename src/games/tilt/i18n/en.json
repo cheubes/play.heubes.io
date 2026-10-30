@@ -1,0 +1,23 @@
+{
+  "level": "Level {number}",
+  "actions": {
+    "undo": "Undo"
+  },
+  "stats": {
+    "moves": "Moves",
+    "par": "Par",
+    "best": "Best"
+  },
+  "announce": {
+    "move": {
+      "one": "Move {moves}. {placed} of {total} blocks on target.",
+      "other": "Move {moves}. {placed} of {total} blocks on target."
+    },
+    "blocked": "No block moved.",
+    "undo": "Undo. Move {moves}."
+  },
+  "result": {
+    "perfect": "Perfect! Solved in the minimum number of moves.",
+    "solved": "Solved in {moves} moves. Can you do it in {par}?"
+  }
+}

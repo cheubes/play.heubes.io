@@ -23,7 +23,7 @@ Les fichiers `BUILD-PLAN.md` décrivent l'ordre de construction et l'avancement�
   - `game-model.md` : état de jeu, contenu (niveaux et leur encodage), données persistées, contraintes de validation.
   - `technical-specifications.md` : choix de rendu, découpage logique / rendu, animations, contraintes propres au jeu, nouvelles dépendances éventuelles.
   - `style-guide.md` : direction artistique de l'aire de jeu (palette, formes, animations, sons, assets tiers).
-  - `BUILD-PLAN.md` : étapes de construction du jeu, de la logique pure à la fusion sur `main`.
+  - `BUILD-PLAN.md` : étapes de construction du jeu, de la logique pure à la fusion sur `dev`.
 
 Deux dossiers `<game-slug>/` existent à ce stade : `tilt/` et `prism/`.
 
@@ -49,4 +49,4 @@ Deux dossiers `<game-slug>/` existent à ce stade : `tilt/` et `prism/`.
 - Les noms de fichiers, dossiers, attributs de données et identifiants techniques sont en anglais, en kebab-case (slugs, données, classes CSS) ou en PascalCase pour les composants Astro (voir "Conventions de nommage" dans `technical-specifications.md`).
 - Les couleurs et composants de la charte graphique sont définis une seule fois, dans `style-guide.md` : ne pas introduire de nouvelles valeurs de couleur ou de nouveaux styles de composants ailleurs sans les y ajouter d'abord. Seule exception : la palette de l'aire de jeu, définie dans le `style-guide.md` du jeu.
 - Toute nouvelle dépendance (moteur de rendu, librairie, package npm) propre à un jeu est documentée dans le `technical-specifications.md` de ce jeu et discutée avant ajout (voir les règles globales de sécurité du projet).
-- Un nouveau jeu commence par la copie de `specs/_template/` et la rédaction complète de ses specs, validées avant toute ligne de code. Il est développé sur sa propre branche et fusionné sur `main` une fois jouable : un jeu présent sur `main` est publié.
+- Un nouveau jeu commence par la copie de `specs/_template/` et la rédaction complète de ses specs, validées avant toute ligne de code. Il est développé sur sa propre branche, créée depuis `dev`, et fusionné sur `dev` une fois jouable. `dev` est fusionné sur `main` pour publier : un jeu présent sur `main` est publié.

@@ -2,7 +2,7 @@
 
 > Modèle à copier dans `specs/<slug>/`. Chaque étape est démontrable avant de passer à la suivante, a un critère de fin qui cite les critères d'acceptation concernés (`AC-xx`) et un prompt prêt à l'emploi. Le statut de chaque étape est tenu ici, pas dans le `BUILD-PLAN.md` général. Adapter les étapes au jeu, en gardant la première (logique pure) et la dernière (fusion).
 
-Prérequis : specs du jeu validées, branche `game/<slug>` créée depuis `main`.
+Prérequis : specs du jeu validées, branche `game/<slug>` créée depuis `dev`.
 
 ## 1. Logique pure
 
@@ -29,8 +29,8 @@ Implémente l'étape 1 de specs/<slug>/BUILD-PLAN.md : ...
 
 ## 7. Fiche du jeu et finitions
 
-## 8. Fusion sur `main`
+## 8. Fusion sur `dev`
 
-Relecture de cohérence des specs, tous les critères d'acceptation vérifiés, fusion de la branche : le jeu est publié.
+Relecture de cohérence des specs, tous les critères d'acceptation vérifiés, fusion de la branche sur `dev`. Le jeu est publié à la prochaine fusion de `dev` sur `main`.
 
 **Statut :** à faire.

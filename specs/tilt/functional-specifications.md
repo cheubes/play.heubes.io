@@ -67,7 +67,7 @@ Les deux orientations sont prises en charge : le plateau est mis à l'échelle 
 
 - Chaque couleur de bloc porte un symbole distinct (cercle, triangle, carré, losange), repris en creux par les cibles de cette couleur. Le jeu se joue sans percevoir les couleurs.
 - Les blocs neutres se distinguent des murs par leur forme (bloc arrondi hachuré, contre case pleine).
-- Annonces après chaque coup : "Move <n>. <k> of <total> blocks on target." / "Coup <n>. <k> blocs sur <total> en place." Annonce aussi les inclinaisons sans effet ("No block moved." / "Aucun bloc n'a bougé.").
+- Annonces après chaque coup : "Move <n>. <k> of <total> blocks on target." / "Coup <n>. <k> blocs sur <total> en place." Annonce aussi les inclinaisons sans effet ("No block moved." / "Aucun bloc n'a bougé.") et les annulations ("Undo. Move <n>." / "Annulé. Coup <n>.").
 - Limite connue : la disposition du plateau n'est pas décrite case par case aux lecteurs d'écran. Le jeu est pleinement jouable au clavier, mais il suppose de voir le plateau.
 
 ## Textes
