@@ -105,7 +105,7 @@ Statistiques du HUD, fin de niveau, sauvegarde, sélecteur de niveaux. Voir "Pro
 
 **Critère :** AC-18 vérifié à la main ; la progression survit à un rechargement de la page ; la réinitialisation fonctionne.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
