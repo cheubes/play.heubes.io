@@ -85,7 +85,7 @@ Clavier, glisser, annulation, animations et mouvement réduit. Voir "Contrôles"
 
 **Critère :** AC-13, AC-14 et AC-15 vérifiés à la main, sur desktop et sur mobile.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
