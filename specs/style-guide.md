@@ -97,6 +97,7 @@ En mouvement réduit : plus de translation ni de mise à l'échelle, seules les
 - Hauteur 56px (64px à partir de 1024px), fond `--color-bg`, bordure basse `--color-border`, collant en haut de page.
 - À gauche, le logo-texte : "play" en `--color-accent` suivi de ".heubes.io" en `--color-text-muted`, Chakra Petch 700, `lg`. Lien vers l'accueil de la langue courante.
 - À droite, le sélecteur de langue : deux boutons texte "EN" et "FR" en Chakra Petch 600 `sm`. La langue courante est en `--color-accent`, soulignée, avec `aria-current="true"` ; l'autre en `--color-text-muted`, `--color-text` au survol. Pas de drapeaux.
+- Lien d'évitement : premier élément focalisable de la page, "Skip to content" / "Aller au contenu", vers `#main`. Hors de l'écran tant qu'il n'a pas le focus ; au focus, il apparaît par-dessus l'en-tête, aligné sur la marge du conteneur, avec l'apparence d'un bouton principal. Il est dans l'en-tête, donc masqué avec lui pendant une partie.
 
 ### Pied de page
 

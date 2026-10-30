@@ -15,6 +15,7 @@ const externalLinks = {
 };
 
 export default defineConfig({
+  site: 'https://play.heubes.io',
   output: 'static',
   trailingSlash: 'always',
   i18n: {

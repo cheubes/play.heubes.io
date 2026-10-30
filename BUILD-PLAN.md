@@ -220,7 +220,7 @@ Meta, liens alternatifs, Open Graph, sitemap, robots, lien d'évitement, audit. 
 
 **Critère :** chaque page a ses meta et ses liens `hreflang` ; `sitemap.xml` liste toutes les pages des deux langues ; Lighthouse (mobile) au-dessus de 90 en accessibilité, bonnes pratiques et SEO sur l'accueil, `/sandbox/` et `/about/`.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -262,7 +262,7 @@ Chaque jeu a son plan et son statut dans son dossier de specs. Cette liste donne
 
 ## 12. Déploiement
 
-Job de déploiement GitHub Pages, domaine personnalisé. Voir "Hébergement et déploiement" dans `technical-specifications.md`.
+Job de déploiement GitHub Pages, domaine personnalisé, favicon (à spécifier d'abord dans `style-guide.md`, à côté de l'image de partage). Voir "Hébergement et déploiement" dans `technical-specifications.md`.
 
 Prérequis : Tilt fusionné sur `main`, pour ne pas publier un catalogue vide.
 
@@ -276,9 +276,9 @@ Implémente l'étape 12 du plan de construction (BUILD-PLAN.md) : déploiement.
 
 Ajoute le job de déploiement à .github/workflows/ci.yml (sur push sur main uniquement, après
 le job de vérification, voir "Hébergement et déploiement" dans
-specs/technical-specifications.md) et public/CNAME. Liste-moi les réglages à faire côté GitHub
-(Pages : source GitHub Actions, domaine, HTTPS) et côté DNS (enregistrement CNAME), que je ferai
-moi-même.
+specs/technical-specifications.md), public/CNAME et le favicon (spécifié dans
+specs/style-guide.md). Liste-moi les réglages à faire côté GitHub (Pages : source GitHub
+Actions, domaine, HTTPS) et côté DNS (enregistrement CNAME), que je ferai moi-même.
 
 Critère de fin : le site est servi sur https://play.heubes.io ; un test volontairement cassé
 sur une branche bloque le workflow.

@@ -1,6 +1,7 @@
 {
   "header": {
-    "language": "Language"
+    "language": "Language",
+    "skip-to-content": "Skip to content"
   },
   "footer": {
     "license": "License",
@@ -14,6 +15,9 @@
     "title": "Original mini games",
     "intro": "Small games made for the web. No install, no account: pick one and play.",
     "empty": "New games are on the way."
+  },
+  "about": {
+    "description": "Who makes play.heubes.io, how its code and content are licensed, and the third-party resources it uses."
   },
   "game": {
     "play": "Play",

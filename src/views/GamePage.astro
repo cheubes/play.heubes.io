@@ -38,7 +38,7 @@ const EMPTY_STORAGE: GameStorage = { read: () => undefined, write: () => {} };
 const levels = definition.getLevels?.(EMPTY_STORAGE);
 ---
 
-<BaseLayout title={`${game.title} | play.heubes.io`} locale={locale}>
+<BaseLayout title={`${game.title} | play.heubes.io`} description={game.tagline} locale={locale} image={`/covers/${slug}.webp`}>
   <noscript slot="head">
     <style is:inline>
       .play-action .play-button,

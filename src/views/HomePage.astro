@@ -20,7 +20,7 @@ const games = (await getCollection('games', (entry) => entry.id.endsWith(`.${loc
   .sort((a, b) => collator.compare(a.game.title, b.game.title));
 ---
 
-<BaseLayout title="play.heubes.io" locale={locale}>
+<BaseLayout title={`play.heubes.io | ${t('home.title')}`} description={t('home.intro')} locale={locale}>
   <div class="container home">
     <section class="intro">
       <h1>{t('home.title')}</h1>
