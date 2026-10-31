@@ -76,7 +76,7 @@ vérifiés dans le navigateur, avec un niveau 8 × 8 qui utilise tous les types 
 
 **Critère :** AC-13, AC-14 et AC-15 vérifiés à la main, sur desktop et sur mobile.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

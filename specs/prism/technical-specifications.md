@@ -9,7 +9,8 @@ Couches, de bas en haut :
 1. grille (fond et repères) ;
 2. faisceaux : pour chaque tronçon, un trait large et translucide (halo) puis un trait fin et opaque (cœur), dans un groupe en `mix-blend-mode: screen` pour que les faisceaux superposés s'additionnent visuellement ;
 3. éléments ;
-4. curseur de sélection au clavier.
+4. curseur de sélection au clavier ;
+5. zones de toucher : un rectangle transparent par case, au-dessus de tout le reste (voir "Contrôles").
 
 Taille : l'élément `<svg>` est dimensionné pour tenir dans l'aire de jeu en gardant des cases carrées, avec une marge de `--space-4`, cases plafonnées à 72px.
 
@@ -39,9 +40,9 @@ La progression (statuts des niveaux, record) vient de `src/games/shell/progress.
 
 ## Contrôles
 
-- Pointeur : chaque case porte un rectangle transparent qui couvre toute la case (zone de toucher maximale). Un `pointerup` sur une case appelle `toggle` à cette position. Un déplacement de plus de 10px entre `pointerdown` et `pointerup` annule le toucher.
+- Pointeur : chaque case porte un rectangle transparent qui couvre toute la case (zone de toucher maximale). Un `pointerup` sur une case appelle `toggle` à cette position. Un déplacement de plus de 10px entre `pointerdown` et `pointerup` annule le toucher. Toucher un élément orientable y déplace aussi la sélection, pour qu'un passage au clavier reprenne là où le joueur a touché.
 - Sélection au clavier : la sélection démarre sur le premier élément orientable (ordre de lecture). Une flèche sélectionne, parmi les éléments orientables situés strictement dans cette direction, celui qui minimise `distance dans l'axe + 2 × écart perpendiculaire`. S'il n'y en a aucun, la sélection ne bouge pas. `Espace` et `Entrée` font basculer l'élément sélectionné ; `z`, `Z` et `Backspace` annulent.
-- Le curseur de sélection n'est affiché qu'après une première touche du clavier, et masqué dès une utilisation du pointeur.
+- Le curseur de sélection n'est affiché qu'après une première touche du clavier, et masqué dès une utilisation du pointeur. Une flèche, `Espace` ou `Entrée` qui fait apparaître le curseur ne fait que l'afficher, sur l'élément sélectionné : le joueur voit la sélection avant d'agir dessus. L'annulation agit toujours.
 - Une entrée reçue pendant une animation appelle `finish()` sur les animations en cours, puis est traitée (règle commune).
 
 ## Animations

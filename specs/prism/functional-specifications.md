@@ -72,7 +72,7 @@ Les deux orientations sont prises en charge : le plateau est mis à l'échelle 
 
 - Chaque cible, source et filtre affiche sa couleur sous forme de trois secteurs à position fixe (rouge en haut, vert en bas à droite, bleu en bas à gauche). Sur une cible, chaque secteur indique si la primaire est attendue et si elle est reçue, sans dépendre de la couleur (voir "Éléments de jeu" dans `style-guide.md`). L'état d'une cible se lit donc sans percevoir les couleurs.
 - Les éléments orientables se distinguent des fixes par leur forme (socle pivotant contre rivets).
-- Annonces après chaque coup : "Move <n>. <k> of <total> targets lit." / "Coup <n>. <k> cibles sur <total> allumées."
+- Annonces après chaque coup : "Move <n>. <k> of <total> targets lit." / "Coup <n>. <k> cibles sur <total> allumées." Annonce aussi les annulations ("Undo. Move <n>." / "Annulé. Coup <n>.").
 - Limite connue : le trajet des faisceaux n'est pas décrit aux lecteurs d'écran. Le jeu est pleinement jouable au clavier, mais il suppose de voir le plateau.
 
 ## Textes

@@ -1,11 +1,15 @@
-import type { BeamResult, BoardElement, ColorName, Direction, Level, PrismState } from '../logic/types';
+import type { BeamResult, BoardElement, ColorName, Direction, Level, Position, PrismState } from '../logic/types';
 
 export interface BoardView {
   element: SVGSVGElement;
   beams: SVGGElement;
+  cursor: SVGRectElement;
   bodies: Map<string, SVGGElement>;
   targets: Map<string, { element: SVGGElement; sectors: SVGGElement }>;
 }
+
+type Mirror = Extract<BoardElement, { type: 'mirror' }>;
+type Prism = Extract<BoardElement, { type: 'prism' }>;
 
 type SectorState = 'empty' | 'expected' | 'received' | 'extra';
 
@@ -233,12 +237,26 @@ export function createBoardView(level: Level): BoardView {
 
   const beams = createSvgElement('g', { class: 'prism-beams' });
   const elements = createSvgElement('g', { class: 'prism-elements' });
-  const cursor = createSvgElement('g', { class: 'prism-cursor' });
-  element.append(defs, grid, beams, elements, cursor);
+  const cursor = createSvgElement('rect', { width: 0.94, height: 0.94, rx: 0.16, class: 'prism-cursor is-hidden' });
+  const hits = createSvgElement('g', { class: 'prism-hits' });
+  for (let row = 0; row < level.rows; row += 1) {
+    for (let col = 0; col < level.cols; col += 1) {
+      hits.append(createSvgElement('rect', { x: col, y: row, width: 1, height: 1, 'data-row': row, 'data-col': col, class: 'prism-hit' }));
+    }
+  }
+  element.append(defs, grid, beams, elements, cursor, hits);
 
-  const view: BoardView = { element, beams, bodies: new Map(), targets: new Map() };
+  const view: BoardView = { element, beams, cursor, bodies: new Map(), targets: new Map() };
   elements.append(...level.elements.map((boardElement) => createElement(view, boardElement)));
   return view;
+}
+
+export function isSlash(mirror: Mirror, state: PrismState): boolean {
+  return (mirror.orientation === 'slash') !== state.toggled.has(mirror.id);
+}
+
+export function isSpinLeft(prism: Prism, state: PrismState): boolean {
+  return (prism.spin === 'left') !== state.toggled.has(prism.id);
 }
 
 export function placeElements(view: BoardView, level: Level, state: PrismState): void {
@@ -247,14 +265,19 @@ export function placeElements(view: BoardView, level: Level, state: PrismState):
     if (!body || (element.type !== 'mirror' && element.type !== 'prism')) {
       continue;
     }
-    const flipped = state.toggled.has(element.id);
     if (element.type === 'mirror') {
-      const slash = (element.orientation === 'slash') !== flipped;
-      body.setAttribute('transform', slash ? '' : 'rotate(90 0.5 0.5)');
+      body.setAttribute('transform', isSlash(element, state) ? '' : 'rotate(90 0.5 0.5)');
     } else {
-      const left = (element.spin === 'left') !== flipped;
-      body.setAttribute('transform', left ? '' : 'matrix(-1 0 0 1 1 0)');
+      body.setAttribute('transform', isSpinLeft(element, state) ? '' : 'matrix(-1 0 0 1 1 0)');
     }
+  }
+}
+
+export function placeCursor(view: BoardView, position: Position | undefined, visible: boolean): void {
+  view.cursor.classList.toggle('is-hidden', !visible || position === undefined);
+  if (position) {
+    view.cursor.setAttribute('x', String(position.col + 0.03));
+    view.cursor.setAttribute('y', String(position.row + 0.03));
   }
 }
 

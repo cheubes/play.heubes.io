@@ -1,3 +1,13 @@
 {
-  "level": "Niveau {number}"
+  "level": "Niveau {number}",
+  "actions": {
+    "undo": "Annuler"
+  },
+  "announce": {
+    "move": {
+      "one": "Coup {moves}. {lit} cible sur {total} allumée.",
+      "other": "Coup {moves}. {lit} cibles sur {total} allumées."
+    },
+    "undo": "Annulé. Coup {moves}."
+  }
 }

@@ -1,3 +1,13 @@
 {
-  "level": "Level {number}"
+  "level": "Level {number}",
+  "actions": {
+    "undo": "Undo"
+  },
+  "announce": {
+    "move": {
+      "one": "Move {moves}. {lit} of {total} targets lit.",
+      "other": "Move {moves}. {lit} of {total} targets lit."
+    },
+    "undo": "Undo. Move {moves}."
+  }
 }

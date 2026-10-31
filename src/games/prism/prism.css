@@ -147,14 +147,14 @@
 .game-prism .prism-target-ring,
 .game-prism .prism-target-check-outline,
 .game-prism .prism-target-check {
-  display: none;
+  opacity: 0;
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .game-prism .is-lit :is(.prism-target-glow, .prism-target-ring, .prism-target-check-outline, .prism-target-check) {
-  display: inline;
+  opacity: 1;
 }
 
 .game-prism .prism-target-glow {
@@ -215,4 +215,19 @@
   fill: color-mix(in srgb, var(--prism-color) 35%, transparent);
   stroke: var(--prism-metal);
   stroke-width: 0.035;
+}
+
+.game-prism .prism-cursor {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+}
+
+.game-prism .prism-cursor.is-hidden {
+  display: none;
+}
+
+.game-prism .prism-hit {
+  fill: transparent;
 }
