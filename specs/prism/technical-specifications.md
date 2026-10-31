@@ -67,10 +67,12 @@ Synthèse Web Audio, sans fichier, connectée à `context.audio.output()` :
 | Bascule | Clic bref : bruit filtré passe-haut, 40ms, plus une sinusoïde de 2kHz très courte | Chaque bascule |
 | Cible allumée | Note de cloche (sinusoïdes harmoniques, décroissance de 600ms), hauteur selon la couleur de la cible | Cible qui s'allume |
 | Cible éteinte | Note brève descendante, faible volume | Cible qui s'éteint |
+| Secteur reçu | Note de cloche courte (décroissance de 200ms), très faible volume, hauteur de la primaire reçue | Primaire attendue qui arrive sur une cible sans l'allumer |
+| Secteur perdu | Note brève descendante, plus faible que "Cible éteinte" | Primaire attendue qui quitte une cible sans l'éteindre |
 | Victoire | Accord qui s'ouvre (trois notes décalées de 60ms), 900ms | Niveau résolu |
 | Annulation | Clic bref, plus grave que la bascule | Annulation |
 
-Hauteurs des cibles allumées : notes d'une gamme pentatonique, une par couleur (rouge, vert, bleu, jaune, cyan, magenta, blanc dans l'ordre croissant), pour que plusieurs cibles allumées d'affilée sonnent toujours juste ensemble.
+Hauteurs des cibles allumées : notes d'une gamme pentatonique, une par couleur (rouge, vert, bleu, jaune, cyan, magenta, blanc dans l'ordre croissant), pour que plusieurs cibles allumées d'affilée sonnent toujours juste ensemble. Un secteur reçu prend la hauteur de la cible de la même couleur que sa primaire (rouge, vert ou bleu). Une primaire non attendue par la cible ne joue aucun son : son secteur signale une erreur, une note de cloche le ferait passer pour un progrès.
 
 ## Tests
 
@@ -98,3 +100,5 @@ Aucune.
 - **2026-10-31 / Pulsation de victoire** : chaque cible grossit jusqu'à 1,15 fois sa taille puis revient, en 320ms, `ease-in-out`, dans l'ordre de lecture. Raison : "Animations" fixe l'écart entre deux cibles (80ms) mais ni la forme ni la durée de la pulsation ; la durée reprend celle de l'intensification des halos et de la victoire de Tilt.
 - **2026-10-31 / Début de la victoire** : l'animation de victoire démarre quand les faisceaux du coup gagnant sont dessinés, à la fin de la bascule (150ms) ; la sauvegarde est écrite dès le coup joué, sans attendre. Raison : les halos intensifiés sont ceux du coup gagnant, qui ne sont dessinés qu'à la fin de la bascule ; sauvegarder aussitôt garde la progression si le joueur quitte pendant l'animation.
 - **2026-10-31 / Entrée après la résolution** : une fois le niveau résolu, "Undo" est désactivé et toute entrée, y compris pendant la bascule du coup gagnant, termine les animations en cours, victoire comprise, ce qui ouvre le panneau de fin ; elle n'a pas d'autre effet. Raison : c'est la règle commune (une entrée termine les animations en cours) appliquée à la victoire, comme dans Tilt ; l'entrée elle-même n'a plus d'objet une fois le niveau résolu.
+- **2026-10-31 / Sons des cibles à l'annulation** : une annulation qui change ce que reçoit une cible joue les sons correspondants (cible ou secteur) ; recommencer un niveau n'en joue aucun. Raison : le déclencheur est la cible qui change d'état, quelle que soit sa cause, et l'annulation anime déjà ce changement ; recommencer remet le plateau sans animer les cibles.
+- **2026-10-31 / Accord de victoire** : l'accord part au début de l'animation de victoire, en même temps que la note de la dernière cible allumée. Raison : la victoire démarre quand les faisceaux du coup gagnant sont dessinés (voir "Début de la victoire"), au même moment que l'allumage de cette cible ; toutes les notes appartiennent à la même gamme pentatonique, donc elles sonnent juste ensemble.

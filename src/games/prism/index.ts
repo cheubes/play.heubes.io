@@ -9,6 +9,7 @@ import { animateBeamFlow, animateTarget, animateToggle, animateVictory, finishAn
 import { drawBeams } from './render/beams';
 import { createBoardView, fitBoard, placeCursor, placeElements, updateTargets, type BoardView } from './render/board';
 import { bindInput, firstSelection, nextSelection, type PrismInput } from './render/input';
+import { createSounds } from './render/sounds';
 
 interface Victory {
   final: PrismState;
@@ -27,10 +28,12 @@ const prism: GameDefinition = {
     const { container, locale, t, hud, signal } = context;
     const levels: Level[] = LEVELS.map(parseLevel);
     const pluralRules = new Intl.PluralRules(locale);
+    const sounds = createSounds(context.audio);
     let level: Level | undefined;
     let state: PrismState | undefined;
     let view: BoardView | undefined;
     let lit: Record<string, boolean> = {};
+    let received: Record<string, number> = {};
     // Beams of the last move, drawn once its toggle animation ends.
     let pendingBeams: BeamResult | undefined;
     let selected: Position | undefined;
@@ -50,9 +53,23 @@ const prism: GameDefinition = {
       drawBeams(currentView.beams, beams);
       updateTargets(currentView, current, beams);
       if (animateTargets) {
-        for (const [targetId, isLit] of Object.entries(beams.lit)) {
-          if (isLit !== (lit[targetId] ?? false)) {
-            animateTarget(currentView, targetId, isLit, reducedMotion);
+        for (const element of current.elements) {
+          if (element.type !== 'target') {
+            continue;
+          }
+          const isLit = beams.lit[element.id] ?? false;
+          if (isLit !== (lit[element.id] ?? false)) {
+            animateTarget(currentView, element.id, isLit, reducedMotion);
+            if (isLit) {
+              sounds.targetLit(element.color);
+            } else {
+              sounds.targetUnlit();
+            }
+          } else {
+            const before = received[element.id] ?? 0;
+            const after = beams.received[element.id] ?? 0;
+            sounds.sectorsReceived(after & ~before & element.color);
+            sounds.sectorsLost(before & ~after & element.color);
           }
         }
       }
@@ -60,6 +77,7 @@ const prism: GameDefinition = {
         animateBeamFlow(currentView);
       }
       lit = beams.lit;
+      received = beams.received;
     }
 
     function flushBeams(): void {
@@ -77,6 +95,7 @@ const prism: GameDefinition = {
       pendingBeams = undefined;
       victory = undefined;
       lit = {};
+      received = {};
       reducedMotion = context.reducedMotion();
       state = next;
       currentView.beams.classList.remove('is-solved');
@@ -136,6 +155,7 @@ const prism: GameDefinition = {
       const targets = current.elements
         .filter((element) => element.type === 'target')
         .sort((first, second) => first.position.row - second.position.row || first.position.col - second.position.col);
+      sounds.victory();
       const animation = animateVictory(currentView, targets, reducedMotion);
       if (!animation) {
         completeLevel(current, won);
@@ -162,6 +182,7 @@ const prism: GameDefinition = {
         (candidate) => candidate.position.row === position.row && candidate.position.col === position.col,
       );
       state = next;
+      sounds.toggle();
       placeElements(currentView, current, next);
       showStats(current, next);
       const beams = computeBeams(current, next);
@@ -194,6 +215,7 @@ const prism: GameDefinition = {
         return;
       }
       state = previous;
+      sounds.undo();
       placeElements(currentView, current, previous);
       showBeams(current, currentView, computeBeams(current, previous), true);
       showStats(current, previous);
