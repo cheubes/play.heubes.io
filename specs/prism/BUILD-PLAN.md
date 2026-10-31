@@ -55,7 +55,7 @@ Critère de fin : vitest run passe, le test AC-12 prend moins de 10 secondes.
 
 **Critère :** "Play" affiche le niveau 1 avec ses faisceaux, conforme à la charte ; AC-16 et AC-17 vérifiés à la main.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
