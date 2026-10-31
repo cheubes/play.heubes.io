@@ -1,15 +1,26 @@
+import { getLevelStatuses, parseSave, recordResult } from '../shell/progress';
 import type { GameDefinition } from '../shell/types';
 import { LEVELS } from './levels/levels';
 import { computeBeams } from './logic/beams';
 import { parseLevel } from './logic/level-parser';
-import { createState, restart, toggle, undo } from './logic/prism';
+import { createState, isSolved, restart, toggle, undo } from './logic/prism';
 import type { BeamResult, Level, Position, PrismState } from './logic/types';
-import { animateBeamFlow, animateTarget, animateToggle, finishAnimations } from './render/animations';
+import { animateBeamFlow, animateTarget, animateToggle, animateVictory, finishAnimations } from './render/animations';
 import { drawBeams } from './render/beams';
 import { createBoardView, fitBoard, placeCursor, placeElements, updateTargets, type BoardView } from './render/board';
 import { bindInput, firstSelection, nextSelection, type PrismInput } from './render/input';
 
+interface Victory {
+  final: PrismState;
+  best: number;
+}
+
 const prism: GameDefinition = {
+  getLevels(storage) {
+    const statuses = getLevelStatuses(LEVELS, parseSave(storage.read()));
+    return LEVELS.map((level, index) => ({ id: level.id, label: String(index + 1), status: statuses[index] ?? 'locked' }));
+  },
+
   actions: [{ id: 'undo', icon: 'undo-2', labelKey: 'actions.undo', shortcut: 'z' }],
 
   create(context) {
@@ -25,7 +36,15 @@ const prism: GameDefinition = {
     let selected: Position | undefined;
     let cursorVisible = false;
     let paused = false;
+    let victory: Victory | undefined;
     let reducedMotion = false;
+
+    function showStats(current: Level, next: PrismState): void {
+      hud.setStats([
+        { id: 'moves', label: t('stats.moves'), value: String(next.moves) },
+        { id: 'par', label: t('stats.par'), value: String(current.par) },
+      ]);
+    }
 
     function showBeams(current: Level, currentView: BoardView, beams: BeamResult, animateTargets: boolean): void {
       drawBeams(currentView.beams, beams);
@@ -48,16 +67,22 @@ const prism: GameDefinition = {
         const beams = pendingBeams;
         pendingBeams = undefined;
         showBeams(level, view, beams, true);
+        if (victory) {
+          celebrate(level, view, victory);
+        }
       }
     }
 
     function reset(current: Level, currentView: BoardView, next: PrismState): void {
       pendingBeams = undefined;
+      victory = undefined;
       lit = {};
       reducedMotion = context.reducedMotion();
       state = next;
+      currentView.beams.classList.remove('is-solved');
       placeElements(currentView, current, next);
       showBeams(current, currentView, computeBeams(current, next), false);
+      showStats(current, next);
       hud.setActionEnabled('undo', false);
     }
 
@@ -85,6 +110,45 @@ const prism: GameDefinition = {
       );
     }
 
+    function completeLevel(current: Level, { final, best }: Victory): void {
+      const isPerfect = final.moves === current.par;
+      context.complete({
+        status: isPerfect ? 'perfect' : 'completed',
+        stats: [
+          { label: t('stats.moves'), value: String(final.moves) },
+          { label: t('stats.par'), value: String(current.par) },
+          { label: t('stats.best'), value: String(best) },
+        ],
+        message: isPerfect ? t('result.perfect') : t('result.solved', { moves: final.moves, par: current.par }),
+      });
+    }
+
+    // Saved as soon as the level is solved, so that leaving during the victory animation keeps the progress.
+    function win(current: Level, final: PrismState): void {
+      hud.setActionEnabled('undo', false);
+      const save = recordResult(parseSave(context.storage.read()), current.id, final.moves);
+      context.storage.write(save);
+      victory = { final, best: save.best[current.id] ?? final.moves };
+    }
+
+    // Starts once the beams of the winning move are drawn, since the halos it intensifies are redrawn with them.
+    function celebrate(current: Level, currentView: BoardView, won: Victory): void {
+      const targets = current.elements
+        .filter((element) => element.type === 'target')
+        .sort((first, second) => first.position.row - second.position.row || first.position.col - second.position.col);
+      const animation = animateVictory(currentView, targets, reducedMotion);
+      if (!animation) {
+        completeLevel(current, won);
+        return;
+      }
+      void animation.then(() => {
+        // Restarting finishes the pulses too: the level must not complete after that.
+        if (state === won.final) {
+          completeLevel(current, won);
+        }
+      });
+    }
+
     function toggleAt(current: Level, currentView: BoardView, position: Position): void {
       if (!state) {
         return;
@@ -99,7 +163,14 @@ const prism: GameDefinition = {
       );
       state = next;
       placeElements(currentView, current, next);
+      showStats(current, next);
       const beams = computeBeams(current, next);
+      announceMove(next.moves, beams);
+      if (isSolved(current, next)) {
+        win(current, next);
+      } else {
+        hud.setActionEnabled('undo', true);
+      }
       pendingBeams = beams;
       const animation = element && animateToggle(currentView, element, before, reducedMotion);
       if (animation) {
@@ -112,8 +183,6 @@ const prism: GameDefinition = {
       } else {
         flushBeams();
       }
-      hud.setActionEnabled('undo', true);
-      announceMove(next.moves, beams);
     }
 
     function undoMove(current: Level, currentView: BoardView): void {
@@ -127,6 +196,7 @@ const prism: GameDefinition = {
       state = previous;
       placeElements(currentView, current, previous);
       showBeams(current, currentView, computeBeams(current, previous), true);
+      showStats(current, previous);
       hud.setActionEnabled('undo', previous.history.length > 0);
       context.announce(t('announce.undo', { moves: previous.moves }));
     }
@@ -137,12 +207,18 @@ const prism: GameDefinition = {
     }
 
     // The key that reveals the cursor only shows the selection: the player sees it before acting on it.
+    // Once solved, an input only finishes the victory animation, which opens the end panel.
     function handleInput(input: PrismInput): void {
       if (paused || !level || !view) {
         return;
       }
       finishAnimations(container);
       flushBeams();
+      if (victory) {
+        // Flushing the beams of the winning move may have just started the victory.
+        finishAnimations(container);
+        return;
+      }
       switch (input.type) {
         case 'tap': {
           const { row, col } = input.position;

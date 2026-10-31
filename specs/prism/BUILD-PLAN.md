@@ -94,7 +94,7 @@ Critère de fin : AC-13, AC-14 et AC-15 vérifiés dans le navigateur, desktop 
 
 **Critère :** AC-18 vérifié à la main ; la progression survit à un rechargement ; la réinitialisation fonctionne.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

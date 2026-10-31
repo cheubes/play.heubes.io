@@ -84,6 +84,10 @@
   stroke-opacity: 0.25;
 }
 
+.game-prism .prism-beams.is-solved .prism-beam-halo {
+  stroke-opacity: 0.5;
+}
+
 .game-prism .prism-beam-core {
   stroke-width: 0.08;
 }

@@ -9,6 +9,11 @@ const FLOW_DASHES = '0.35px 0.15px';
 const FLOW_PERIOD = 0.5;
 const FLOW_DURATION = 1000;
 const LIGHT_LAYERS = '.prism-target-glow, .prism-target-ring, .prism-target-check-outline, .prism-target-check';
+const VICTORY_HALO_DURATION = 320;
+const VICTORY_PULSE_GAP = 80;
+const VICTORY_PULSE_DURATION = 320;
+
+type Target = Extract<BoardElement, { type: 'target' }>;
 
 // A CSS transform-origin would also shift the body's transform attribute, which has its own center.
 function aroundCellCenter(transform: string): string {
@@ -80,6 +85,37 @@ export function animateBeamFlow(view: BoardView): void {
     // Aligned on the timeline origin, so that the dashes keep their phase when the beams are redrawn.
     flow.startTime = 0;
   }
+}
+
+// The intensified halos stay until the beams layer is reset.
+export function animateVictory(view: BoardView, targets: readonly Target[], reducedMotion: boolean): Promise<void> | undefined {
+  view.beams.classList.add('is-solved');
+  if (reducedMotion) {
+    return undefined;
+  }
+  const easing = easeOut(view.element);
+  const halos = [...view.beams.querySelectorAll('.prism-beam-halo')].map((halo) =>
+    halo.animate([{ strokeOpacity: 0.25 }, { strokeOpacity: 0.5 }], { duration: VICTORY_HALO_DURATION, easing }),
+  );
+  const pulses = targets.flatMap((target, index) => {
+    const element = view.targets.get(target.id)?.element;
+    if (!element) {
+      return [];
+    }
+    // The CSS transform replaces the group's transform attribute, which places it in its cell.
+    const cell = `translate(${target.position.col}px, ${target.position.row}px)`;
+    return [
+      element.animate(
+        [
+          { transform: `${cell} ${aroundCellCenter('scale(1)')}` },
+          { transform: `${cell} ${aroundCellCenter('scale(1.15)')}` },
+          { transform: `${cell} ${aroundCellCenter('scale(1)')}` },
+        ],
+        { delay: index * VICTORY_PULSE_GAP, duration: VICTORY_PULSE_DURATION, easing: 'ease-in-out' },
+      ),
+    ];
+  });
+  return Promise.all([...halos, ...pulses].map((animation) => animation.finished)).then(() => undefined);
 }
 
 // The beam flow never ends: finishing it would throw.
