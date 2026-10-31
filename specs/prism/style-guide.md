@@ -60,7 +60,7 @@ Bascules franches et rapides, comme un instrument qu'on règle. Le flux des fais
 
 ## Sons
 
-Sons cristallins et doux : un clic net à chaque bascule, une note de cloche quand une cible s'allume (une note par couleur, toutes dans la même gamme pentatonique), une note brève descendante quand elle s'éteint, un accord qui s'ouvre à la victoire. Détail de la synthèse dans `technical-specifications.md`.
+Sons cristallins et doux : un clic net à chaque bascule, une note de cloche quand une cible s'allume (une note par couleur, toutes dans la même gamme pentatonique), une note brève descendante quand elle s'éteint, une note plus courte et plus discrète quand elle reçoit ou perd une de ses primaires sans s'allumer ni s'éteindre, un accord qui s'ouvre à la victoire. Détail de la synthèse dans `technical-specifications.md`.
 
 ## Assets tiers
 

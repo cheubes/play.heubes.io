@@ -96,7 +96,7 @@ src/
     fr/index.astro, fr/about.astro, fr/[slug].astro
     sitemap.xml.ts
   games/
-    shell/                     hôte de jeu : contrat, cycle de vie, stockage, audio, i18n
+    shell/                     hôte de jeu : contrat, cycle de vie, stockage, audio, i18n, progression
     <slug>/
       index.ts                 point d'entrée : exporte la définition du jeu
       logic/                   logique pure, sans DOM, et ses tests (*.test.ts)
@@ -287,7 +287,7 @@ Règles :
 ## Tests
 
 - **Outil** : Vitest. Les tests sont colocalisés avec le code testé (`logic/*.test.ts`).
-- **Périmètre obligatoire** : la logique pure de chaque jeu (`logic/`), le contenu des jeux (validité des niveaux, voir `game-model.md` de chaque jeu) et les utilitaires purs de `shell/` (enveloppe de stockage, migrations).
+- **Périmètre obligatoire** : la logique pure de chaque jeu (`logic/`), le contenu des jeux (validité des niveaux, voir `game-model.md` de chaque jeu) et les utilitaires purs de `shell/` (enveloppe de stockage, migrations, progression).
 - **Traçabilité** : chaque critère d'acceptation d'une spec de jeu porte un identifiant (`AC-01`, `AC-02`...). Un critère qui porte sur la logique est couvert par au moins un test dont le nom commence par cet identifiant (`it('AC-03: a block stops on a sticky tile', ...)`). Les critères marqués "vérification manuelle" sont vérifiés dans le navigateur, en desktop et en mobile, au critère de fin de l'étape correspondante du `BUILD-PLAN.md` du jeu.
 - **Hors périmètre** : rendu, DOM, animations, tests end-to-end.
 - Les tests tournent en CI et bloquent le déploiement (voir "Hébergement et déploiement").

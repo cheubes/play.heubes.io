@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getLevelStatuses, parseSave, recordResult } from './progress';
+import { getLevelStatuses, parseSave, recordResult } from '../../shell/progress';
 
 const LEVELS = [
   { id: 'first', par: 2 },

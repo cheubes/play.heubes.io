@@ -10,7 +10,7 @@ Extraction de la logique de progression de Tilt vers `src/games/shell/` (elle se
 
 **Critère :** les tests de Tilt passent toujours ; AC-01 à AC-11 de Prism couverts par des tests ; `vitest run` passe.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -33,7 +33,7 @@ Critère de fin : vitest run passe, tests de Tilt compris.
 
 **Critère :** AC-12 passe pour les 20 niveaux, en moins de 10 secondes.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -55,7 +55,7 @@ Critère de fin : vitest run passe, le test AC-12 prend moins de 10 secondes.
 
 **Critère :** "Play" affiche le niveau 1 avec ses faisceaux, conforme à la charte ; AC-16 et AC-17 vérifiés à la main.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -76,7 +76,7 @@ vérifiés dans le navigateur, avec un niveau 8 × 8 qui utilise tous les types 
 
 **Critère :** AC-13, AC-14 et AC-15 vérifiés à la main, sur desktop et sur mobile.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -94,7 +94,7 @@ Critère de fin : AC-13, AC-14 et AC-15 vérifiés dans le navigateur, desktop 
 
 **Critère :** AC-18 vérifié à la main ; la progression survit à un rechargement ; la réinitialisation fonctionne.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -113,7 +113,7 @@ rechargement ; la réinitialisation remet le sélecteur à zéro.
 
 **Critère :** chaque son se déclenche au bon moment, respecte le réglage "Son" et se coupe en pause.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -130,7 +130,7 @@ son pendant la pause.
 
 **Critère :** tous les critères [manuel] revérifiés sur un téléphone réel.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -150,4 +150,4 @@ Critère de fin : tous les critères d'acceptation sont vérifiés.
 
 Relecture de cohérence de l'ensemble des specs (voir "Avant chaque commit" dans `CLAUDE.md`), mise à jour de "Points tranchés à l'implémentation", ajout de Prism aux crédits de "About" s'il utilise des assets tiers (aucun prévu), fusion de `game/prism` sur `dev`. Le jeu est publié avec le déploiement (étape 12 de `BUILD-PLAN.md`).
 
-**Statut :** à faire.
+**Statut :** fait.

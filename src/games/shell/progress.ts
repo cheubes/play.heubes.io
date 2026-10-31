@@ -1,12 +1,15 @@
-import type { LevelStatus } from '../../shell/types';
-import type { TiltSave } from './types';
+import type { LevelStatus } from './types';
+
+export interface ProgressSave {
+  best: Record<string, number>;
+}
 
 interface LevelSummary {
   id: string;
   par: number;
 }
 
-export function parseSave(value: unknown): TiltSave {
+export function parseSave(value: unknown): ProgressSave {
   if (typeof value !== 'object' || value === null || !('best' in value) || typeof value.best !== 'object' || value.best === null) {
     return { best: {} };
   }
@@ -19,13 +22,13 @@ export function parseSave(value: unknown): TiltSave {
   return { best };
 }
 
-export function recordResult(save: TiltSave, levelId: string, moves: number): TiltSave {
+export function recordResult(save: ProgressSave, levelId: string, moves: number): ProgressSave {
   const previous = save.best[levelId];
   const best = previous === undefined ? moves : Math.min(previous, moves);
   return { best: { ...save.best, [levelId]: best } };
 }
 
-export function getLevelStatuses(levels: readonly LevelSummary[], save: TiltSave): LevelStatus[] {
+export function getLevelStatuses(levels: readonly LevelSummary[], save: ProgressSave): LevelStatus[] {
   return levels.map((level, index) => {
     const best = save.best[level.id];
     if (best !== undefined) {

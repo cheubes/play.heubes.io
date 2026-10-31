@@ -19,7 +19,6 @@ Alternatives écartées :
 | `logic/types.ts` | Types de `game-model.md`. |
 | `logic/level-parser.ts` | `parseLevel`. |
 | `logic/tilt.ts` | `createState`, `tilt`, `undo`, `restart`, `isSolved`. |
-| `logic/progress.ts` | Statuts des niveaux et mise à jour du record à partir de `TiltSave`. |
 | `logic/solver.ts` | Solveur, pour les tests uniquement. |
 | `levels/levels.ts` | Les 20 niveaux. |
 | `render/board.ts` | Création du DOM du plateau, placement des blocs, dimensionnement. |
@@ -27,6 +26,8 @@ Alternatives écartées :
 | `render/input.ts` | Clavier et geste de glissement. |
 | `render/sounds.ts` | Synthèse des sons. |
 | `index.ts` | `GameDefinition` : relie la logique, le rendu et le contexte de l'hôte. |
+
+La progression (statuts des niveaux, record) vient de `src/games/shell/progress.ts`, partagée avec Prism.
 
 `index.ts` n'importe pas `solver.ts`, qui n'est donc pas inclus dans le module publié.
 
