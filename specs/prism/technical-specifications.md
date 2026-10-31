@@ -88,4 +88,6 @@ Aucune.
 
 ## Points tranchés à l'implémentation
 
-Aucun pour l'instant.
+- **2026-10-31 / Une cible par niveau en série 1** : avec une seule source et sans prisme, il n'y a qu'un faisceau, absorbé par la première cible qu'il atteint. Les niveaux 1 à 5 ont donc une cible unique ; leur difficulté vient du trajet (détours, croisements, miroirs utilisés des deux côtés).
+- **2026-10-31 / Nombre de sources en série 2** : sans prisme, chaque faisceau finit dans une seule cible, donc la somme des primaires attendues par les cibles ne peut dépasser le nombre de sources primaires. Les niveaux 6 à 10 ont jusqu'à quatre sources.
+- **2026-10-31 / Non-trivialité des niveaux** : vérifiée avec le solveur à la conception des niveaux, pas par AC-12. Critères : une seule solution de taille minimale ; hors niveaux de par 1, aucun ordre de cette solution dans lequel chaque coup diminue le nombre de primaires erronées sur les cibles ; chaque source alimente une cible dans la solution ; chaque miroir, prisme ou filtre est touché par un faisceau dans l'état initial ou dans la solution ; en série 3, un prisme décompose un faisceau d'au moins deux primaires, en série 4 un filtre retire au moins une primaire ; par croissant au sein de chaque série. Raison : "Progression" (`functional-specifications.md`) demande une difficulté adaptée à la place du niveau sans la mesurer ; ces critères écartent les niveaux qui se résolvent en suivant l'amélioration visible, coup par coup, et les éléments décoratifs.

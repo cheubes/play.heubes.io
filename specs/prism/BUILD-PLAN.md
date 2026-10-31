@@ -33,7 +33,7 @@ Critère de fin : vitest run passe, tests de Tilt compris.
 
 **Critère :** AC-12 passe pour les 20 niveaux, en moins de 10 secondes.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
