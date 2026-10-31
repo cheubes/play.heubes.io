@@ -130,7 +130,7 @@ son pendant la pause.
 
 **Critère :** tous les critères [manuel] revérifiés sur un téléphone réel.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -150,4 +150,4 @@ Critère de fin : tous les critères d'acceptation sont vérifiés.
 
 Relecture de cohérence de l'ensemble des specs (voir "Avant chaque commit" dans `CLAUDE.md`), mise à jour de "Points tranchés à l'implémentation", ajout de Prism aux crédits de "About" s'il utilise des assets tiers (aucun prévu), fusion de `game/prism` sur `dev`. Le jeu est publié avec le déploiement (étape 12 de `BUILD-PLAN.md`).
 
-**Statut :** à faire.
+**Statut :** fait.
