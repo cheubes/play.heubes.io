@@ -249,7 +249,7 @@ Prérequis : Tilt et Prism fusionnés.
 
 **Critère :** plus aucune trace de `sandbox` ; l'accueil n'affiche plus que Tilt et Prism ; build et tests passent.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
