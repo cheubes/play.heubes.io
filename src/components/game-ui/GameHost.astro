@@ -93,6 +93,16 @@ const t = createTranslator(locale);
     z-index: var(--z-chrome-paused);
   }
 
+  :global(html[data-game-mode='paused'] .header-game-title),
+  :global(html[data-game-mode='ended'] .header-game-title) {
+    display: block;
+  }
+
+  :global(html[data-game-mode='paused'] .language-nav),
+  :global(html[data-game-mode='ended'] .language-nav) {
+    display: none;
+  }
+
   :global(html[data-game-mode='paused'] .site-footer),
   :global(html[data-game-mode='ended'] .site-footer) {
     z-index: var(--z-chrome-paused);

@@ -13,24 +13,27 @@ const t = createTranslator(locale);
 ---
 
 <GamePanel id="end">
-  <h2 id="game-panel-end-title" class="end-title">
-    <span class="end-star" data-end-star hidden>
-      <Icon name="star" />
-      <span class="visually-hidden">{t('game.end.perfect')}</span>
-    </span>
-    {
-      hasLevels ? (
-        <>
-          <span data-end-title="level">{t('game.end.title')}</span>
-          <span data-end-title="all" hidden>
-            {t('game.end.all-complete')}
-          </span>
-        </>
-      ) : (
-        <span>{t('game.end.game-over')}</span>
-      )
-    }
-  </h2>
+  <div class="panel-heading">
+    <h2 id="game-panel-end-title" class="end-title">
+      <span class="end-star" data-end-star hidden>
+        <Icon name="star" />
+        <span class="visually-hidden">{t('game.end.perfect')}</span>
+      </span>
+      {
+        hasLevels ? (
+          <>
+            <span data-end-title="level">{t('game.end.title')}</span>
+            <span data-end-title="all" hidden>
+              {t('game.end.all-complete')}
+            </span>
+          </>
+        ) : (
+          <span>{t('game.end.game-over')}</span>
+        )
+      }
+    </h2>
+    <p class="panel-level" data-panel-level hidden></p>
+  </div>
   <p class="end-message" data-end-message hidden></p>
   <dl class="end-stats" data-end-stats></dl>
   <div class="panel-actions">

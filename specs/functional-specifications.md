@@ -42,7 +42,7 @@ Objectifs :
 - Deux langues : anglais (par défaut) et français. Toute page existe dans les deux langues, aucun contenu n'est publié dans une seule langue. Seule exception : la page 404, en anglais seulement (voir `not-found-page.md`).
 - L'anglais est servi sans préfixe d'URL, le français sous `/fr/` (voir "Structure des URLs" dans `technical-specifications.md`).
 - Pas de détection de la langue du navigateur ni de redirection automatique : la langue est celle de l'URL.
-- Le sélecteur de langue de l'en-tête mène à la même page dans l'autre langue. Il est absent de la page 404, qui n'a pas de version française.
+- Le sélecteur de langue de l'en-tête mène à la même page dans l'autre langue. Il est absent de la page 404, qui n'a pas de version française, et masqué en pause et en fin de niveau, où changer de langue ferait perdre le niveau en cours.
 - Tout texte affiché, y compris dans les jeux (HUD, panneaux, messages), passe par un dictionnaire de traductions : aucun texte en dur dans le code d'un jeu.
 - Ton : direct et chaleureux. En français, le joueur est tutoyé.
 

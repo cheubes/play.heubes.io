@@ -40,6 +40,18 @@ const { id } = Astro.props;
     font-size: var(--font-size-2xl);
   }
 
+  .game-panel :global(.panel-heading) {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .game-panel :global(.panel-level) {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-display);
+    color: var(--color-text-muted);
+  }
+
   .game-panel :global(.panel-actions) {
     display: grid;
     gap: var(--space-3);

@@ -141,6 +141,9 @@ export function initGameHost(shell: HTMLElement): void {
     setMode(panelMode);
     hudRoot.inert = true;
     area.inert = true;
+    const panelLevel = requireElement(panel, '[data-panel-level]');
+    panelLevel.textContent = hud.getLevelLabel();
+    panelLevel.hidden = panelLevel.textContent === '';
     panel.hidden = false;
     focusFirstButton(panel);
   }

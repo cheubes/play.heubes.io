@@ -43,6 +43,7 @@ const levels = definition.getLevels?.(EMPTY_STORAGE);
   description={game.tagline}
   locale={locale}
   image={{ path: `/covers/${slug}.webp`, width: 1280, height: 720, alt: t('share.cover-alt').replace('{title}', game.title) }}
+  gameTitle={game.title}
 >
   <noscript slot="head">
     <style is:inline>
