@@ -19,6 +19,8 @@ npm run build    # build the static site into dist/
 npm run preview  # serve the built site
 ```
 
+After editing `public/favicon.svg`, regenerate `favicon.ico` and `apple-touch-icon.png` with `node scripts/generate-favicons.ts` (requires `rsvg-convert`, from librsvg).
+
 ## Repository layout
 
 - `specs/`: design specifications (in French), the source of truth for every implementation decision.

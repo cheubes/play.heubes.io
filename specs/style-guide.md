@@ -207,6 +207,16 @@ Les éléments de jeu respectent les contrastes non textuels de WCAG (3:1 contre
 
 `public/og-image.png`, 1200 × 630 px, logo-texte du site sur `--color-bg`. Utilisée par l'accueil et "About".
 
+### Favicon
+
+- Motif : un "p" en `--color-accent`, dans l'esprit du "p" de Chakra Petch 700 du logo-texte (fût droit, panse rectangulaire aux angles droits chanfreinés), centré sur un carré `--color-bg` aux coins arrondis. Le tracé est vectorisé dans le fichier, sans dépendre de la police.
+- Fichiers dans `public/` :
+  - `favicon.svg` : la source, sur une grille de 32 unités ;
+  - `favicon.ico` : 16 et 32 px, pour les navigateurs qui demandent `/favicon.ico` d'eux-mêmes ;
+  - `apple-touch-icon.png` : 180 px, carré plein, sans coins arrondis ni transparence (iOS applique son propre masque).
+- `favicon.ico` et `apple-touch-icon.png` sont générés depuis `favicon.svg` par `scripts/generate-favicons.ts` (nécessite `rsvg-convert`, de librsvg), à relancer après toute modification du SVG.
+- Déclaré par `BaseLayout` sur toutes les pages. Pas de manifest : l'installation sur l'écran d'accueil est hors périmètre (voir `functional-specifications.md`).
+
 ## Iconographie
 
 Icônes Lucide (voir "Icônes" dans `technical-specifications.md`), trait de 2px, taille 24px dans les boutons, 16px dans les badges de statut. Liste initiale :
