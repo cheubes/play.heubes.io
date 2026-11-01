@@ -40,7 +40,7 @@ Icônes SVG issues de Lucide (licence ISC), copiées une à une dans `src/icons/
 
 ## Hébergement et déploiement
 
-- **GitHub Pages**, domaine personnalisé `play.heubes.io` (`public/CNAME`, enregistrement DNS `CNAME` vers `<compte>.github.io`), HTTPS forcé.
+- **GitHub Pages**, domaine personnalisé `play.heubes.io`, déclaré dans les paramètres Pages du dépôt (avec une publication par GitHub Actions, GitHub ignore tout fichier `CNAME`), enregistrement DNS `CNAME` vers `<compte>.github.io`, HTTPS forcé.
 - **GitHub Actions**, workflow unique `.github/workflows/ci.yml` :
   - sur chaque pull request et chaque push : `npm ci`, vérification des types (`astro check`), tests unitaires (`vitest run`), build (`astro build`), tests de bout en bout sur le build (`playwright test`) ;
   - sur push sur `main` uniquement, si toutes les étapes passent : déploiement du dossier `dist/` sur GitHub Pages (`actions/upload-pages-artifact`, `actions/deploy-pages`).
@@ -69,7 +69,6 @@ Les versions retenues sont la dernière version stable de chaque package au mome
 playwright.config.ts           configuration des tests de bout en bout
 e2e/                           tests de bout en bout (*.e2e.ts)
 public/
-  CNAME
   robots.txt
   og-image.png                 image de partage par défaut
   favicon.svg, favicon.ico, apple-touch-icon.png   favicon (voir "Favicon" dans style-guide.md)

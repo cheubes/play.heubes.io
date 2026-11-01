@@ -278,9 +278,10 @@ Implémente l'étape 12 du plan de construction (BUILD-PLAN.md) : déploiement.
 
 Ajoute le job de déploiement à .github/workflows/ci.yml (sur push sur main uniquement, après
 le job de vérification, voir "Hébergement et déploiement" dans
-specs/technical-specifications.md) et public/CNAME (le favicon et la page 404 sont déjà en
-place). Liste-moi les réglages à faire côté GitHub (Pages : source GitHub Actions, domaine,
-HTTPS) et côté DNS (enregistrement CNAME), que je ferai moi-même.
+specs/technical-specifications.md). Le favicon et la page 404 sont déjà en place, et le
+domaine se déclare dans les paramètres Pages, pas par un fichier CNAME. Liste-moi les
+réglages à faire côté GitHub (Pages : source GitHub Actions, domaine, HTTPS) et côté DNS
+(enregistrement CNAME), que je ferai moi-même.
 
 Critère de fin : le site est servi sur https://play.heubes.io ; un test volontairement cassé
 sur une branche bloque le workflow.
