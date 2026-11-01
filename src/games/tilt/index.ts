@@ -210,8 +210,6 @@ const tilt: GameDefinition = {
         }
       },
       destroy() {
-        // The host keeps its AudioContext across sessions: sounds left scheduled would play in the next one.
-        sounds.cancelPending();
         container.replaceChildren();
       },
     };
