@@ -317,7 +317,9 @@ Les règles de `data-model.md` ("Contraintes et règles de validation") sont vé
 - `<title>` : `<titre de la page> | play.heubes.io` (accueil : `play.heubes.io | <accroche du site>`).
 - Meta description : accroche du jeu, ou texte dédié pour l'accueil et "About" (dans `src/i18n/`).
 - `<link rel="canonical">`, `<link rel="alternate" hreflang>` pour `en`, `fr` et `x-default` (anglais).
-- Open Graph : titre, description, image (couverture du jeu, image générique du site ailleurs), URL absolues, construites à partir de `site` dans `astro.config.mjs`. Twitter Card `summary_large_image`, qui reprend les balises Open Graph.
+- Open Graph : nom du site (`og:site_name`, "play.heubes.io"), langue de la page (`og:locale`, `en_US` ou `fr_FR`, l'autre en `og:locale:alternate`), titre, description, URL et image. L'image est la couverture du jeu sur sa page, l'image générique du site ailleurs, déclarée avec son type, ses dimensions et un texte alternatif (`src/i18n/`). URL absolues, construites à partir de `site` dans `astro.config.mjs`. Twitter Card `summary_large_image`, qui reprend les balises Open Graph, plus `twitter:image:alt`.
+- Les couvertures servent d'image de partage telles quelles, en WebP : le format est accepté par les principales plateformes (Facebook, X, LinkedIn, Slack, Discord, iMessage, WhatsApp). L'image générique reste en PNG.
+- `<meta name="theme-color">` à la valeur de `--color-bg`, pour que l'interface des navigateurs mobiles se fonde dans le fond du site.
 - `sitemap.xml` généré par un endpoint Astro (`src/pages/sitemap.xml.ts`), sans dépendance. `robots.txt` statique qui le référence.
 - Page 404 : `noindex`, ni `canonical`, ni `hreflang`, ni Open Graph, absente du sitemap (voir `not-found-page.md`).
 
@@ -330,7 +332,7 @@ Les règles de `data-model.md` ("Contraintes et règles de validation") sont vé
 
 ## CSS : conventions
 
-- Les couleurs, tailles et durées viennent des tokens (`var(--color-...)`). Aucune valeur de couleur en dur hors de `tokens.css`, sauf la palette de l'aire de jeu, déclarée en custom properties à la racine de l'aire de jeu (`.game-<slug>`) et documentée dans le `style-guide.md` du jeu.
+- Les couleurs, tailles et durées viennent des tokens (`var(--color-...)`). Aucune valeur de couleur en dur hors de `tokens.css`, sauf le `theme-color` de `BaseLayout` (une balise HTML ne lit pas les custom properties, la valeur y est recopiée depuis `--color-bg`) et la palette de l'aire de jeu, déclarée en custom properties à la racine de l'aire de jeu (`.game-<slug>`) et documentée dans le `style-guide.md` du jeu.
 - Les styles d'un jeu sont préfixés par sa classe racine `.game-<slug>` et ne débordent pas de l'aire de jeu.
 - Mobile first, `min-width` dans les media queries.
 - `@media (prefers-reduced-motion: reduce)` traité dans chaque feuille qui anime.

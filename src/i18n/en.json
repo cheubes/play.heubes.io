@@ -11,6 +11,10 @@
   "link": {
     "new-tab": "opens in a new tab"
   },
+  "share": {
+    "default-image-alt": "The play.heubes.io logo",
+    "cover-alt": "Cover art for {title}"
+  },
   "home": {
     "title": "Original mini games",
     "intro": "Small games made for the web. No install, no account: pick one and play.",

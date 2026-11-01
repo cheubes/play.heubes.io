@@ -11,6 +11,10 @@
   "link": {
     "new-tab": "s'ouvre dans un nouvel onglet"
   },
+  "share": {
+    "default-image-alt": "Le logo de play.heubes.io",
+    "cover-alt": "Illustration de {title}"
+  },
   "home": {
     "title": "Mini jeux originaux",
     "intro": "Des petits jeux conçus pour le web. Rien à installer, pas de compte : choisis-en un et joue.",

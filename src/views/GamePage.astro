@@ -38,7 +38,12 @@ const EMPTY_STORAGE: GameStorage = { read: () => undefined, write: () => {} };
 const levels = definition.getLevels?.(EMPTY_STORAGE);
 ---
 
-<BaseLayout title={`${game.title} | play.heubes.io`} description={game.tagline} locale={locale} image={`/covers/${slug}.webp`}>
+<BaseLayout
+  title={`${game.title} | play.heubes.io`}
+  description={game.tagline}
+  locale={locale}
+  image={{ path: `/covers/${slug}.webp`, width: 1280, height: 720, alt: t('share.cover-alt').replace('{title}', game.title) }}
+>
   <noscript slot="head">
     <style is:inline>
       .play-action .play-button,
