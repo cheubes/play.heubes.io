@@ -318,6 +318,8 @@ const prism: GameDefinition = {
         }
       },
       destroy() {
+        // The host suspends its AudioContext on exit and resumes it in the next session: a sound cut short would end there.
+        sounds.stopAll();
         container.replaceChildren();
       },
     };
