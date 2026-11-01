@@ -1,0 +1,87 @@
+{
+  "header": {
+    "language": "Langue",
+    "skip-to-content": "Aller au contenu"
+  },
+  "footer": {
+    "license": "Licence",
+    "about": "À propos",
+    "created-by": "Créé par Christophe Heubès"
+  },
+  "link": {
+    "new-tab": "s'ouvre dans un nouvel onglet"
+  },
+  "share": {
+    "default-image-alt": "Le logo de play.heubes.io",
+    "cover-alt": "Illustration de {title}"
+  },
+  "home": {
+    "title": "Mini jeux originaux",
+    "intro": "Des petits jeux conçus pour le web. Rien à installer, pas de compte : choisis-en un et joue.",
+    "empty": "De nouveaux jeux arrivent bientôt."
+  },
+  "about": {
+    "description": "Qui fait play.heubes.io, sous quelles licences sont publiés son code et ses contenus, et les ressources tierces utilisées."
+  },
+  "not-found": {
+    "title": "Niveau introuvable",
+    "intro": "La page que tu cherches n'existe pas. Pas encore, en tout cas.",
+    "back": "Retour au catalogue"
+  },
+  "game": {
+    "play": "Jouer",
+    "retry": "Réessayer",
+    "load-error": "Le jeu n'a pas pu être chargé.",
+    "no-javascript": "Ce jeu a besoin de JavaScript.",
+    "area-description": "Utilise les touches et les gestes décrits dans la section Contrôles.",
+    "levels": "Niveaux",
+    "quit": "Quitter",
+    "level-selector": {
+      "level": "Niveau {number}",
+      "status": {
+        "locked": "verrouillé",
+        "available": "disponible",
+        "completed": "terminé",
+        "perfect": "parfait"
+      }
+    },
+    "keys": {
+      "escape": "Échap"
+    },
+    "hud": {
+      "pause": "Pause",
+      "restart": "Recommencer",
+      "sound": "Son",
+      "fullscreen": "Plein écran"
+    },
+    "pause": {
+      "title": "Pause",
+      "resume": "Reprendre",
+      "restart": "Recommencer le niveau"
+    },
+    "end": {
+      "title": "Niveau terminé",
+      "all-complete": "Tous les niveaux sont terminés !",
+      "game-over": "Partie terminée",
+      "perfect": "Parfait",
+      "next": "Niveau suivant",
+      "replay": "Rejouer",
+      "play-again": "Rejouer"
+    },
+    "reset": {
+      "button": "Réinitialiser la progression",
+      "title": "Réinitialiser ta progression dans {title} ?",
+      "warning": "C'est irréversible.",
+      "confirm": "Réinitialiser",
+      "cancel": "Annuler"
+    }
+  },
+  "genre": {
+    "puzzle": "Réflexion",
+    "platformer": "Plateforme",
+    "hack-and-slash": "Hack 'n' slash",
+    "point-and-click": "Point & click",
+    "action-adventure": "Action-aventure",
+    "real-time-strategy": "Stratégie en temps réel"
+  }
+}

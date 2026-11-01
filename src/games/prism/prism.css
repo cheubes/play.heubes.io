@@ -1,0 +1,237 @@
+.game-prism {
+  --prism-floor: #111826;
+  --prism-grid: #1e2738;
+  --prism-wall: #5a6984;
+  --prism-metal: #c9d3e3;
+  --prism-housing: #2b3648;
+  --prism-red: #ff5050;
+  --prism-green: #45f07a;
+  --prism-blue: #5b8cff;
+  --prism-yellow: #ffe45c;
+  --prism-cyan: #5cf2ff;
+  --prism-magenta: #ff5cf0;
+  --prism-white: #f5f7fa;
+
+  display: grid;
+  place-items: center;
+}
+
+.game-prism .is-red {
+  --prism-color: var(--prism-red);
+}
+
+.game-prism .is-green {
+  --prism-color: var(--prism-green);
+}
+
+.game-prism .is-blue {
+  --prism-color: var(--prism-blue);
+}
+
+.game-prism .is-yellow {
+  --prism-color: var(--prism-yellow);
+}
+
+.game-prism .is-cyan {
+  --prism-color: var(--prism-cyan);
+}
+
+.game-prism .is-magenta {
+  --prism-color: var(--prism-magenta);
+}
+
+.game-prism .is-white {
+  --prism-color: var(--prism-white);
+}
+
+.game-prism .prism-board {
+  display: block;
+  overflow: hidden;
+  background-color: var(--prism-floor);
+  border-radius: var(--radius-lg);
+}
+
+.game-prism .prism-grid-dot {
+  fill: var(--prism-grid);
+}
+
+.game-prism .prism-hatch-stripe {
+  fill: var(--prism-housing);
+}
+
+.game-prism .prism-sheen-edge {
+  stop-color: var(--prism-metal);
+}
+
+.game-prism .prism-sheen-light {
+  stop-color: var(--prism-white);
+}
+
+.game-prism .prism-sheen-shade {
+  stop-color: color-mix(in srgb, var(--prism-metal) 60%, var(--prism-housing));
+}
+
+/* Each color blends with the colors drawn before it, so that overlapping beams add up. */
+.game-prism .prism-beam {
+  mix-blend-mode: screen;
+  fill: none;
+  stroke: var(--prism-color);
+  stroke-linecap: round;
+}
+
+.game-prism .prism-beam-halo {
+  stroke-width: 0.3;
+  stroke-opacity: 0.25;
+}
+
+.game-prism .prism-beams.is-solved .prism-beam-halo {
+  stroke-opacity: 0.5;
+}
+
+.game-prism .prism-beam-core {
+  stroke-width: 0.08;
+}
+
+.game-prism .prism-wall {
+  fill: var(--prism-wall);
+}
+
+.game-prism .prism-housing {
+  fill: var(--prism-housing);
+  stroke: var(--prism-metal);
+  stroke-width: 0.03;
+}
+
+.game-prism .prism-notch {
+  fill: var(--prism-color);
+}
+
+.game-prism .prism-sector-base {
+  fill: var(--prism-floor);
+}
+
+.game-prism .prism-sector {
+  fill: var(--prism-color);
+}
+
+.game-prism .prism-sector.is-expected {
+  fill: none;
+  stroke: var(--prism-color);
+  stroke-width: 0.035;
+  stroke-linejoin: round;
+}
+
+.game-prism .prism-sector-hatch {
+  fill: url(#prism-hatch);
+}
+
+.game-prism .prism-sector-cross-outline,
+.game-prism .prism-sector-cross {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.game-prism .prism-sector-cross-outline {
+  stroke: var(--prism-housing);
+  stroke-width: 0.06;
+}
+
+.game-prism .prism-sector-cross {
+  stroke: var(--prism-white);
+  stroke-width: 0.025;
+}
+
+.game-prism .prism-target-disk {
+  fill: var(--prism-housing);
+  stroke: var(--prism-metal);
+  stroke-width: 0.02;
+}
+
+.game-prism .prism-target-glow,
+.game-prism .prism-target-ring,
+.game-prism .prism-target-check-outline,
+.game-prism .prism-target-check {
+  opacity: 0;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.game-prism .is-lit :is(.prism-target-glow, .prism-target-ring, .prism-target-check-outline, .prism-target-check) {
+  opacity: 1;
+}
+
+.game-prism .prism-target-glow {
+  stroke: var(--prism-white);
+  stroke-width: 0.14;
+  stroke-opacity: 0.3;
+}
+
+.game-prism .prism-target-ring {
+  stroke: var(--prism-white);
+  stroke-width: 0.04;
+}
+
+.game-prism .prism-target-check-outline {
+  stroke: var(--prism-housing);
+  stroke-width: 0.09;
+}
+
+.game-prism .prism-target-check {
+  stroke: var(--prism-white);
+  stroke-width: 0.04;
+}
+
+.game-prism .prism-pivot {
+  fill: color-mix(in srgb, var(--prism-housing) 35%, transparent);
+  stroke: color-mix(in srgb, var(--prism-metal) 35%, transparent);
+  stroke-width: 0.02;
+}
+
+.game-prism .prism-mirror-bar {
+  fill: url(#prism-mirror-sheen);
+}
+
+.game-prism .prism-rivet {
+  fill: var(--prism-metal);
+  stroke: var(--prism-housing);
+  stroke-width: 0.025;
+}
+
+.game-prism .prism-glass {
+  fill: color-mix(in srgb, var(--prism-white) 12%, transparent);
+  stroke: var(--prism-white);
+  stroke-width: 0.035;
+  stroke-linejoin: round;
+}
+
+.game-prism .prism-fan {
+  stroke: var(--prism-color);
+  stroke-width: 0.045;
+  stroke-linecap: round;
+}
+
+.game-prism .prism-fan-origin {
+  fill: var(--prism-white);
+}
+
+.game-prism .prism-filter-glass {
+  fill: color-mix(in srgb, var(--prism-color) 35%, transparent);
+  stroke: var(--prism-metal);
+  stroke-width: 0.035;
+}
+
+.game-prism .prism-cursor {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+}
+
+.game-prism .prism-cursor.is-hidden {
+  display: none;
+}
+
+.game-prism .prism-hit {
+  fill: transparent;
+}

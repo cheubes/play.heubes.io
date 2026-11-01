@@ -1,0 +1,87 @@
+{
+  "header": {
+    "language": "Language",
+    "skip-to-content": "Skip to content"
+  },
+  "footer": {
+    "license": "License",
+    "about": "About",
+    "created-by": "Created by Christophe Heubès"
+  },
+  "link": {
+    "new-tab": "opens in a new tab"
+  },
+  "share": {
+    "default-image-alt": "The play.heubes.io logo",
+    "cover-alt": "Cover art for {title}"
+  },
+  "home": {
+    "title": "Original mini games",
+    "intro": "Small games made for the web. No install, no account: pick one and play.",
+    "empty": "New games are on the way."
+  },
+  "about": {
+    "description": "Who makes play.heubes.io, how its code and content are licensed, and the third-party resources it uses."
+  },
+  "not-found": {
+    "title": "Level not found",
+    "intro": "The page you're looking for doesn't exist. Not yet, anyway.",
+    "back": "Back to the catalog"
+  },
+  "game": {
+    "play": "Play",
+    "retry": "Retry",
+    "load-error": "The game couldn't be loaded.",
+    "no-javascript": "This game needs JavaScript.",
+    "area-description": "Use the keys and gestures listed under Controls.",
+    "levels": "Levels",
+    "quit": "Quit",
+    "level-selector": {
+      "level": "Level {number}",
+      "status": {
+        "locked": "locked",
+        "available": "available",
+        "completed": "completed",
+        "perfect": "perfect"
+      }
+    },
+    "keys": {
+      "escape": "Esc"
+    },
+    "hud": {
+      "pause": "Pause",
+      "restart": "Restart",
+      "sound": "Sound",
+      "fullscreen": "Full screen"
+    },
+    "pause": {
+      "title": "Paused",
+      "resume": "Resume",
+      "restart": "Restart level"
+    },
+    "end": {
+      "title": "Level complete",
+      "all-complete": "All levels complete!",
+      "game-over": "Game over",
+      "perfect": "Perfect",
+      "next": "Next level",
+      "replay": "Replay",
+      "play-again": "Play again"
+    },
+    "reset": {
+      "button": "Reset progress",
+      "title": "Reset your progress in {title}?",
+      "warning": "This can't be undone.",
+      "confirm": "Reset",
+      "cancel": "Cancel"
+    }
+  },
+  "genre": {
+    "puzzle": "Puzzle",
+    "platformer": "Platformer",
+    "hack-and-slash": "Hack 'n' slash",
+    "point-and-click": "Point & click",
+    "action-adventure": "Action-adventure",
+    "real-time-strategy": "Real-time strategy"
+  }
+}

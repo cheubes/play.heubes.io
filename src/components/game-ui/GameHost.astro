@@ -1,0 +1,100 @@
+---
+import GameHud, { type HudAction } from './GameHud.astro';
+import PausePanel from './PausePanel.astro';
+import EndPanel from './EndPanel.astro';
+import ResetPanel from './ResetPanel.astro';
+import { createTranslator, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  slug: string;
+  title: string;
+  actions: HudAction[];
+  hasLevels: boolean;
+}
+
+const { locale, slug, title, actions, hasLevels } = Astro.props;
+const t = createTranslator(locale);
+---
+
+<div class="game-shell" data-game-shell data-slug={slug} data-locale={locale} hidden>
+  <GameHud locale={locale} actions={actions} />
+  <div class="game-stage">
+    <div
+      class={`game-area game-${slug}`}
+      data-game-area
+      tabindex="0"
+      role="application"
+      aria-label={title}
+      aria-describedby="game-area-description"
+    >
+    </div>
+  </div>
+  <PausePanel locale={locale} hasLevels={hasLevels} />
+  <EndPanel locale={locale} hasLevels={hasLevels} />
+</div>
+<ResetPanel locale={locale} title={title} />
+<p id="game-area-description" class="visually-hidden">{t('game.area-description')}</p>
+<div class="visually-hidden" aria-live="polite" data-game-announcer></div>
+
+<script>
+  import { initGameHost } from '../../games/shell/host';
+
+  const shell = document.querySelector<HTMLElement>('[data-game-shell]');
+  if (shell) {
+    initGameHost(shell);
+  }
+</script>
+
+<style>
+  .game-shell {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-game);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-bg);
+  }
+
+  .game-stage {
+    flex: 1;
+    min-height: 0;
+    padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  .game-area {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .game-area:focus-visible {
+    outline: none;
+  }
+
+  :global(html[data-game-mode]) {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  :global(html[data-game-mode='playing'] .site-header),
+  :global(html[data-game-mode='playing'] .site-footer) {
+    display: none;
+  }
+
+  :global(html[data-game-mode='paused'] .site-header),
+  :global(html[data-game-mode='ended'] .site-header) {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: var(--z-chrome-paused);
+  }
+
+  :global(html[data-game-mode='paused'] .site-footer),
+  :global(html[data-game-mode='ended'] .site-footer) {
+    z-index: var(--z-chrome-paused);
+  }
+</style>
