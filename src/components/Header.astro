@@ -5,21 +5,35 @@ import { createTranslator, getLocalizedPath, type Locale } from '../i18n';
 interface Props {
   locale: Locale;
   languageSelector?: boolean;
+  // Shown while a game panel is open (see GameHost.astro).
+  gameTitle?: string | undefined;
 }
 
-const { locale, languageSelector = true } = Astro.props;
+const { locale, languageSelector = true, gameTitle } = Astro.props;
 const t = createTranslator(locale);
 ---
 
 <header class="site-header">
   <a class="button button-primary skip-link" href="#main">{t('header.skip-to-content')}</a>
   <div class="container site-header-inner">
-    <a class="logo" href={getLocalizedPath(locale)}>
-      <span class="logo-play">play</span><span class="logo-domain">.heubes.io</span>
-    </a>
+    <div class="site-header-start">
+      <a class="logo" href={getLocalizedPath(locale)}>
+        <span class="logo-play">play</span><span class="logo-domain">.heubes.io</span>
+      </a>
+      {
+        gameTitle && (
+          <span class="header-game-title">
+            <span class="header-game-separator" aria-hidden="true">
+              /
+            </span>
+            {gameTitle}
+          </span>
+        )
+      }
+    </div>
     {
       languageSelector && (
-        <nav aria-label={t('header.language')}>
+        <nav class="language-nav" aria-label={t('header.language')}>
           <LanguageSelector locale={locale} />
         </nav>
       )
@@ -56,7 +70,15 @@ const t = createTranslator(locale);
     height: var(--header-height);
   }
 
+  .site-header-start {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
   .logo {
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     min-height: var(--touch-target);
@@ -72,6 +94,22 @@ const t = createTranslator(locale);
   }
 
   .logo-domain {
+    color: var(--color-text-muted);
+  }
+
+  .header-game-title {
+    display: none;
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    letter-spacing: var(--letter-spacing-display);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .header-game-separator {
+    margin-inline-end: var(--space-2);
     color: var(--color-text-muted);
   }
 </style>

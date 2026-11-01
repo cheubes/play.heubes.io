@@ -2,6 +2,7 @@ import type { GameHud } from './types';
 import { createStatElement, requireElement } from './dom';
 
 export interface HostHud extends GameHud {
+  getLevelLabel(): string;
   reset(): void;
 }
 
@@ -12,6 +13,9 @@ export function createHud(root: HTMLElement, onFocusedActionDisabled: () => void
   return {
     setLevelLabel(label) {
       levelLabel.textContent = label;
+    },
+    getLevelLabel() {
+      return levelLabel.textContent ?? '';
     },
     setStats(list) {
       stats.replaceChildren(...list.map((stat) => createStatElement(stat.label, stat.value)));

@@ -19,7 +19,7 @@ Permettre de comprendre un jeu en quelques secondes, de le lancer immédiatement
 | Pause | Réaffiché par-dessus | Visible, assombrie, figée, panneau de pause |
 | Fin de niveau | Réaffiché par-dessus | Visible, assombrie, panneau de fin |
 
-Le chrome n'est masqué que pendant le jeu effectif : dès qu'un panneau s'ouvre, l'en-tête et le pied de page réapparaissent par-dessus l'aire de jeu (voir "Couches" dans `style-guide.md`).
+Le chrome n'est masqué que pendant le jeu effectif : dès qu'un panneau s'ouvre, l'en-tête et le pied de page réapparaissent par-dessus l'aire de jeu (voir "Couches" dans `style-guide.md`). L'en-tête affiche alors le nom du jeu après le logo, sans sélecteur de langue (voir "En-tête" dans `style-guide.md`).
 
 ## Mode hors partie
 
@@ -47,7 +47,7 @@ Contenu, dans l'ordre :
 
 - **Déclencheurs** : bouton pause du HUD, `Échap` ou `P`, perte de focus de l'onglet ou de la fenêtre (pause automatique).
 - Le jeu est figé (aucune animation, aucun timer, aucune entrée traitée) et le son est coupé.
-- Le panneau "Paused" / "Pause" propose :
+- Le panneau "Paused" / "Pause" rappelle sous son titre le niveau en cours (le libellé du HUD), pour un jeu à niveaux. Il propose :
   - "Resume" / "Reprendre" (principal) ;
   - "Restart level" / "Recommencer le niveau" ;
   - "Levels" / "Niveaux" (pour un jeu à niveaux) ou "Quit" / "Quitter" (sans niveaux) : retour au mode hors partie, la progression du niveau en cours est perdue.
@@ -57,7 +57,7 @@ Contenu, dans l'ordre :
 ## Fin de niveau
 
 - Le jeu signale la fin d'un niveau avec son résultat (statut `completed` ou `perfect`, statistiques, message facultatif). La sauvegarde est mise à jour avant l'affichage du panneau.
-- Le panneau "Level complete" / "Niveau terminé" affiche les statistiques du résultat, et la mise en valeur "perfect" le cas échéant (voir "Panneaux" dans `style-guide.md`). Il propose :
+- Le panneau "Level complete" / "Niveau terminé" rappelle sous son titre le niveau joué (le libellé du HUD), puis affiche les statistiques du résultat, et la mise en valeur "perfect" le cas échéant (voir "Panneaux" dans `style-guide.md`). Il propose :
   - "Next level" / "Niveau suivant" (principal), s'il existe un niveau suivant ;
   - "Replay" / "Rejouer" ;
   - "Levels" / "Niveaux".

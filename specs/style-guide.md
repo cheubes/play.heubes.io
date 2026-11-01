@@ -96,6 +96,7 @@ En mouvement réduit : plus de translation ni de mise à l'échelle, seules les
 
 - Hauteur 56px (64px à partir de 1024px), fond `--color-bg`, bordure basse `--color-border`, collant en haut de page.
 - À gauche, le logo-texte : "play" en `--color-accent` suivi de ".heubes.io" en `--color-text-muted`, Chakra Petch 700, `lg`. Lien vers l'accueil de la langue courante.
+- En pause et en fin de niveau (voir "Modes de la page" dans `game-page.md`), le logo est suivi du nom du jeu : séparateur "/" en `--color-text-muted`, puis le titre en `--color-text`, même police que le logo, en texte simple (pas un lien). Le sélecteur de langue est alors masqué, ce qui laisse la place au titre dès 320px ; un titre trop long reste tronqué avec une ellipse.
 - À droite, le sélecteur de langue : deux boutons texte "EN" et "FR" en Chakra Petch 600 `sm`. La langue courante est en `--color-accent`, soulignée, avec `aria-current="true"` ; l'autre en `--color-text-muted`, `--color-text` au survol. Pas de drapeaux.
 - Lien d'évitement : premier élément focalisable de la page, "Skip to content" / "Aller au contenu", vers `#main`. Hors de l'écran tant qu'il n'a pas le focus ; au focus, il apparaît par-dessus l'en-tête, aligné sur la marge du conteneur, avec l'apparence d'un bouton principal. Il est dans l'en-tête, donc masqué avec lui pendant une partie.
 
@@ -160,7 +161,7 @@ Occupe toute la hauteur sous le HUD, fond `--color-bg` par défaut. Le jeu y cen
 ### Panneaux (pause, fin de niveau, confirmation)
 
 - Voile `--color-scrim` sur l'aire de jeu, panneau centré : fond `--color-surface-raised`, `--radius-lg`, largeur maximale 400px, marges internes `--space-6`.
-- Titre en Chakra Petch 700 `2xl`, statistiques sous forme de liste libellé / valeur, puis les boutons empilés sur toute la largeur (le principal en premier).
+- Titre en Chakra Petch 700 `2xl`, suivi en pause et en fin de niveau du libellé du niveau (Chakra Petch 600 `base`, `--color-text-muted`), puis statistiques sous forme de liste libellé / valeur, puis les boutons empilés sur toute la largeur (le principal en premier).
 - Apparition : fondu et mise à l'échelle de 0.96 à 1 en `--duration-base`.
 - Résultat parfait : icône étoile en `--color-highlight` au-dessus du titre, `--glow-highlight` sur le panneau, mise en valeur en `--duration-slow`.
 
