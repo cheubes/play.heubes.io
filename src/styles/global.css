@@ -180,7 +180,8 @@ a {
   transition:
     background-color var(--duration-fast) var(--ease-out),
     border-color var(--duration-fast) var(--ease-out),
-    box-shadow var(--duration-fast) var(--ease-out);
+    box-shadow var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
 }
 
 .button-primary {
@@ -207,6 +208,11 @@ a {
   background-color: transparent;
   border-color: var(--color-danger);
   color: var(--color-danger);
+}
+
+.button-danger:hover:not(:disabled) {
+  background-color: var(--color-danger);
+  color: var(--color-bg);
 }
 
 .button-icon {

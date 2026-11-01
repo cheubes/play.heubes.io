@@ -114,7 +114,7 @@ En mouvement réduit : plus de translation ni de mise à l'échelle, seules les
 | Principal | Fond `--color-accent`, texte `--color-on-accent`, Chakra Petch 600 en capitales, hauteur 48px, `--radius-md`. Survol : `--color-accent-hover` et `--glow-accent`. | Une seule action principale par écran ("Play", "Next level"). |
 | Secondaire | Fond transparent, bordure `--color-border`, texte `--color-text`. Survol : bordure `--color-accent`. | Actions alternatives ("Replay", "Levels"). |
 | Icône | Carré de 44px, icône de 24px en `--color-text-muted`. Survol : fond `--color-surface-raised`, icône `--color-text`. Nom accessible et infobulle obligatoires. | HUD. |
-| Danger | Comme le secondaire, texte et bordure en `--color-danger`. | Réinitialiser la progression. |
+| Danger | Comme le secondaire, texte et bordure en `--color-danger`. Survol : fond `--color-danger`, texte `--color-bg` (6,9:1). | Réinitialiser la progression. |
 
 Désactivé : opacité 0.4, pas de survol.
 
