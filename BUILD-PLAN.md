@@ -270,7 +270,7 @@ Prérequis : Tilt et Prism fusionnés, étape 11 faite, pour ne publier ni un c
 
 **Critère :** un push sur `main` déploie le site sur `https://play.heubes.io` en HTTPS ; une URL inconnue, avec ou sans barre oblique finale (`/xxxx`, `/fr/xxxx`), affiche la page 404, et `/about` redirige vers `/about/` ; l'aperçu de partage de l'accueil et d'une page de jeu, dans les deux langues, affiche titre, description et image dans le Sharing Debugger de Facebook et le Post Inspector de LinkedIn ; un test en échec bloque le déploiement.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
