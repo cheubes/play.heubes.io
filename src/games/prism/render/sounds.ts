@@ -32,18 +32,10 @@ export interface PrismSounds {
   sectorsLost(primaries: number): void;
   victory(): void;
   undo(): void;
-  // Stops every sound still playing or scheduled, including those already started.
-  stopAll(): void;
 }
 
 export function createSounds(audio: GameAudio): PrismSounds {
-  const active = new Set<AudioScheduledSourceNode>();
   let noise: AudioBuffer | undefined;
-
-  function track(source: AudioScheduledSourceNode): void {
-    active.add(source);
-    source.addEventListener('ended', () => active.delete(source));
-  }
 
   function noiseBuffer(audioContext: AudioContext): AudioBuffer {
     if (noise?.sampleRate !== audioContext.sampleRate) {
@@ -64,7 +56,6 @@ export function createSounds(audio: GameAudio): PrismSounds {
     envelope.gain.linearRampToValueAtTime(peak, start + 0.004);
     envelope.gain.exponentialRampToValueAtTime(0.001, start + duration);
     oscillator.connect(envelope).connect(output);
-    track(oscillator);
     oscillator.start(start);
     oscillator.stop(start + duration);
     return oscillator;
@@ -80,7 +71,6 @@ export function createSounds(audio: GameAudio): PrismSounds {
     envelope.gain.setValueAtTime(0.3, start);
     envelope.gain.exponentialRampToValueAtTime(0.001, start + 0.04);
     source.connect(filter).connect(envelope).connect(output);
-    track(source);
     source.start(start);
     source.stop(start + 0.04);
     tone(audioContext, output, pitch, start, 0.012, 0.08);
@@ -143,12 +133,6 @@ export function createSounds(audio: GameAudio): PrismSounds {
     },
     undo() {
       play((audioContext, output, start) => click(audioContext, output, start, 1500, 1000));
-    },
-    stopAll() {
-      for (const source of active) {
-        source.stop();
-      }
-      active.clear();
     },
   };
 }

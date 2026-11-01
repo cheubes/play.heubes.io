@@ -6,6 +6,8 @@ export interface AudioService {
   activate(): void;
   suspend(): void;
   setEnabled(enabled: boolean): void;
+  // Sounds the last game left playing or scheduled stay connected to the old output, and fall silent with it.
+  replaceOutput(): void;
 }
 
 export function createAudioService(enabled: boolean): AudioService {
@@ -13,12 +15,16 @@ export function createAudioService(enabled: boolean): AudioService {
   let output: GainNode | undefined;
   let soundEnabled = enabled;
 
+  function connectOutput(audioContext: AudioContext): void {
+    output = audioContext.createGain();
+    output.gain.value = soundEnabled ? 1 : 0;
+    output.connect(audioContext.destination);
+  }
+
   function create(): void {
     try {
       context = new AudioContext();
-      output = context.createGain();
-      output.gain.value = soundEnabled ? 1 : 0;
-      output.connect(context.destination);
+      connectOutput(context);
     } catch (error) {
       console.error(error);
       context = undefined;
@@ -44,6 +50,12 @@ export function createAudioService(enabled: boolean): AudioService {
       soundEnabled = enabled;
       if (output) {
         output.gain.value = enabled ? 1 : 0;
+      }
+    },
+    replaceOutput() {
+      if (context && output) {
+        output.disconnect();
+        connectOutput(context);
       }
     },
   };
