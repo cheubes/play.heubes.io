@@ -1,6 +1,6 @@
 import { fitCellSize } from '../../shell/dom';
 import { isOnTarget } from '../logic/tilt';
-import type { Block, Cell, Color, Level, Position } from '../logic/types';
+import type { Block, Cell, Color, Direction, Level, Position } from '../logic/types';
 
 export interface BoardView {
   element: HTMLElement;
@@ -79,6 +79,14 @@ export function placeBlocks(view: BoardView, level: Level, blocks: readonly Bloc
     }
     element.style.transform = blockTransform(block.position);
     element.classList.toggle('is-on-target', isOnTarget(level, block));
+  }
+}
+
+export function showAim(view: BoardView, direction: Direction | undefined): void {
+  if (direction) {
+    view.element.dataset.aim = direction;
+  } else {
+    delete view.element.dataset.aim;
   }
 }
 

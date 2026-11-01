@@ -13,7 +13,10 @@ const t = createTranslator(locale);
 ---
 
 <GamePanel id="pause">
-  <h2 id="game-panel-pause-title">{t('game.pause.title')}</h2>
+  <div class="panel-heading">
+    <h2 id="game-panel-pause-title">{t('game.pause.title')}</h2>
+    <p class="panel-level" data-panel-level hidden></p>
+  </div>
   <div class="panel-actions">
     <button type="button" class="button button-primary" data-command="resume">
       <Icon name="play" />

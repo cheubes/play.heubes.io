@@ -17,6 +17,7 @@ interface Props {
   description: string;
   locale: Locale;
   image?: ShareImage;
+  gameTitle?: string;
   // A page without a URL of its own (404): not indexed, not shared, not translated.
   noindex?: boolean;
 }
@@ -25,7 +26,7 @@ const OG_LOCALES: Record<Locale, string> = { en: 'en_US', fr: 'fr_FR' };
 // Mirrors --color-bg: a meta tag cannot read custom properties.
 const THEME_COLOR = '#0b0f17';
 
-const { title, description, locale, image, noindex = false } = Astro.props;
+const { title, description, locale, image, gameTitle, noindex = false } = Astro.props;
 const t = createTranslator(locale);
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 const shareImage = image ?? { path: '/og-image.png', width: 1200, height: 630, alt: t('share.default-image-alt') };
@@ -81,7 +82,7 @@ const alternates = [
     <slot name="head" />
   </head>
   <body>
-    <Header locale={locale} languageSelector={!noindex} />
+    <Header locale={locale} languageSelector={!noindex} gameTitle={gameTitle} />
     <main id="main">
       <slot />
     </main>

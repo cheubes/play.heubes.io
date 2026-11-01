@@ -7,7 +7,7 @@ play.heubes.io est un catalogue de mini jeux web originaux, jouables directement
 Objectifs :
 
 - proposer des parties courtes, accessibles en quelques secondes depuis le catalogue ;
-- offrir la même qualité de jeu au clavier sur desktop et au tactile sur mobile ;
+- offrir la même qualité de jeu au clavier et à la souris sur desktop, et au tactile sur mobile ;
 - permettre d'ajouter un jeu sans retoucher le socle, en suivant un modèle de spec unique (`_template/`).
 
 ## Périmètre du projet
@@ -42,7 +42,7 @@ Objectifs :
 - Deux langues : anglais (par défaut) et français. Toute page existe dans les deux langues, aucun contenu n'est publié dans une seule langue. Seule exception : la page 404, en anglais seulement (voir `not-found-page.md`).
 - L'anglais est servi sans préfixe d'URL, le français sous `/fr/` (voir "Structure des URLs" dans `technical-specifications.md`).
 - Pas de détection de la langue du navigateur ni de redirection automatique : la langue est celle de l'URL.
-- Le sélecteur de langue de l'en-tête mène à la même page dans l'autre langue. Il est absent de la page 404, qui n'a pas de version française.
+- Le sélecteur de langue de l'en-tête mène à la même page dans l'autre langue. Il est absent de la page 404, qui n'a pas de version française, et masqué en pause et en fin de niveau, où changer de langue ferait perdre le niveau en cours.
 - Tout texte affiché, y compris dans les jeux (HUD, panneaux, messages), passe par un dictionnaire de traductions : aucun texte en dur dans le code d'un jeu.
 - Ton : direct et chaleureux. En français, le joueur est tutoyé.
 
@@ -58,10 +58,10 @@ Chaque jeu suit le même cycle de vie, défini dans `game-page.md` : page du je
 
 ### Contrôles
 
-- Chaque action d'un jeu est réalisable au clavier et au tactile. Aucune action ne dépend du survol à la souris.
-- La spec fonctionnelle de chaque jeu décrit ses contrôles dans un tableau à trois colonnes (action, clavier, tactile).
+- Chaque action d'un jeu est réalisable au clavier, à la souris et au tactile. Aucune action ne dépend du survol : un jeu peut s'en servir comme retour visuel, jamais comme condition d'une action.
+- La spec fonctionnelle de chaque jeu décrit ses contrôles dans un tableau à quatre colonnes (action, clavier, souris, tactile).
 - Raccourcis communs à tous les jeux : `Échap` ou `P` met en pause, `R` recommence le niveau en cours. Un jeu ne réaffecte pas ces touches.
-- La souris est traitée comme un pointeur, au même titre que le doigt : un jeu jouable au tactile l'est à la souris.
+- La souris est un pointeur, au même titre que le doigt : par défaut, chaque contrôle tactile s'y applique tel quel (un clic pour un toucher, un glisser pour un glisser du doigt). Quand le geste tactile est malcommode à la souris, le jeu lui préfère un contrôle propre (un clic à la place d'un glisser, par exemple), et peut garder le geste tactile en plus.
 - La manette n'est pas prise en charge (voir "Hors périmètre").
 
 ### Son

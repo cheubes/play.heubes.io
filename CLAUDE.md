@@ -1,6 +1,6 @@
 # play.heubes.io
 
-Catalogue de mini jeux web originaux, jouables dans le navigateur au clavier sur desktop et au tactile sur mobile. Site statique, bilingue (anglais par défaut, français), généré avec Astro et hébergé sur GitHub Pages.
+Catalogue de mini jeux web originaux, jouables dans le navigateur au clavier et à la souris sur desktop, et au tactile sur mobile. Site statique, bilingue (anglais par défaut, français), généré avec Astro et hébergé sur GitHub Pages.
 
 ## État du projet
 
@@ -20,7 +20,7 @@ Les fichiers `BUILD-PLAN.md` décrivent l'ordre de construction et l'avancement�
 - **`game-page.md`** : gabarit commun d'une page de jeu (modes hors partie et en partie, pause, fin de niveau, sélecteur de niveaux, plein écran).
 - **`_template/`** : modèle de dossier de jeu, à copier pour spécifier un nouveau jeu. Il fixe les fichiers et les sections obligatoires.
 - **`<game-slug>/`** : un dossier par jeu, avec :
-  - `functional-specifications.md` : concept, règles, contrôles (clavier et tactile), progression, écrans, critères d'acceptation.
+  - `functional-specifications.md` : concept, règles, contrôles (clavier, souris et tactile), progression, écrans, critères d'acceptation.
   - `game-model.md` : état de jeu, contenu (niveaux et leur encodage), données persistées, contraintes de validation.
   - `technical-specifications.md` : choix de rendu, découpage logique / rendu, animations, contraintes propres au jeu, nouvelles dépendances éventuelles.
   - `style-guide.md` : direction artistique de l'aire de jeu (palette, formes, animations, sons, assets tiers).

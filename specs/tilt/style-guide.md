@@ -33,6 +33,7 @@ Custom properties déclarées sur `.game-tilt`. Contrastes mesurés sur `--tilt-
 | Bloc coloré | Carré arrondi de 84 % de la case (rayon de 18 %), dégradé léger du haut vers le bas, symbole plein `--tilt-symbol` centré (40 % de la case). |
 | Bloc neutre | Même forme, `--tilt-neutral`, hachures diagonales, sans symbole. |
 | Bloc sur sa cible | Lueur extérieure de sa couleur. |
+| Côté visé (souris) | Dégradé de `--tilt-wall-edge` à 35 % d'opacité, du bord visé du plateau vers l'intérieur sur une case, sous les blocs. Apparaît et disparaît sans transition. |
 
 Symboles par couleur : ambre = cercle, azur = triangle, rose = carré, menthe = losange.
 

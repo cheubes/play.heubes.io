@@ -43,6 +43,7 @@ const levels = definition.getLevels?.(EMPTY_STORAGE);
   description={game.tagline}
   locale={locale}
   image={{ path: `/covers/${slug}.webp`, width: 1280, height: 720, alt: t('share.cover-alt').replace('{title}', game.title) }}
+  gameTitle={game.title}
 >
   <noscript slot="head">
     <style is:inline>
@@ -127,31 +128,63 @@ const levels = definition.getLevels?.(EMPTY_STORAGE);
     font-size: var(--font-size-xl);
   }
 
-  .rules :global(table) {
+  /* Below 640px, one card per row: the column headers are only read by assistive technologies. */
+  .rules :global(table),
+  .rules :global(tbody) {
+    display: block;
     width: 100%;
     max-width: var(--measure);
-    border-collapse: collapse;
     font-size: var(--font-size-sm);
   }
 
-  .rules :global(th),
-  .rules :global(td) {
-    padding: var(--space-3) var(--space-2);
-    border-bottom: 1px solid var(--color-border);
-    text-align: start;
-    vertical-align: top;
-    overflow-wrap: break-word;
-    /* overflow-wrap does not lower a table's minimum width: only hyphenation lets long words fit at 320px. */
-    hyphens: auto;
+  .rules :global(thead) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
-  .rules :global(th) {
+  .rules :global(tbody tr) {
+    display: block;
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* A floated label with a hanging indent: a cell mixes text and keys, which a grid would split into separate items. */
+  .rules :global(td) {
+    --label-width: calc(var(--space-8) + var(--space-4));
+
+    display: block;
+    padding-inline-start: calc(var(--label-width) + var(--space-3));
+    overflow-wrap: break-word;
+  }
+
+  .rules :global(td + td) {
+    margin-top: var(--space-2);
+  }
+
+  .rules :global(td:first-child) {
+    padding-inline-start: 0;
+    font-weight: 600;
+  }
+
+  .rules :global(th),
+  .rules :global(td:not(:first-child)::before) {
     font-family: var(--font-display);
     font-weight: 600;
     font-size: var(--font-size-xs);
     letter-spacing: var(--letter-spacing-caps);
     text-transform: uppercase;
     color: var(--color-text-muted);
+  }
+
+  .rules :global(td:not(:first-child)::before) {
+    content: attr(data-label) / '';
+    float: inline-start;
+    width: var(--label-width);
+    margin-inline-start: calc(-1 * (var(--label-width) + var(--space-3)));
   }
 
   .rules :global(code) {
@@ -166,9 +199,51 @@ const levels = definition.getLevels?.(EMPTY_STORAGE);
   }
 
   @media (min-width: 640px) {
+    .rules :global(table) {
+      display: table;
+      border-collapse: collapse;
+    }
+
+    .rules :global(thead) {
+      display: table-header-group;
+      position: static;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip-path: none;
+      white-space: normal;
+    }
+
+    .rules :global(tbody) {
+      display: table-row-group;
+    }
+
+    .rules :global(tbody tr) {
+      display: table-row;
+      padding-block: 0;
+      border-bottom: 0;
+    }
+
     .rules :global(th),
     .rules :global(td) {
-      padding-inline: var(--space-4);
+      display: table-cell;
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      text-align: start;
+      vertical-align: top;
+    }
+
+    .rules :global(td + td) {
+      margin-top: 0;
+    }
+
+    .rules :global(td:first-child) {
+      padding-inline-start: var(--space-4);
+      font-weight: 400;
+    }
+
+    .rules :global(td:not(:first-child)::before) {
+      content: none;
     }
   }
 

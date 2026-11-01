@@ -10,10 +10,10 @@ Les faisceaux de lumière vont en ligne droite. Touche un miroir pour le faire p
 
 ## Contrôles
 
-| Action | Clavier | Tactile |
-|---|---|---|
-| Faire basculer un élément | `Espace` ou `Entrée` sur l'élément sélectionné | Toucher l'élément |
-| Sélectionner un élément | Flèches : sélection de l'élément orientable le plus proche dans cette direction | Sans objet |
-| Annuler le dernier coup | `Z` ou `Retour arrière` | Bouton annuler |
-| Recommencer le niveau | `R` | Bouton recommencer |
-| Pause | `Échap` ou `P` | Bouton pause |
+| Action | Clavier | Souris | Tactile |
+|---|---|---|---|
+| Faire basculer un élément | `Espace` ou `Entrée` sur l'élément sélectionné | Cliquer l'élément | Toucher l'élément |
+| Sélectionner un élément | Flèches : sélection de l'élément orientable le plus proche dans cette direction | Sans objet | Sans objet |
+| Annuler le dernier coup | `Z` ou `Retour arrière` | Bouton annuler | Bouton annuler |
+| Recommencer le niveau | `R` | Bouton recommencer | Bouton recommencer |
+| Pause | `Échap` ou `P` | Bouton pause | Bouton pause |

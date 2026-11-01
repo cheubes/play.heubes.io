@@ -28,15 +28,13 @@ Allumer toutes les cibles en même temps, chacune avec exactement sa couleur, en
 
 ## Contrôles
 
-| Action | Clavier | Tactile |
-|---|---|---|
-| Faire basculer un élément | `Espace` ou `Entrée` sur l'élément sélectionné | Toucher l'élément |
-| Sélectionner un élément | Flèches : sélection de l'élément orientable le plus proche dans cette direction | Sans objet |
-| Annuler le dernier coup | `Z` ou `Retour arrière` | Bouton "Undo" du HUD |
-| Recommencer le niveau | `R` (commun) | Bouton "Restart" du HUD (commun) |
-| Pause | `Échap` ou `P` (commun) | Bouton pause du HUD (commun) |
-
-Avec une souris, un clic fait basculer l'élément, comme au doigt.
+| Action | Clavier | Souris | Tactile |
+|---|---|---|---|
+| Faire basculer un élément | `Espace` ou `Entrée` sur l'élément sélectionné | Cliquer l'élément | Toucher l'élément |
+| Sélectionner un élément | Flèches : sélection de l'élément orientable le plus proche dans cette direction | Sans objet | Sans objet |
+| Annuler le dernier coup | `Z` ou `Retour arrière` | Bouton "Undo" du HUD | Bouton "Undo" du HUD |
+| Recommencer le niveau | `R` (commun) | Bouton "Restart" du HUD (commun) | Bouton "Restart" du HUD (commun) |
+| Pause | `Échap` ou `P` (commun) | Bouton pause du HUD (commun) | Bouton pause du HUD (commun) |
 
 ## Progression
 

@@ -96,6 +96,7 @@ En mouvement réduit : plus de translation ni de mise à l'échelle, seules les
 
 - Hauteur 56px (64px à partir de 1024px), fond `--color-bg`, bordure basse `--color-border`, collant en haut de page.
 - À gauche, le logo-texte : "play" en `--color-accent` suivi de ".heubes.io" en `--color-text-muted`, Chakra Petch 700, `lg`. Lien vers l'accueil de la langue courante.
+- En pause et en fin de niveau (voir "Modes de la page" dans `game-page.md`), le logo est suivi du nom du jeu : séparateur "/" en `--color-text-muted`, puis le titre en `--color-text`, même police que le logo, en texte simple (pas un lien). Le sélecteur de langue est alors masqué, ce qui laisse la place au titre dès 320px ; un titre trop long reste tronqué avec une ellipse.
 - À droite, le sélecteur de langue : deux boutons texte "EN" et "FR" en Chakra Petch 600 `sm`. La langue courante est en `--color-accent`, soulignée, avec `aria-current="true"` ; l'autre en `--color-text-muted`, `--color-text` au survol. Pas de drapeaux.
 - Lien d'évitement : premier élément focalisable de la page, "Skip to content" / "Aller au contenu", vers `#main`. Hors de l'écran tant qu'il n'a pas le focus ; au focus, il apparaît par-dessus l'en-tête, aligné sur la marge du conteneur, avec l'apparence d'un bouton principal. Il est dans l'en-tête, donc masqué avec lui pendant une partie.
 
@@ -138,7 +139,9 @@ Chakra Petch 600 `xs` en capitales espacées, texte `--color-text-muted`, bordur
 ### Règles et contrôles (page de jeu)
 
 - Sections des règles (`h2`) : Chakra Petch 700 `xl`, espacement `--space-5` entre sections. Texte Inter `base`, 68 caractères au plus par ligne.
-- Tableau des contrôles : largeur 100 %, 68 caractères au plus, texte `sm`. En-têtes de colonnes en Chakra Petch 600 `xs`, capitales espacées, `--color-text-muted`. Lignes séparées par une bordure 1px `--color-border`, cellules avec des marges internes de `--space-3` × `--space-2` (`--space-4` horizontalement à partir de 640px). Le texte passe à la ligne, avec césure automatique (`hyphens: auto`), sans défilement horizontal.
+- Tableau des contrôles : largeur 100 %, 68 caractères au plus, texte `sm`, sans défilement horizontal. Libellés de colonnes en Chakra Petch 600 `xs`, capitales espacées, `--color-text-muted`.
+  - Sous 640px, une fiche par action, les fiches séparées par une bordure 1px `--color-border` et des marges internes verticales de `--space-3`. L'action en Inter 600, puis une ligne par colonne, espacées de `--space-2` : le libellé de la colonne à gauche, sur une largeur fixe de `--space-8` + `--space-4`, puis le contrôle, en retrait de `--space-3`, dont les lignes suivantes restent alignées sous la première. La ligne d'en-têtes n'est pas affichée.
+  - À partir de 640px, un tableau : ligne d'en-têtes, lignes séparées par une bordure 1px `--color-border`, cellules avec des marges internes de `--space-3` × `--space-4`.
 - Touches (code en ligne du Markdown, `` `Espace` ``) : Chakra Petch 600 `sm`, fond `--color-surface-raised`, bordure 1px `--color-border`, `--radius-sm`, marges internes 2px × 6px, sans retour à la ligne à l'intérieur d'une touche.
 
 ## Interface commune des jeux
@@ -160,7 +163,7 @@ Occupe toute la hauteur sous le HUD, fond `--color-bg` par défaut. Le jeu y cen
 ### Panneaux (pause, fin de niveau, confirmation)
 
 - Voile `--color-scrim` sur l'aire de jeu, panneau centré : fond `--color-surface-raised`, `--radius-lg`, largeur maximale 400px, marges internes `--space-6`.
-- Titre en Chakra Petch 700 `2xl`, statistiques sous forme de liste libellé / valeur, puis les boutons empilés sur toute la largeur (le principal en premier).
+- Titre en Chakra Petch 700 `2xl`, suivi en pause et en fin de niveau du libellé du niveau (Chakra Petch 600 `base`, `--color-text-muted`), puis statistiques sous forme de liste libellé / valeur, puis les boutons empilés sur toute la largeur (le principal en premier).
 - Apparition : fondu et mise à l'échelle de 0.96 à 1 en `--duration-base`.
 - Résultat parfait : icône étoile en `--color-highlight` au-dessus du titre, `--glow-highlight` sur le panneau, mise en valeur en `--duration-slow`.
 
