@@ -264,11 +264,11 @@ n'affiche plus que Tilt et Prism ; astro build et vitest run passent.
 
 ## 12. Déploiement
 
-Job de déploiement GitHub Pages, domaine personnalisé, favicon (voir "Favicon" dans `style-guide.md` : fait). Voir "Hébergement et déploiement" dans `technical-specifications.md`. La fusion de `dev` sur `main` publie le site.
+Job de déploiement GitHub Pages, domaine personnalisé, page 404 (voir `not-found-page.md`) et favicon (voir "Favicon" dans `style-guide.md`), tous deux faits. Voir "Hébergement et déploiement" dans `technical-specifications.md`. La fusion de `dev` sur `main` publie le site.
 
 Prérequis : Tilt et Prism fusionnés, étape 11 faite, pour ne publier ni un catalogue vide ni le jeu de test.
 
-**Critère :** un push sur `main` déploie le site sur `https://play.heubes.io` en HTTPS ; un test en échec bloque le déploiement.
+**Critère :** un push sur `main` déploie le site sur `https://play.heubes.io` en HTTPS ; une URL inconnue, avec ou sans barre oblique finale (`/xxxx`, `/fr/xxxx`), affiche la page 404, et `/about` redirige vers `/about/` ; un test en échec bloque le déploiement.
 
 **Statut :** à faire.
 
@@ -278,9 +278,9 @@ Implémente l'étape 12 du plan de construction (BUILD-PLAN.md) : déploiement.
 
 Ajoute le job de déploiement à .github/workflows/ci.yml (sur push sur main uniquement, après
 le job de vérification, voir "Hébergement et déploiement" dans
-specs/technical-specifications.md) et public/CNAME (le favicon est déjà en place). Liste-moi
-les réglages à faire côté GitHub (Pages : source GitHub Actions, domaine, HTTPS) et côté DNS
-(enregistrement CNAME), que je ferai moi-même.
+specs/technical-specifications.md) et public/CNAME (le favicon et la page 404 sont déjà en
+place). Liste-moi les réglages à faire côté GitHub (Pages : source GitHub Actions, domaine,
+HTTPS) et côté DNS (enregistrement CNAME), que je ferai moi-même.
 
 Critère de fin : le site est servi sur https://play.heubes.io ; un test volontairement cassé
 sur une branche bloque le workflow.

@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { createTranslator, getLocalizedPath } from '../i18n';
+
+// GitHub Pages serves this page for every unknown URL, whatever its language: it is published in English only.
+const t = createTranslator('en');
+
+// The extra levels only show from 640px, so that the row fits on one line at 320px.
+const LEVELS = [
+  { number: 402, status: 'completed', extra: true },
+  { number: 403, status: 'completed', extra: false },
+  { number: 404, status: 'missing', extra: false },
+  { number: 405, status: 'locked', extra: false },
+  { number: 406, status: 'locked', extra: true },
+] as const;
+---
+
+<BaseLayout title={`${t('not-found.title')} | play.heubes.io`} description={t('not-found.intro')} locale="en" noindex>
+  <div class="container not-found">
+    <ol class="level-row" role="list" aria-hidden="true">
+      {
+        LEVELS.map((level) => (
+          <li class:list={['level', { 'is-extra': level.extra }]} data-status={level.status}>
+            {level.status === 'locked' ? <Icon name="lock" /> : level.number}
+            {level.status === 'completed' && (
+              <span class="level-corner level-check">
+                <Icon name="check" size={16} />
+              </span>
+            )}
+            {level.status === 'missing' && (
+              <span class="level-corner">
+                <Icon name="lock" size={16} />
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+    <h1>{t('not-found.title')}</h1>
+    <p>{t('not-found.intro')}</p>
+    <a class="button button-primary" href={getLocalizedPath('en')}>
+      <Icon name="layout-grid" />
+      {t('not-found.back')}
+    </a>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-5);
+    padding-block: var(--space-8);
+    text-align: center;
+  }
+
+  .level-row {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  .level {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    background-color: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Three digits are wider than the selector's numbers: lowered, they clear the corner badge. */
+  .level:not([data-status='locked']) {
+    padding-top: var(--space-2);
+  }
+
+  .level[data-status='locked'],
+  .level[data-status='missing'] {
+    background-color: var(--color-surface);
+    border-color: transparent;
+    color: var(--color-text-muted);
+  }
+
+  .level[data-status='missing'] {
+    box-shadow: var(--glow-accent);
+  }
+
+  .level.is-extra {
+    display: none;
+  }
+
+  .level-corner {
+    position: absolute;
+    top: var(--space-1);
+    right: var(--space-1);
+  }
+
+  .level-check {
+    color: var(--color-success);
+  }
+
+  @media (min-width: 640px) {
+    .level {
+      width: 64px;
+      height: 64px;
+    }
+
+    .level.is-extra {
+      display: grid;
+    }
+  }
+</style>
