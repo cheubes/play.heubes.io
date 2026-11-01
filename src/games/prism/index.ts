@@ -1,4 +1,4 @@
-import { getLevelStatuses, parseSave, recordResult } from '../shell/progress';
+import { getLevelEntries, getLevelResult, getMoveStats, parseSave, saveResult } from '../shell/progress';
 import type { GameDefinition } from '../shell/types';
 import { LEVELS } from './levels/levels';
 import { computeBeams } from './logic/beams';
@@ -18,8 +18,7 @@ interface Victory {
 
 const prism: GameDefinition = {
   getLevels(storage) {
-    const statuses = getLevelStatuses(LEVELS, parseSave(storage.read()));
-    return LEVELS.map((level, index) => ({ id: level.id, label: String(index + 1), status: statuses[index] ?? 'locked' }));
+    return getLevelEntries(LEVELS, parseSave(storage.read()));
   },
 
   actions: [{ id: 'undo', icon: 'undo-2', labelKey: 'actions.undo', shortcut: 'z' }],
@@ -43,10 +42,7 @@ const prism: GameDefinition = {
     let reducedMotion = false;
 
     function showStats(current: Level, next: PrismState): void {
-      hud.setStats([
-        { id: 'moves', label: t('stats.moves'), value: String(next.moves) },
-        { id: 'par', label: t('stats.par'), value: String(current.par) },
-      ]);
+      hud.setStats(getMoveStats(t, next.moves, current.par));
     }
 
     function showBeams(current: Level, currentView: BoardView, beams: BeamResult, animateTargets: boolean): void {
@@ -130,24 +126,13 @@ const prism: GameDefinition = {
     }
 
     function completeLevel(current: Level, { final, best }: Victory): void {
-      const isPerfect = final.moves === current.par;
-      context.complete({
-        status: isPerfect ? 'perfect' : 'completed',
-        stats: [
-          { label: t('stats.moves'), value: String(final.moves) },
-          { label: t('stats.par'), value: String(current.par) },
-          { label: t('stats.best'), value: String(best) },
-        ],
-        message: isPerfect ? t('result.perfect') : t('result.solved', { moves: final.moves, par: current.par }),
-      });
+      context.complete(getLevelResult(t, final.moves, current.par, best));
     }
 
     // Saved as soon as the level is solved, so that leaving during the victory animation keeps the progress.
     function win(current: Level, final: PrismState): void {
       hud.setActionEnabled('undo', false);
-      const save = recordResult(parseSave(context.storage.read()), current.id, final.moves);
-      context.storage.write(save);
-      victory = { final, best: save.best[current.id] ?? final.moves };
+      victory = { final, best: saveResult(context.storage, current.id, final.moves) };
     }
 
     // Starts once the beams of the winning move are drawn, since the halos it intensifies are redrawn with them.

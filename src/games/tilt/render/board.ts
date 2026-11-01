@@ -1,3 +1,4 @@
+import { fitCellSize } from '../../shell/dom';
 import { isOnTarget } from '../logic/tilt';
 import type { Block, Cell, Color, Level, Position } from '../logic/types';
 
@@ -82,11 +83,5 @@ export function placeBlocks(view: BoardView, level: Level, blocks: readonly Bloc
 }
 
 export function fitBoard(container: HTMLElement, view: BoardView, level: Level): void {
-  const margin = parseFloat(getComputedStyle(container).getPropertyValue('--space-4'));
-  const cellSize = Math.min(
-    MAX_CELL_SIZE,
-    Math.floor((container.clientWidth - 2 * margin) / level.cols),
-    Math.floor((container.clientHeight - 2 * margin) / level.rows),
-  );
-  view.element.style.setProperty('--cell', `${Math.max(cellSize, 0)}px`);
+  view.element.style.setProperty('--cell', `${fitCellSize(container, level.cols, level.rows, MAX_CELL_SIZE)}px`);
 }

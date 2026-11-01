@@ -1,3 +1,4 @@
+import { fitCellSize } from '../../shell/dom';
 import type { BeamResult, BoardElement, ColorName, Direction, Level, Position, PrismState } from '../logic/types';
 
 export interface BoardView {
@@ -307,15 +308,7 @@ export function updateTargets(view: BoardView, level: Level, beams: BeamResult):
 }
 
 export function fitBoard(container: HTMLElement, view: BoardView, level: Level): void {
-  const margin = parseFloat(getComputedStyle(container).getPropertyValue('--space-4'));
-  const cellSize = Math.max(
-    0,
-    Math.min(
-      MAX_CELL_SIZE,
-      Math.floor((container.clientWidth - 2 * margin) / level.cols),
-      Math.floor((container.clientHeight - 2 * margin) / level.rows),
-    ),
-  );
+  const cellSize = fitCellSize(container, level.cols, level.rows, MAX_CELL_SIZE);
   view.element.setAttribute('width', String(level.cols * cellSize));
   view.element.setAttribute('height', String(level.rows * cellSize));
 }

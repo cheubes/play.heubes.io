@@ -47,3 +47,15 @@ export function trapFocus(container: HTMLElement): void {
     }
   });
 }
+
+export function fitCellSize(container: HTMLElement, cols: number, rows: number, maxCellSize: number): number {
+  const margin = parseFloat(getComputedStyle(container).getPropertyValue('--space-4'));
+  return Math.max(
+    0,
+    Math.min(
+      maxCellSize,
+      Math.floor((container.clientWidth - 2 * margin) / cols),
+      Math.floor((container.clientHeight - 2 * margin) / rows),
+    ),
+  );
+}
