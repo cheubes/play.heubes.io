@@ -36,7 +36,7 @@ Alternatives écartées :
 | `render/sounds.ts` | Synthèse des sons. |
 | `index.ts` | `GameDefinition`. |
 
-La progression (statuts des niveaux, record) vient de `src/games/shell/progress.ts`, partagée avec Tilt.
+La progression (statuts des niveaux, record, stats du HUD, panneau de fin) vient de `src/games/shell/progress.ts` et la taille de case de `fitCellSize` (`src/games/shell/dom.ts`), partagées avec Tilt (voir "Structure des fichiers" dans `technical-specifications.md`).
 
 ## Contrôles
 

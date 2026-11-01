@@ -27,7 +27,7 @@ Alternatives écartées :
 | `render/sounds.ts` | Synthèse des sons. |
 | `index.ts` | `GameDefinition` : relie la logique, le rendu et le contexte de l'hôte. |
 
-La progression (statuts des niveaux, record) vient de `src/games/shell/progress.ts`, partagée avec Prism.
+La progression (statuts des niveaux, record, stats du HUD, panneau de fin) vient de `src/games/shell/progress.ts` et la taille de case de `fitCellSize` (`src/games/shell/dom.ts`), partagées avec Prism (voir "Structure des fichiers" dans `technical-specifications.md`).
 
 `index.ts` n'importe pas `solver.ts`, qui n'est donc pas inclus dans le module publié.
 

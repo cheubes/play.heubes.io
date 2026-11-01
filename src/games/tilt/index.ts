@@ -1,5 +1,5 @@
 import type { GameDefinition } from '../shell/types';
-import { getLevelStatuses, parseSave, recordResult } from '../shell/progress';
+import { getLevelEntries, getLevelResult, getMoveStats, parseSave, saveResult } from '../shell/progress';
 import { LEVELS } from './levels/levels';
 import { parseLevel } from './logic/level-parser';
 import { createState, isOnTarget, isSolved, restart, tilt as tiltBoard, undo } from './logic/tilt';
@@ -11,8 +11,7 @@ import { createSounds } from './render/sounds';
 
 const tilt: GameDefinition = {
   getLevels(storage) {
-    const statuses = getLevelStatuses(LEVELS, parseSave(storage.read()));
-    return LEVELS.map((level, index) => ({ id: level.id, label: String(index + 1), status: statuses[index] ?? 'locked' }));
+    return getLevelEntries(LEVELS, parseSave(storage.read()));
   },
 
   actions: [{ id: 'undo', icon: 'undo-2', labelKey: 'actions.undo', shortcut: 'z' }],
@@ -30,10 +29,7 @@ const tilt: GameDefinition = {
     let reducedMotion = false;
 
     function showStats(current: Level, next: TiltState): void {
-      hud.setStats([
-        { id: 'moves', label: t('stats.moves'), value: String(next.moves) },
-        { id: 'par', label: t('stats.par'), value: String(current.par) },
-      ]);
+      hud.setStats(getMoveStats(t, next.moves, current.par));
     }
 
     function load(next: Level): void {
@@ -65,25 +61,14 @@ const tilt: GameDefinition = {
     }
 
     function completeLevel(current: Level, final: TiltState, best: number): void {
-      const isPerfect = final.moves === current.par;
-      context.complete({
-        status: isPerfect ? 'perfect' : 'completed',
-        stats: [
-          { label: t('stats.moves'), value: String(final.moves) },
-          { label: t('stats.par'), value: String(current.par) },
-          { label: t('stats.best'), value: String(best) },
-        ],
-        message: isPerfect ? t('result.perfect') : t('result.solved', { moves: final.moves, par: current.par }),
-      });
+      context.complete(getLevelResult(t, final.moves, current.par, best));
     }
 
     // Saved as soon as the level is solved, so that leaving during the victory animation keeps the progress.
     function win(current: Level, currentView: BoardView, final: TiltState): void {
       solved = true;
       hud.setActionEnabled('undo', false);
-      const save = recordResult(parseSave(context.storage.read()), current.id, final.moves);
-      context.storage.write(save);
-      const best = save.best[current.id] ?? final.moves;
+      const best = saveResult(context.storage, current.id, final.moves);
       sounds.victory(runningAnimationsEnd(currentView));
       if (reducedMotion) {
         completeLevel(current, final, best);

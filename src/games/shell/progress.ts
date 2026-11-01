@@ -1,4 +1,5 @@
-import type { LevelStatus } from './types';
+import type { Translate } from './i18n';
+import type { GameStorage, HudStat, LevelEntry, LevelResult, LevelStatus } from './types';
 
 export interface ProgressSave {
   best: Record<string, number>;
@@ -37,4 +38,37 @@ export function getLevelStatuses(levels: readonly LevelSummary[], save: Progress
     const previous = levels[index - 1];
     return previous === undefined || save.best[previous.id] !== undefined ? 'available' : 'locked';
   });
+}
+
+export function getLevelEntries(levels: readonly LevelSummary[], save: ProgressSave): LevelEntry[] {
+  const statuses = getLevelStatuses(levels, save);
+  return levels.map((level, index) => ({ id: level.id, label: String(index + 1), status: statuses[index] ?? 'locked' }));
+}
+
+// Returns the best result of the level, this one included.
+export function saveResult(storage: GameStorage, levelId: string, moves: number): number {
+  const save = recordResult(parseSave(storage.read()), levelId, moves);
+  storage.write(save);
+  return save.best[levelId] ?? moves;
+}
+
+// The texts come from the game's dictionary, under the stats.* and result.* keys.
+export function getMoveStats(t: Translate, moves: number, par: number): HudStat[] {
+  return [
+    { id: 'moves', label: t('stats.moves'), value: String(moves) },
+    { id: 'par', label: t('stats.par'), value: String(par) },
+  ];
+}
+
+export function getLevelResult(t: Translate, moves: number, par: number, best: number): LevelResult {
+  const isPerfect = moves === par;
+  return {
+    status: isPerfect ? 'perfect' : 'completed',
+    stats: [
+      { label: t('stats.moves'), value: String(moves) },
+      { label: t('stats.par'), value: String(par) },
+      { label: t('stats.best'), value: String(best) },
+    ],
+    message: isPerfect ? t('result.perfect') : t('result.solved', { moves, par }),
+  };
 }

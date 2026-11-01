@@ -99,7 +99,7 @@ src/
     fr/index.astro, fr/about.astro, fr/[slug].astro
     sitemap.xml.ts
   games/
-    shell/                     hôte de jeu : contrat, cycle de vie, stockage, audio, i18n, progression
+    shell/                     hôte de jeu : contrat, cycle de vie, stockage, audio, i18n, utilitaires communs
     <slug>/
       index.ts                 point d'entrée : exporte la définition du jeu
       logic/                   logique pure, sans DOM, et ses tests (*.test.ts)
@@ -113,7 +113,10 @@ scripts/                       scripts de développement (hors build)
 
 Les pages de `src/pages/` sont de simples points d'entrée qui passent la langue aux vues de `src/views/`, pour ne pas dupliquer le markup entre les deux langues.
 
-Un utilitaire n'entre dans `src/games/shell/` que lorsqu'au moins deux jeux en ont besoin. D'ici là, il reste dans le dossier du jeu.
+Un utilitaire n'entre dans `src/games/shell/` que lorsqu'au moins deux jeux en ont besoin. D'ici là, il reste dans le dossier du jeu. Utilitaires communs actuels :
+
+- `progress.ts` : progression à coups et par, pour un jeu à niveaux (statuts des niveaux et entrées du sélecteur, record enregistré à la résolution, stats du HUD, contenu du panneau de fin). Les textes restent dans le dictionnaire du jeu, qui garde sa formulation, sous des clés fixes : `stats.moves`, `stats.par`, `stats.best`, `result.perfect` et `result.solved` (paramètres `{moves}` et `{par}`).
+- `dom.ts` : `fitCellSize`, la plus grande taille de case entière qui fait tenir un plateau de cases carrées dans l'aire de jeu avec une marge de `--space-4`, sous un plafond propre au jeu. Le jeu l'applique à son rendu.
 
 ### Schéma des content collections (indicatif)
 
