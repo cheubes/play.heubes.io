@@ -10,10 +10,10 @@ Light beams travel in straight lines. Tap a mirror to turn it, tap a prism to fl
 
 ## Controls
 
-| Action | Keyboard | Touch |
-|---|---|---|
-| Turn or flip an element | `Space` or `Enter` on the selected element | Tap the element |
-| Select an element | Arrow keys: selects the nearest turnable element in that direction | Not applicable |
-| Undo the last move | `Z` or `Backspace` | Undo button |
-| Restart the level | `R` | Restart button |
-| Pause | `Esc` or `P` | Pause button |
+| Action | Keyboard | Mouse | Touch |
+|---|---|---|---|
+| Turn or flip an element | `Space` or `Enter` on the selected element | Click the element | Tap the element |
+| Select an element | Arrow keys: selects the nearest turnable element in that direction | Not applicable | Not applicable |
+| Undo the last move | `Z` or `Backspace` | Undo button | Undo button |
+| Restart the level | `R` | Restart button | Restart button |
+| Pause | `Esc` or `P` | Pause button | Pause button |

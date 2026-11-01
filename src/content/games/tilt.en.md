@@ -10,9 +10,9 @@ Tilt the board to slide all the blocks at once. Blocks slide until they hit a wa
 
 ## Controls
 
-| Action | Keyboard | Touch |
-|---|---|---|
-| Tilt the board | Arrow keys | Swipe across the play area in the chosen direction |
-| Undo the last move | `Z` or `Backspace` | Undo button |
-| Restart the level | `R` | Restart button |
-| Pause | `Esc` or `P` | Pause button |
+| Action | Keyboard | Mouse | Touch |
+|---|---|---|---|
+| Tilt the board | Arrow keys | Click the side of the board to tilt toward | Swipe across the play area in the chosen direction |
+| Undo the last move | `Z` or `Backspace` | Undo button | Undo button |
+| Restart the level | `R` | Restart button | Restart button |
+| Pause | `Esc` or `P` | Pause button | Pause button |

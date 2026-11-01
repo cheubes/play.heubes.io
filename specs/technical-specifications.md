@@ -275,7 +275,7 @@ Règles :
 
 ### Contrôles
 
-- Pointeur : Pointer Events uniquement (pas d'écouteurs `mouse*` ou `touch*` séparés). `touch-action: none` sur l'aire de jeu pendant la partie.
+- Pointeur : Pointer Events uniquement (pas d'écouteurs `mouse*` ou `touch*` séparés). `touch-action: none` sur l'aire de jeu pendant la partie. Un contrôle propre à la souris se distingue par `pointerType`.
 - Cibles tactiles : au moins 44 × 44 px CSS pour les boutons de l'interface ; au moins 32 × 32 px pour les éléments touchables d'une grille de jeu, qui ne peut pas toujours tenir à 44px sur un téléphone en paysage (le minimum WCAG 2.2 AA est de 24px).
 - Une entrée reçue pendant une animation la termine immédiatement, puis est traitée : le jeu ne perd ni ne met en attente une entrée.
 
