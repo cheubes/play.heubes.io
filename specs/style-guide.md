@@ -139,7 +139,9 @@ Chakra Petch 600 `xs` en capitales espacées, texte `--color-text-muted`, bordur
 ### Règles et contrôles (page de jeu)
 
 - Sections des règles (`h2`) : Chakra Petch 700 `xl`, espacement `--space-5` entre sections. Texte Inter `base`, 68 caractères au plus par ligne.
-- Tableau des contrôles : largeur 100 %, 68 caractères au plus, texte `sm`. En-têtes de colonnes en Chakra Petch 600 `xs`, capitales espacées, `--color-text-muted`. Lignes séparées par une bordure 1px `--color-border`, cellules avec des marges internes de `--space-3` × `--space-2` (`--space-4` horizontalement à partir de 640px). Le texte passe à la ligne, avec césure automatique (`hyphens: auto`), sans défilement horizontal.
+- Tableau des contrôles : largeur 100 %, 68 caractères au plus, texte `sm`, sans défilement horizontal. Libellés de colonnes en Chakra Petch 600 `xs`, capitales espacées, `--color-text-muted`.
+  - Sous 640px, une fiche par action, les fiches séparées par une bordure 1px `--color-border` et des marges internes verticales de `--space-3`. L'action en Inter 600, puis une ligne par colonne, espacées de `--space-2` : le libellé de la colonne à gauche, sur une largeur fixe de `--space-8` + `--space-4`, puis le contrôle, en retrait de `--space-3`, dont les lignes suivantes restent alignées sous la première. La ligne d'en-têtes n'est pas affichée.
+  - À partir de 640px, un tableau : ligne d'en-têtes, lignes séparées par une bordure 1px `--color-border`, cellules avec des marges internes de `--space-3` × `--space-4`.
 - Touches (code en ligne du Markdown, `` `Espace` ``) : Chakra Petch 600 `sm`, fond `--color-surface-raised`, bordure 1px `--color-border`, `--radius-sm`, marges internes 2px × 6px, sans retour à la ligne à l'intérieur d'une touche.
 
 ## Interface commune des jeux

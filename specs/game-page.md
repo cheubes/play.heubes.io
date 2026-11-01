@@ -87,5 +87,5 @@ Contenu, dans l'ordre :
 ## Accessibilité
 
 - Voir "Accessibilité" dans `technical-specifications.md` pour la gestion du focus et les annonces.
-- Le tableau des contrôles est un vrai tableau HTML, avec des en-têtes de colonnes.
+- Le tableau des contrôles est un vrai tableau HTML, avec des en-têtes de colonnes. Ses éléments portent leurs rôles ARIA explicites (`table`, `row`, `cell`...), qui lui gardent sa sémantique de tableau quand il s'affiche en fiches sur mobile (voir "Règles et contrôles" dans `style-guide.md`) ; les libellés de colonnes répétés dans chaque fiche ne sont pas lus par les lecteurs d'écran.
 - Les boutons du HUD ont un nom accessible et une infobulle native (attribut `title`) indiquant leur raccourci clavier, doublée de `aria-keyshortcuts`.

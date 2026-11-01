@@ -53,7 +53,7 @@ Versions exactes dans `package.json` (pas de `^` ni de `~`), `package-lock.json`
 | Package | Type | Rôle |
 |---|---|---|
 | `astro` | dépendance | Génération du site. |
-| `@astrojs/markdown-satteri` | dépendance | Moteur Markdown par défaut d'Astro, déjà installé par `astro` : importé dans `astro.config.mjs` pour y brancher un plugin (liens externes en nouvel onglet, voir "Navigation" dans `functional-specifications.md`). Même version que celle requise par `astro`. |
+| `@astrojs/markdown-satteri` | dépendance | Moteur Markdown par défaut d'Astro, déjà installé par `astro` : importé dans `astro.config.mjs` pour y brancher des plugins : liens externes en nouvel onglet (voir "Navigation" dans `functional-specifications.md`), libellés de colonnes et rôles ARIA des tableaux (voir "Accessibilité" dans `game-page.md`). Même version que celle requise par `astro`. |
 | `typescript` | dev | Typage. |
 | `@astrojs/check` | dev | Vérification des types des fichiers `.astro` et `.ts`. |
 | `vitest` | dev | Tests unitaires (voir "Tests"). |
