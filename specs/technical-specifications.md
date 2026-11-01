@@ -57,6 +57,7 @@ Versions exactes dans `package.json` (pas de `^` ni de `~`), `package-lock.json`
 | `typescript` | dev | Typage. |
 | `@astrojs/check` | dev | Vérification des types des fichiers `.astro` et `.ts`. |
 | `vitest` | dev | Tests unitaires (voir "Tests"). |
+| `@types/node` | dev | Types de Node pour les scripts de `scripts/`, vérifiés par `astro check`. Version majeure alignée sur la version minimale de Node du projet (22, imposée par `astro`), pour ne typer aucune API absente de ce runtime. |
 
 Les versions retenues sont la dernière version stable de chaque package au moment de l'étape 1 de `BUILD-PLAN.md`, sous réserve de compatibilité entre elles : TypeScript reste en 6.x tant que `@astrojs/check` n'accepte pas la 7 (pair `typescript ^5 || ^6`). Toute autre dépendance est discutée avant ajout et documentée ici (dépendance du site) ou dans le `technical-specifications.md` du jeu (dépendance propre à un jeu).
 
@@ -68,6 +69,7 @@ public/
   CNAME
   robots.txt
   og-image.png                 image de partage par défaut
+  favicon.svg, favicon.ico, apple-touch-icon.png   favicon (voir "Favicon" dans style-guide.md)
   covers/<slug>.webp
   fonts/<family>/*.woff2, OFL.txt
 src/
@@ -105,6 +107,7 @@ src/
       i18n/en.json, fr.json    textes du jeu
       <slug>.css               styles de l'aire de jeu
 scripts/                       scripts de développement (hors build)
+  generate-favicons.ts         favicon.ico et apple-touch-icon.png, générés depuis favicon.svg
 ```
 
 Les pages de `src/pages/` sont de simples points d'entrée qui passent la langue aux vues de `src/views/`, pour ne pas dupliquer le markup entre les deux langues.
