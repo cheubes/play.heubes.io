@@ -282,6 +282,7 @@ export function initGameHost(shell: HTMLElement): void {
     session.instance.destroy();
     session.controller.abort();
     session = undefined;
+    audio.replaceOutput();
     audio.suspend();
     area.replaceChildren();
     hud.reset();

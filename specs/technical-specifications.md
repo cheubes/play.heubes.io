@@ -234,7 +234,7 @@ export interface GameStorage {
 
 export interface GameAudio {
   context(): AudioContext | undefined; // undefined tant que le joueur n'a pas interagi
-  output(): AudioNode | undefined;     // nœud de sortie, coupé par l'hôte selon le réglage Son
+  output(): AudioNode | undefined;     // nœud de sortie de la partie, coupé par l'hôte selon le réglage Son
 }
 
 export interface GameInstance {
@@ -282,7 +282,8 @@ Règles :
 ### Son
 
 - Les sons sont synthétisés avec Web Audio ou chargés depuis des fichiers (`.mp3`, pour la compatibilité Safari) placés dans `src/games/<slug>/sounds/`.
-- Tout son est connecté à `context.audio.output()`. Un jeu ne crée pas son propre `AudioContext`.
+- Tout son est connecté à `context.audio.output()`, relu au moment de jouer chaque son. Un jeu ne crée pas son propre `AudioContext`.
+- L'hôte garde un seul `AudioContext` pendant toute la visite, mais fournit un nœud de sortie neuf à chaque partie : à la sortie, il déconnecte celui de la partie terminée. Un son encore en cours ou programmé ne s'entend donc plus, et ne reprend pas à la partie suivante quand l'hôte relance l'`AudioContext`. Un jeu n'a pas besoin d'arrêter ses sons dans `destroy()`.
 
 ### Performance
 
