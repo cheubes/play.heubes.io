@@ -17,7 +17,7 @@ Un jeu publié dans le catalogue. Chaque jeu est décrit par deux fichiers de co
 | `cover` | image | non | Image de couverture, `public/covers/<slug>.webp` (voir "Images de couverture" dans `style-guide.md`). |
 | corps du fichier | Markdown | oui | Règles du jeu, avec deux sections obligatoires : "How to play" / "Comment jouer" et "Controls" / "Contrôles" (voir `game-page.md`). |
 
-Slugs réservés, interdits pour un jeu parce qu'ils entrent en conflit avec des routes du site : `about`, `fr`, `en`, `covers`, `fonts` ; ou avec la clé de stockage des préférences : `settings` (voir "Persistance").
+Slugs réservés, interdits pour un jeu parce qu'ils entrent en conflit avec des routes du site : `about`, `fr`, `en`, `covers`, `fonts`, `404` ; ou avec la clé de stockage des préférences : `settings` (voir "Persistance").
 
 ### Genre
 

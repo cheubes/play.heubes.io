@@ -177,6 +177,7 @@ Occupe toute la hauteur sous le HUD, fond `--color-bg` par défaut. Le jeu y cen
 
 - Le premier niveau `available` (le prochain à jouer) porte `--glow-accent`.
 - Le statut est aussi donné dans le nom accessible du bouton ("Level 4, completed").
+- Variante de la page 404 (voir `not-found-page.md`) : mêmes cases, décoratives et non interactives. Le niveau 404 garde son numéro, en `--color-text-muted` sur fond `--color-surface`, avec une petite icône cadenas en `--color-text-muted` dans le coin supérieur droit, et porte `--glow-accent`. Les autres niveaux suivent le tableau des statuts.
 
 ### Invite d'orientation
 
@@ -209,13 +210,13 @@ Les éléments de jeu respectent les contrastes non textuels de WCAG (3:1 contre
 
 ### Favicon
 
-- Motif : un "p" en `--color-accent`, dans l'esprit du "p" de Chakra Petch 700 du logo-texte (fût droit, panse rectangulaire aux angles droits chanfreinés), centré sur un carré `--color-bg` aux coins arrondis. Le tracé est vectorisé dans le fichier, sans dépendre de la police.
-- Fichiers dans `public/` :
-  - `favicon.svg` : la source, sur une grille de 32 unités ;
-  - `favicon.ico` : 16 et 32 px, pour les navigateurs qui demandent `/favicon.ico` d'eux-mêmes ;
-  - `apple-touch-icon.png` : 180 px, carré plein, sans coins arrondis ni transparence (iOS applique son propre masque).
+- Motif : un "p" en `--color-accent`, dans l'esprit du "p" de Chakra Petch 700 du logo-texte (fût droit, panse rectangulaire aux angles droits chanfreinés), centré sur un carré `--color-bg` aux coins arrondis. Le tracé est vectorisé dans le fichier, sans dépendre de la police.
+- Fichiers dans `public/` :
+  - `favicon.svg` : la source, sur une grille de 32 unités ;
+  - `favicon.ico` : 16 et 32 px, pour les navigateurs qui demandent `/favicon.ico` d'eux-mêmes ;
+  - `apple-touch-icon.png` : 180 px, carré plein, sans coins arrondis ni transparence (iOS applique son propre masque).
 - `favicon.ico` et `apple-touch-icon.png` sont générés depuis `favicon.svg` par `scripts/generate-favicons.ts` (nécessite `rsvg-convert`, de librsvg), à relancer après toute modification du SVG.
-- Déclaré par `BaseLayout` sur toutes les pages. Pas de manifest : l'installation sur l'écran d'accueil est hors périmètre (voir `functional-specifications.md`).
+- Déclaré par `BaseLayout` sur toutes les pages. Pas de manifest : l'installation sur l'écran d'accueil est hors périmètre (voir `functional-specifications.md`).
 
 ## Iconographie
 

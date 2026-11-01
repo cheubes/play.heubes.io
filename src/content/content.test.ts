@@ -7,7 +7,7 @@ interface GameFrontmatter {
   genre: string;
 }
 
-const RESERVED_SLUGS = ['about', 'fr', 'en', 'covers', 'fonts', 'settings'];
+const RESERVED_SLUGS = ['about', 'fr', 'en', 'covers', 'fonts', '404', 'settings'];
 const KEBAB_CASE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const REQUIRED_SECTIONS: Record<string, string[]> = {
   en: ['How to play', 'Controls'],

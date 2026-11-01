@@ -175,6 +175,7 @@ a {
   font-weight: 600;
   letter-spacing: var(--letter-spacing-caps);
   text-transform: uppercase;
+  text-decoration: none;
   cursor: pointer;
   transition:
     background-color var(--duration-fast) var(--ease-out),

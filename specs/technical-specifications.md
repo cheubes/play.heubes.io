@@ -95,6 +95,7 @@ src/
     HomePage.astro, GamePage.astro, AboutPage.astro
   pages/
     index.astro, about.astro, [slug].astro
+    404.astro                  page 404, en anglais seulement : son markup y est directement
     fr/index.astro, fr/about.astro, fr/[slug].astro
     sitemap.xml.ts
   games/
@@ -138,7 +139,7 @@ L'identifiant d'une entrée est `<slug>.<locale>` (`tilt.en`), d'où le slug et 
 
 ### Rendu
 
-Toutes les pages sont générées au build. Le seul JavaScript envoyé au navigateur est celui de la page de jeu : l'hôte de jeu et le module du jeu. Les pages d'accueil et "About" n'envoient aucun JavaScript, en dehors du strict nécessaire à l'en-tête s'il y en a.
+Toutes les pages sont générées au build. Le seul JavaScript envoyé au navigateur est celui de la page de jeu : l'hôte de jeu et le module du jeu. Les pages d'accueil, "About" et 404 n'envoient aucun JavaScript, en dehors du strict nécessaire à l'en-tête s'il y en a.
 
 ### Structure des URLs
 
@@ -147,6 +148,7 @@ Toutes les pages sont générées au build. Le seul JavaScript envoyé au naviga
 | Accueil | `/` | `/fr/` |
 | Jeu | `/<slug>/` | `/fr/<slug>/` |
 | About | `/about/` | `/fr/about/` |
+| 404 | Toute URL inconnue (`404.html`) | Même page, en anglais (voir `not-found-page.md`) |
 
 Configuration i18n d'Astro : `defaultLocale: 'en'`, `locales: ['en', 'fr']`, `prefixDefaultLocale: false`. URLs avec barre oblique finale.
 
@@ -316,6 +318,7 @@ Les règles de `data-model.md` ("Contraintes et règles de validation") sont vé
 - `<link rel="canonical">`, `<link rel="alternate" hreflang>` pour `en`, `fr` et `x-default` (anglais).
 - Open Graph : titre, description, image (couverture du jeu, image générique du site ailleurs), URL absolues, construites à partir de `site` dans `astro.config.mjs`. Twitter Card `summary_large_image`, qui reprend les balises Open Graph.
 - `sitemap.xml` généré par un endpoint Astro (`src/pages/sitemap.xml.ts`), sans dépendance. `robots.txt` statique qui le référence.
+- Page 404 : `noindex`, ni `canonical`, ni `hreflang`, ni Open Graph, absente du sitemap (voir `not-found-page.md`).
 
 ## Conventions de nommage
 

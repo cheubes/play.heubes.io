@@ -16,6 +16,7 @@ Les fichiers `BUILD-PLAN.md` décrivent l'ordre de construction et l'avancement�
 - **`style-guide.md`** : charte graphique (couleurs, typographie, espacements, animations), composants du site (en-tête, pied de page, tuiles) et interface commune des jeux (HUD, panneaux, sélecteur de niveaux), ce qu'un jeu peut ou ne peut pas redéfinir.
 - **`home-page.md`** : page d'accueil (catalogue).
 - **`about-page.md`** : page "About" (présentation, licences, crédits).
+- **`not-found-page.md`** : page 404 (en anglais seulement).
 - **`game-page.md`** : gabarit commun d'une page de jeu (modes hors partie et en partie, pause, fin de niveau, sélecteur de niveaux, plein écran).
 - **`_template/`** : modèle de dossier de jeu, à copier pour spécifier un nouveau jeu. Il fixe les fichiers et les sections obligatoires.
 - **`<game-slug>/`** : un dossier par jeu, avec :
@@ -29,7 +30,7 @@ Deux dossiers `<game-slug>/` existent à ce stade : `tilt/` et `prism/`.
 
 ## Quand et comment utiliser ces specs
 
-- **Avant toute implémentation**, lire le ou les fichiers concernés par la tâche. Les sept specs générales (`functional-specifications.md`, `data-model.md`, `technical-specifications.md`, `style-guide.md`, `home-page.md`, `about-page.md`, `game-page.md`) s'appliquent à tout le site ; chaque dossier `<game-slug>/` complète avec ce qui est propre à ce jeu.
+- **Avant toute implémentation**, lire le ou les fichiers concernés par la tâche. Les huit specs générales (`functional-specifications.md`, `data-model.md`, `technical-specifications.md`, `style-guide.md`, `home-page.md`, `about-page.md`, `not-found-page.md`, `game-page.md`) s'appliquent à tout le site ; chaque dossier `<game-slug>/` complète avec ce qui est propre à ce jeu.
 - **Les fichiers se référencent constamment entre eux** ("voir `X.md`") plutôt que de dupliquer l'information. Suivre ces renvois plutôt que de deviner : si une spec mentionne une règle définie ailleurs (le contrat d'un jeu, une couleur de la charte...), la source de vérité est le fichier référencé.
 - **Les critères d'acceptation** d'une spec de jeu sont le contrat de vérification : ceux qui portent sur la logique de jeu sont couverts par des tests, les autres sont vérifiés dans le navigateur (voir "Tests" dans `technical-specifications.md`).
 - **En cas de modification d'une spec**, chercher les autres fichiers qui la référencent (`grep` du nom de fichier dans `specs/`) et vérifier qu'ils restent cohérents avec le changement. Une modification d'une spec générale qui touche le contrat des jeux impose de relire `_template/` et chaque dossier de jeu.

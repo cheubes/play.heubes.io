@@ -19,6 +19,11 @@
   "about": {
     "description": "Qui fait play.heubes.io, sous quelles licences sont publiés son code et ses contenus, et les ressources tierces utilisées."
   },
+  "not-found": {
+    "title": "Niveau introuvable",
+    "intro": "La page que tu cherches n'existe pas. Pas encore, en tout cas.",
+    "back": "Retour au catalogue"
+  },
   "game": {
     "play": "Jouer",
     "retry": "Réessayer",

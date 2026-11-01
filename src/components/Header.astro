@@ -4,9 +4,10 @@ import { createTranslator, getLocalizedPath, type Locale } from '../i18n';
 
 interface Props {
   locale: Locale;
+  languageSelector?: boolean;
 }
 
-const { locale } = Astro.props;
+const { locale, languageSelector = true } = Astro.props;
 const t = createTranslator(locale);
 ---
 
@@ -16,9 +17,13 @@ const t = createTranslator(locale);
     <a class="logo" href={getLocalizedPath(locale)}>
       <span class="logo-play">play</span><span class="logo-domain">.heubes.io</span>
     </a>
-    <nav aria-label={t('header.language')}>
-      <LanguageSelector locale={locale} />
-    </nav>
+    {
+      languageSelector && (
+        <nav aria-label={t('header.language')}>
+          <LanguageSelector locale={locale} />
+        </nav>
+      )
+    }
   </div>
 </header>
 

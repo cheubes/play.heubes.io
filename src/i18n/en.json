@@ -19,6 +19,11 @@
   "about": {
     "description": "Who makes play.heubes.io, how its code and content are licensed, and the third-party resources it uses."
   },
+  "not-found": {
+    "title": "Level not found",
+    "intro": "The page you're looking for doesn't exist. Not yet, anyway.",
+    "back": "Back to the catalog"
+  },
   "game": {
     "play": "Play",
     "retry": "Retry",
