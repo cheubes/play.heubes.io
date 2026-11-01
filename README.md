@@ -12,9 +12,11 @@ Requires Node.js 22.23.4 or later.
 
 ```sh
 npm install
+npx playwright install chromium  # browser for the end-to-end tests, once
 npm run dev      # start the dev server on http://localhost:4321
 npm run check    # type-check .astro and .ts files
 npm test         # run unit tests once
+npm run test:e2e # run end-to-end tests on the built site (run the build first)
 npm run build    # build the static site into dist/
 npm run preview  # serve the built site
 ```
