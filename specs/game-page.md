@@ -30,7 +30,7 @@ Contenu, dans l'ordre :
 3. **Sélecteur de niveaux**, pour les jeux à niveaux (voir "Sélecteur de niveaux").
 4. **Règles** : le corps du fichier de contenu du jeu, avec ses deux sections obligatoires :
    - "How to play" / "Comment jouer" : but du jeu et règles, en quelques phrases ;
-   - "Controls" / "Contrôles" : un tableau à trois colonnes, action, clavier, tactile.
+   - "Controls" / "Contrôles" : un tableau à quatre colonnes, action, clavier, souris, tactile.
 5. **Réinitialiser la progression** (bouton danger, en bas de page), seulement si une sauvegarde existe. Il ouvre un panneau de confirmation ("Reset your progress in <title>? This can't be undone." / "Réinitialiser ta progression dans <title> ? C'est irréversible.") avec "Reset" (danger) et "Cancel" (secondaire). Une fois la réinitialisation confirmée, le sélecteur de niveaux est mis à jour.
 
 ## Mode en partie
@@ -87,5 +87,5 @@ Contenu, dans l'ordre :
 ## Accessibilité
 
 - Voir "Accessibilité" dans `technical-specifications.md` pour la gestion du focus et les annonces.
-- Le tableau des contrôles est un vrai tableau HTML, avec des en-têtes de colonnes.
+- Le tableau des contrôles est un vrai tableau HTML, avec des en-têtes de colonnes. Ses éléments portent leurs rôles ARIA explicites (`table`, `row`, `cell`...), qui lui gardent sa sémantique de tableau quand il s'affiche en fiches sur mobile (voir "Règles et contrôles" dans `style-guide.md`) ; les libellés de colonnes répétés dans chaque fiche ne sont pas lus par les lecteurs d'écran.
 - Les boutons du HUD ont un nom accessible et une infobulle native (attribut `title`) indiquant leur raccourci clavier, doublée de `aria-keyshortcuts`.

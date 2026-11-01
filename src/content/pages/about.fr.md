@@ -4,7 +4,7 @@ title: À propos
 
 <h2 id="site">Le site</h2>
 
-play.heubes.io est une collection de mini jeux originaux, conçus pour le web. Ce sont des jeux solo, jouables au clavier sur ordinateur ou au tactile sur mobile.
+play.heubes.io est une collection de mini jeux originaux, conçus pour le web. Ce sont des jeux solo, jouables au clavier et à la souris sur ordinateur, ou au tactile sur mobile.
 
 Pas de compte, pas de suivi : ta progression reste dans ton navigateur.
 

@@ -4,7 +4,7 @@ title: About
 
 <h2 id="site">The site</h2>
 
-play.heubes.io is a collection of original mini games, designed for the web. They are single-player games, playable with a keyboard on desktop or by touch on mobile.
+play.heubes.io is a collection of original mini games, designed for the web. They are single-player games, playable with a keyboard and mouse on desktop, or by touch on mobile.
 
 No account, no tracking: your progress stays in your browser.
 

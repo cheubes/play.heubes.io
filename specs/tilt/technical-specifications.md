@@ -23,7 +23,7 @@ Alternatives écartées :
 | `levels/levels.ts` | Les 20 niveaux. |
 | `render/board.ts` | Création du DOM du plateau, placement des blocs, dimensionnement. |
 | `render/animations.ts` | Animations de glissement, d'arrêt, d'inclinaison et de victoire. |
-| `render/input.ts` | Clavier et geste de glissement. |
+| `render/input.ts` | Clavier, geste de glissement, clic sur un côté et côté visé. |
 | `render/sounds.ts` | Synthèse des sons. |
 | `index.ts` | `GameDefinition` : relie la logique, le rendu et le contexte de l'hôte. |
 
@@ -34,7 +34,9 @@ La progression (statuts des niveaux, record, stats du HUD, panneau de fin) vient
 ## Contrôles
 
 - Clavier : `keydown` sur le conteneur. `ArrowUp`, `ArrowDown`, `ArrowLeft`, `ArrowRight` inclinent (avec `preventDefault` pour empêcher le défilement) ; `z`, `Z` et `Backspace` annulent. La répétition automatique d'une touche maintenue est ignorée (`event.repeat`).
-- Glisser : `pointerdown` sur l'aire de jeu (capture du pointeur), puis `pointerup`. Si le déplacement total dépasse 30px, la direction est l'axe dominant (`|dx|` contre `|dy|`) ; sinon le geste est ignoré. Une seule inclinaison par geste.
+- Glisser : `pointerdown` sur l'aire de jeu (capture du pointeur), puis `pointerup`. Si le déplacement total dépasse 30px, la direction est l'axe dominant (`|dx|` contre `|dy|`) ; sinon c'est un clic à la souris, et le geste est ignoré au doigt. Une seule inclinaison par geste.
+- Clic : pour `pointerType` `mouse` ou `pen`, un geste qui ne dépasse pas 30px incline vers le côté où le bouton a été pressé. Ce point est rapporté au centre du plateau, puis divisé par la largeur et la hauteur du plateau ; l'axe dominant donne la direction. Les diagonales du plateau séparent ainsi les quatre côtés, y compris hors du plateau, dans toute l'aire de jeu.
+- Côté visé : à chaque `pointermove` de la souris ou du stylet, le plateau affiche la direction que prendrait un relâchement à cet instant (clic, ou glisser une fois le seuil dépassé). `pointerleave`, la pause et la résolution du niveau l'effacent.
 - Une entrée reçue pendant une animation appelle `finish()` sur les animations en cours, puis est traitée (règle commune).
 
 ## Animations
@@ -86,4 +88,5 @@ Aucune.
 - **2026-10-30 / Hauteur des sons** : notes de cible do6, ré6, mi6, sol6 (ambre, azur, rose, menthe), chacune suivie de sa quinte ; arpège de victoire do5, mi5, sol5, do6. Raison : des intervalles consonants, de plus en plus aigus d'une couleur à l'autre (voir "Sons" dans `style-guide.md`).
 - **2026-10-30 / Touches avec modificateur** : une touche pressée avec `Ctrl`, `Cmd` ou `Alt` n'est pas interceptée. Raison : laisser au navigateur ses propres raccourcis (`Cmd+Z`, `Alt+←` ...).
 - **2026-10-30 / Geste** : seuls le pointeur principal et, à la souris, le bouton gauche démarrent un geste ; un `pointercancel` l'abandonne. Raison : un second doigt ou un clic droit ne doivent pas incliner le plateau.
+- **2026-11-01 / Clic réservé à la souris** : le clic sur un côté ne vaut que pour la souris et le stylet ; au doigt, seul le glisser incline le plateau. Raison : un toucher accidentel, en tenant le téléphone ou en visant le HUD, ne doit pas jouer de coup, et le glisser est le geste attendu au doigt.
 - **2026-10-30 / Accord des annonces** : l'annonce d'un coup existe au singulier et au pluriel, choisie par `Intl.PluralRules` selon le nombre de blocs en place. Raison : le français met le singulier à 0 et à 1 ("0 bloc sur 4 en place").

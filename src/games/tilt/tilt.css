@@ -43,6 +43,7 @@
 }
 
 .game-tilt .tilt-terrain {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(var(--cols), calc(var(--cell) - 1px));
   grid-template-rows: repeat(var(--rows), calc(var(--cell) - 1px));
@@ -53,6 +54,34 @@
   background-color: var(--tilt-grid);
   border-radius: var(--radius-lg);
   box-shadow: 0 var(--space-3) var(--space-6) var(--color-scrim);
+}
+
+.game-tilt .tilt-board[data-aim] .tilt-terrain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    var(--tilt-aim-angle),
+    color-mix(in srgb, var(--tilt-wall-edge) 35%, transparent),
+    transparent var(--cell)
+  );
+}
+
+.game-tilt .tilt-board[data-aim='up'] {
+  --tilt-aim-angle: to bottom;
+}
+
+.game-tilt .tilt-board[data-aim='down'] {
+  --tilt-aim-angle: to top;
+}
+
+.game-tilt .tilt-board[data-aim='left'] {
+  --tilt-aim-angle: to right;
+}
+
+.game-tilt .tilt-board[data-aim='right'] {
+  --tilt-aim-angle: to left;
 }
 
 .game-tilt .tilt-cell {

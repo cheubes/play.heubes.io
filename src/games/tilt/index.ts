@@ -5,7 +5,7 @@ import { parseLevel } from './logic/level-parser';
 import { createState, isOnTarget, isSolved, restart, tilt as tiltBoard, undo } from './logic/tilt';
 import type { Direction, Level, TiltState } from './logic/types';
 import { animateBlockedTilt, animateMove, animateVictory, finishAnimations, runningAnimationsEnd } from './render/animations';
-import { createBoardView, fitBoard, placeBlocks, type BoardView } from './render/board';
+import { createBoardView, fitBoard, placeBlocks, showAim, type BoardView } from './render/board';
 import { bindInput, type TiltInput } from './render/input';
 import { createSounds } from './render/sounds';
 
@@ -67,6 +67,7 @@ const tilt: GameDefinition = {
     // Saved as soon as the level is solved, so that leaving during the victory animation keeps the progress.
     function win(current: Level, currentView: BoardView, final: TiltState): void {
       solved = true;
+      showAim(currentView, undefined);
       hud.setActionEnabled('undo', false);
       const best = saveResult(context.storage, current.id, final.moves);
       sounds.victory(runningAnimationsEnd(currentView));
@@ -149,7 +150,17 @@ const tilt: GameDefinition = {
       }
     }
 
-    bindInput(container, signal, handleInput);
+    bindInput(
+      container,
+      signal,
+      () => view?.element.getBoundingClientRect(),
+      (direction) => {
+        if (view) {
+          showAim(view, paused || solved ? undefined : direction);
+        }
+      },
+      handleInput,
+    );
 
     return {
       start(levelId) {
@@ -160,6 +171,9 @@ const tilt: GameDefinition = {
       },
       pause() {
         paused = true;
+        if (view) {
+          showAim(view, undefined);
+        }
         for (const animation of container.getAnimations({ subtree: true })) {
           animation.pause();
         }

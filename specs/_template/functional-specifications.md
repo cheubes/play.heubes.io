@@ -16,9 +16,9 @@
 
 ## Contrôles
 
-| Action | Clavier | Tactile |
-|---|---|---|
-| | | |
+| Action | Clavier | Souris | Tactile |
+|---|---|---|---|
+| | | | |
 
 > Les raccourcis communs (`Échap`, `P`, `R`) ne sont pas réaffectés.
 

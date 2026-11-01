@@ -24,14 +24,14 @@ Résoudre chaque niveau en plaçant tous les blocs colorés sur leurs cibles, id
 
 ## Contrôles
 
-| Action | Clavier | Tactile |
-|---|---|---|
-| Incliner le plateau | Flèches | Glisser le doigt sur l'aire de jeu dans la direction voulue |
-| Annuler le dernier coup | `Z` ou `Retour arrière` | Bouton "Undo" du HUD |
-| Recommencer le niveau | `R` (commun) | Bouton "Restart" du HUD (commun) |
-| Pause | `Échap` ou `P` (commun) | Bouton pause du HUD (commun) |
+| Action | Clavier | Souris | Tactile |
+|---|---|---|---|
+| Incliner le plateau | Flèches | Cliquer le côté du plateau vers lequel incliner | Glisser le doigt sur l'aire de jeu dans la direction voulue |
+| Annuler le dernier coup | `Z` ou `Retour arrière` | Bouton "Undo" du HUD | Bouton "Undo" du HUD |
+| Recommencer le niveau | `R` (commun) | Bouton "Restart" du HUD (commun) | Bouton "Restart" du HUD (commun) |
+| Pause | `Échap` ou `P` (commun) | Bouton pause du HUD (commun) | Bouton pause du HUD (commun) |
 
-Avec une souris, un glisser sur l'aire de jeu incline le plateau, comme au doigt. Un geste trop court est ignoré (voir `technical-specifications.md`).
+À la souris, les diagonales du plateau partagent l'aire de jeu en quatre côtés : un clic incline le plateau vers le côté cliqué, et le côté visé est mis en évidence au survol. Un glisser incline aussi le plateau, comme au doigt. Au doigt, un toucher bref ou un geste trop court est ignoré (voir `technical-specifications.md`).
 
 ## Progression
 
@@ -96,7 +96,7 @@ Controls / Contrôles : le tableau de la section "Contrôles", traduit.
 - **AC-10** [test] Sans sauvegarde, le niveau 1 est `available` et les suivants `locked` ; terminer le niveau n rend le niveau n+1 `available` ; un niveau dont le record est égal au par est `perfect`.
 - **AC-11** [test] Le record d'un niveau est le plus petit nombre de coups avec lequel il a été résolu.
 - **AC-12** [test] Chaque niveau du jeu est valide, n'est pas résolu dans sa position initiale, est résoluble, et son par est égal au nombre minimal de coups trouvé par le solveur.
-- **AC-13** [manuel] Les flèches inclinent le plateau sur desktop ; un glisser du doigt l'incline sur mobile ; un geste trop court est ignoré.
+- **AC-13** [manuel] Les flèches inclinent le plateau sur desktop ; un clic l'incline vers le côté cliqué, mis en évidence au survol, et un glisser de la souris l'incline aussi ; un glisser du doigt l'incline sur mobile, un toucher bref ou un geste trop court est ignoré.
 - **AC-14** [manuel] Une entrée reçue pendant une animation termine immédiatement l'animation en cours, puis est traitée.
 - **AC-15** [manuel] En mouvement réduit, les blocs se déplacent de façon quasi instantanée et le plateau ne s'incline pas visuellement.
 - **AC-16** [manuel] En niveaux de gris, chaque couleur reste identifiable par son symbole, sur les blocs comme sur les cibles.

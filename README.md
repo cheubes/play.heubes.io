@@ -1,6 +1,6 @@
 # play.heubes.io
 
-A catalog of original mini games for the web, playable in the browser with a keyboard on desktop or by touch on mobile. Static site, in English and French, built with Astro and hosted on GitHub Pages.
+A catalog of original mini games for the web, playable in the browser with a keyboard and mouse on desktop, or by touch on mobile. Static site, in English and French, built with Astro and hosted on GitHub Pages.
 
 ## Project status
 

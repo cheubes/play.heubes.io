@@ -14,7 +14,7 @@ Expliquer ce qu'est le site, qui l'a fait, sous quelles licences le code et les 
 Contenu rédigé en Markdown dans `src/content/pages/about.en.md` et `about.fr.md`, mêmes sections et mêmes ancres dans les deux langues.
 
 1. **Titre** (`h1`) : "About" / "À propos".
-2. **Le site** : des mini jeux originaux, conçus pour le web, solo, jouables au clavier et au tactile, sans compte ni suivi. La progression reste dans le navigateur du joueur.
+2. **Le site** : des mini jeux originaux, conçus pour le web, solo, jouables au clavier, à la souris et au tactile, sans compte ni suivi. La progression reste dans le navigateur du joueur.
 3. **Auteur** : Christophe Heubès, avec un lien vers son site, https://christophe.heubes.org/.
 4. **Licences** (ancre `#license`) :
    - code : MIT, avec un lien vers le fichier `LICENSE` du dépôt ;
