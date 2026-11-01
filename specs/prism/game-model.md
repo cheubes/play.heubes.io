@@ -150,7 +150,7 @@ interface PrismSave {
 }
 ```
 
-Le statut des niveaux se déduit de `best` et du `par`, avec les mêmes règles que Tilt. La logique de progression est commune aux deux jeux et vit dans `src/games/shell/` (voir l'étape 1 de `BUILD-PLAN.md`).
+Le statut des niveaux se déduit de `best` et du `par`, avec les mêmes règles que Tilt. La logique de progression est commune aux deux jeux et vit dans `src/games/shell/progress.ts` (voir "Organisation du code" dans `technical-specifications.md`).
 
 ## Contraintes de validation
 

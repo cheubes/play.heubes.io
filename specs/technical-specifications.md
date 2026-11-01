@@ -53,7 +53,7 @@ Versions exactes dans `package.json` (pas de `^` ni de `~`), `package-lock.json`
 | Package | Type | Rôle |
 |---|---|---|
 | `astro` | dépendance | Génération du site. |
-| `@astrojs/markdown-satteri` | dépendance | Moteur Markdown par défaut d'Astro, déjà installé par `astro` : importé dans `astro.config.mjs` pour y brancher un plugin (liens externes en nouvel onglet, voir "Navigation" dans `functional-specifications.md`). Même version que celle requise par `astro`. |
+| `@astrojs/markdown-satteri` | dépendance | Moteur Markdown par défaut d'Astro, déjà installé par `astro` : importé dans `astro.config.mjs` pour y brancher un plugin (liens externes en nouvel onglet, voir "Navigation" dans `functional-specifications.md`). Même version que celle requise par `astro`. |
 | `typescript` | dev | Typage. |
 | `@astrojs/check` | dev | Vérification des types des fichiers `.astro` et `.ts`. |
 | `vitest` | dev | Tests unitaires (voir "Tests"). |
@@ -95,7 +95,7 @@ src/
     HomePage.astro, GamePage.astro, AboutPage.astro
   pages/
     index.astro, about.astro, [slug].astro
-    404.astro                  page 404, en anglais seulement : son markup y est directement
+    404.astro                  page 404, en anglais seulement, sans vue associée
     fr/index.astro, fr/about.astro, fr/[slug].astro
     sitemap.xml.ts
   games/
@@ -257,7 +257,7 @@ Règles :
 - L'hôte pose la classe `.game-<slug>` sur `container`.
 - `destroy()` libère toutes les ressources. L'usage de `signal` pour les écouteurs est obligatoire.
 - `complete()` est appelé une seule fois par niveau. Le jeu ne traite plus d'entrée ensuite, jusqu'au prochain `start()` ou `restart()`.
-- Le versionnement de la sauvegarde est déclaré par le jeu (`save` : numéro de version et migrations) et appliqué par l'hôte (voir "Persistance" dans `data-model.md`). Une migration qui lève une exception rend la sauvegarde non migrable.
+- Le versionnement de la sauvegarde est déclaré par le jeu (`save` : numéro de version et migrations) et appliqué par l'hôte (voir "Persistance" dans `data-model.md`). Une migration qui lève une exception rend la sauvegarde non migrable.
 
 ## Règles communes à tous les jeux
 
