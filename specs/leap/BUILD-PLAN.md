@@ -8,7 +8,7 @@ Prérequis : specs du jeu validées, Delta fusionné sur `dev`, branche `game/l
 
 **Critère :** AC-01 à AC-10 couverts par des tests ; `vitest run` passe.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

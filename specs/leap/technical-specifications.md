@@ -98,4 +98,9 @@ Aucune.
 
 ## Points tranchés à l'implémentation
 
-Aucun pour l'instant.
+- **2026-11-02 / Géométrie du ressort** : le ressort est une surface traversable au bas de sa case, au niveau du sol ; il se déclenche dès que l'automate s'y pose, en tombant ou en y marchant, si sa boîte chevauche la case. À égalité avec le sol voisin, le ressort l'emporte. Raison : `game-model.md` ne fixait pas sa hauteur ; un ressort sur le chemin fait toujours rebondir, sans précision demandée.
+- **2026-11-02 / Tolérance au ressort** : le rebond d'un ressort remet `coyote` à 0. Raison : l'atterrissage sur le ressort met `coyote` à 6, et un appui (ou un appui retenu) dans les pas suivants remplaçait le rebond par un saut normal, plus bas.
+- **2026-11-02 / Zones de contact** : levier, rouage et sortie se touchent sur toute leur case ; un contact demande un chevauchement strict (un bord commun ne compte pas), comme pour les solides et les piques. Raison : seule la boîte des piques est fixée par `game-model.md`.
+- **2026-11-02 / Atterrissage** : parmi les surfaces franchies pendant un pas, l'automate se pose sur la plus haute. Une plateforme mobile est franchie si le bas de la boîte, avant le pas, n'était pas sous son dessus au pas précédent, et l'atteint ou le dépasse après le pas, à sa position du pas courant. Raison : "au pas précédent" (étape 4) doit tenir compte du déplacement de la plateforme pendant le pas.
+- **2026-11-02 / Entraînement par une plateforme mobile** : le déplacement transmis s'arrête au contact d'un solide, sans demi-tour, et, vers le haut, sous un plafond. Raison : seule la course de l'automate le fait se retourner (règle 3).
+- **2026-11-02 / Levier retouché pendant une bascule en attente** : les deux bascules s'annulent, et plus rien n'est en attente. Raison : chaque contact échange les portes (règle 8).

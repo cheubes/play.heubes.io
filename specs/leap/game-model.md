@@ -31,7 +31,7 @@ Ces valeurs peuvent être ajustées pendant la conception des salles ; tout cha
 | `^` | Piques au sol (pointe vers le haut) |
 | `v` | Piques au plafond (pointe vers le bas) |
 | `-` | Plateforme traversable (lame sur le haut de la case) |
-| `s` | Ressort (sur le bas de la case) |
+| `s` | Ressort (surface traversable au bas de la case, au niveau du sol) |
 | `l` | Levier |
 | `D` | Porte fermée au départ |
 | `d` | Porte ouverte au départ |
@@ -91,8 +91,8 @@ Si l'automate n'est pas lancé, un appui le lance (`launched`) et le pas s'arrê
 1. `roomTick` et `runTicks` augmentent de 1. Les plateformes mobiles prennent leur position du pas ; un automate posé sur l'une d'elles au pas précédent se déplace avec elle.
 2. Saut : un appui pose `buffer` à 6. Si `buffer` > 0 et (`grounded` ou `coyote` > 0), l'automate saute (`vy` = -66, `grounded` faux, `coyote` et `buffer` à 0). Sinon `buffer` et `coyote` diminuent de 1 (sans descendre sous 0).
 3. Mouvement horizontal : x avance de 24 dans le sens de `facing`. En cas de chevauchement avec un solide (mur, porte fermée), x est ramené au contact et `facing` s'inverse.
-4. Mouvement vertical : `vy` augmente de 4, sans dépasser 60 ; y avance de `vy`. Solides : en descendant, l'automate se pose sur le dessus (`vy` à 0, `grounded` vrai, `coyote` à 6) ; en montant, il s'arrête sous le dessous (`vy` à 0). Plateformes traversables et mobiles : elles ne l'arrêtent qu'en descendant, si le bas de sa boîte était au-dessus de leur dessus au pas précédent. Sans appui sous lui, `grounded` devient faux.
-5. Ressort : un automate qui se pose sur un ressort repart aussitôt (`vy` = -93, `grounded` faux).
+4. Mouvement vertical : `vy` augmente de 4, sans dépasser 60 ; y avance de `vy`. Solides : en descendant, l'automate se pose sur le dessus (`vy` à 0, `grounded` vrai, `coyote` à 6) ; en montant, il s'arrête sous le dessous (`vy` à 0). Plateformes traversables, ressorts et plateformes mobiles : ils ne l'arrêtent qu'en descendant, si le bas de sa boîte était au-dessus de leur dessus au pas précédent. Sans appui sous lui, `grounded` devient faux.
+5. Ressort : un automate qui se pose sur un ressort, en tombant ou en y marchant, repart aussitôt (`vy` = -93, `grounded` faux, `coyote` à 0).
 6. Contacts, avec la boîte de l'automate :
    - piques, ou bas de la boîte sous la grille : chute ;
    - levier, si `onLever` était faux : bascule des portes ; si une porte qui doit se fermer chevauche l'automate, la bascule est mise en attente (`pendingSwap`) et appliquée au premier pas sans chevauchement ;
