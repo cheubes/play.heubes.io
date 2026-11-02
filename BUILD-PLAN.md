@@ -242,6 +242,7 @@ Chaque jeu a son plan et son statut dans son dossier de specs. Cette liste donne
 
 1. **Tilt** : `specs/tilt/BUILD-PLAN.md`. Prérequis : étapes 1 à 10.
 2. **Prism** : `specs/prism/BUILD-PLAN.md`. Prérequis : Tilt fusionné.
+3. **Shadow** : `specs/shadow/BUILD-PLAN.md`. Prérequis : Prism fusionné.
 
 ## 11. Retrait du jeu de test
 
