@@ -1,0 +1,7 @@
+{
+  "level": "Niveau {number}",
+  "stats": {
+    "cogs": "Rouages",
+    "time": "Temps"
+  }
+}

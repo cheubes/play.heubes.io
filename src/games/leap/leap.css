@@ -1,0 +1,30 @@
+.game-leap {
+  --leap-bg: #121a1f;
+  --leap-backdrop: #1a252c;
+  --leap-wall: #b08a4e;
+  --leap-wall-edge: #e0b56a;
+  --leap-spike: #ff6b4a;
+  --leap-platform: #c9d3da;
+  --leap-spring: #5ee08a;
+  --leap-mechanism: #4fc3f7;
+  --leap-runner: #f4ebdd;
+  --leap-cog: #ffd24a;
+  --leap-exit: #b9a6ff;
+
+  display: grid;
+  place-items: center;
+}
+
+.game-leap .leap-room {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.game-leap .leap-room canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}

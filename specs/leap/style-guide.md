@@ -29,7 +29,7 @@ Custom properties déclarées sur `.game-leap`. Contrastes mesurés sur `--leap-
 | Mur | Case pleine `--leap-wall`, arête supérieure `--leap-wall-edge` quand la case au-dessus n'est pas un mur, rivets discrets. |
 | Piques | Trois triangles `--leap-spike` cernés de `--leap-bg`, pointe vers le haut (sol) ou vers le bas (plafond), sur la moitié de la case. |
 | Plateforme traversable | Lame fine (1/6 de case) `--leap-platform` sur le haut de la case, avec de petites encoches. |
-| Plateforme mobile | Même lame, sur 1 à 3 cases, avec un petit rail en pointillés `--leap-backdrop` qui montre son trajet. |
+| Plateforme mobile | Même lame, sur 1 à 3 cases, avec un petit rail en pointillés `--leap-platform` à 35 % d'opacité qui montre son trajet. |
 | Ressort | Spirale `--leap-spring` sur le bas de la case, surmontée d'un plateau. |
 | Levier | Manette `--leap-mechanism` sur un socle, inclinée à gauche ou à droite selon l'état des portes. |
 | Porte fermée | Case de barreaux verticaux `--leap-mechanism`. |
