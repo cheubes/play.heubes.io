@@ -73,7 +73,7 @@ découpes et une épingle, en portrait et en paysage.
 
 **Critère :** AC-10, AC-11 et AC-12 vérifiés à la main, sur desktop et sur mobile ; la ligne de pli d'AC-13 vérifiée en niveaux de gris.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

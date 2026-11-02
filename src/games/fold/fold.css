@@ -45,7 +45,6 @@
   place-items: center;
   width: calc(var(--sheet-cols) * var(--cell));
   height: calc(var(--sheet-rows) * var(--cell));
-  perspective: calc(var(--cell) * 12);
 }
 
 .game-fold .fold-grid {
@@ -54,9 +53,12 @@
   grid-template-rows: repeat(var(--rows), var(--size));
 }
 
+/* The perspective is set on the sheet itself: its drop shadow flattens it, which would cut off a perspective set above. */
 .game-fold .fold-sheet {
   --size: var(--cell);
 
+  position: relative;
+  perspective: calc(var(--cell) * 12);
   filter: drop-shadow(0 var(--space-2) var(--space-4) var(--color-scrim));
 }
 
@@ -183,4 +185,77 @@
   background-color: var(--fold-pin);
   border-radius: 50%;
   box-shadow: 0 0 0 max(2px, calc(var(--size) * 0.04)) var(--fold-ink);
+}
+
+/* The double stroke of the fold line: the pin's ink ring inside an accent ring. */
+.game-fold .fold-pin {
+  --fold-blocking-ring:
+    0 0 0 max(2px, calc(var(--size) * 0.04)) var(--fold-ink),
+    0 0 0 calc(max(2px, calc(var(--size) * 0.04)) + 2px) var(--color-accent);
+}
+
+.game-fold .fold-pin.is-blocking {
+  box-shadow: var(--fold-blocking-ring);
+}
+
+.game-fold .fold-cell.is-lifted {
+  visibility: hidden;
+}
+
+.game-fold .fold-line {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  background-color: var(--fold-ink);
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.game-fold .fold-line.is-vertical {
+  width: 2px;
+  translate: -1px 0;
+}
+
+.game-fold .fold-line.is-horizontal {
+  height: 2px;
+  translate: 0 -1px;
+}
+
+.game-fold .fold-ghost {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.game-fold .fold-ghost > .fold-cell,
+.game-fold .fold-face {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+}
+
+/* Outlined, so that the flap shows where it lands even over squares of the same content. */
+.game-fold .fold-ghost > .fold-cell {
+  box-shadow: inset 0 0 0 max(1px, calc(var(--size) * 0.03)) var(--fold-ink);
+}
+
+.game-fold .fold-flap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.game-fold .fold-face {
+  backface-visibility: hidden;
+}
+
+.game-fold .fold-flap.is-vertical > .fold-face.is-back {
+  transform: rotateY(180deg);
+}
+
+.game-fold .fold-flap.is-horizontal > .fold-face.is-back {
+  transform: rotateX(180deg);
 }

@@ -1,4 +1,16 @@
 {
   "level": "Level {number}",
-  "goal": "Goal"
+  "goal": "Goal",
+  "actions": {
+    "undo": "Undo"
+  },
+  "announce": {
+    "move": "Move {moves}. Sheet {width} by {height}.",
+    "match": {
+      "one": "{matching} of {total} squares match.",
+      "other": "{matching} of {total} squares match."
+    },
+    "pinned": "A pin holds this side.",
+    "undo": "Undo. Move {moves}."
+  }
 }

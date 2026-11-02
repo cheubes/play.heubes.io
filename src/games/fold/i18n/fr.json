@@ -1,4 +1,16 @@
 {
   "level": "Niveau {number}",
-  "goal": "Modèle"
+  "goal": "Modèle",
+  "actions": {
+    "undo": "Annuler"
+  },
+  "announce": {
+    "move": "Coup {moves}. Feuille de {width} sur {height}.",
+    "match": {
+      "one": "{matching} case sur {total} conforme.",
+      "other": "{matching} cases sur {total} conformes."
+    },
+    "pinned": "Une épingle retient ce côté.",
+    "undo": "Annulé. Coup {moves}."
+  }
 }
