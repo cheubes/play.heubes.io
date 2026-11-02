@@ -30,7 +30,7 @@ Alternatives écartées :
 | `logic/level-parser.ts` | `parseLevel` : grilles, entrées, plateformes mobiles. |
 | `logic/collision.ts` | Boîtes, chevauchements, contacts avec les cases. |
 | `logic/leap.ts` | `createState`, `step`. |
-| `logic/solver.ts` | Solveur, pour les tests uniquement. |
+| `logic/solver.ts` | Solveur et mesure de la fenêtre de saut, pour les tests uniquement. |
 | `logic/progress.ts` | Statuts des niveaux, record et sauvegarde `LeapSave`. |
 | `levels/levels.ts` | Les 20 niveaux. |
 | `render/canvas.ts` | Canvas, densité, dimensionnement. |
@@ -85,6 +85,7 @@ Synthèse Web Audio, sans fichier, connectée à `context.audio.output()` :
 
 - Tests des critères AC-01 à AC-12 dans `logic/*.test.ts`, sur de petites salles construites dans les tests pour AC-01 à AC-10.
 - AC-12 lance le solveur deux fois par salle (40 salles) : le test complet reste sous 10 secondes en CI. Si ce n'est pas tenable, les résultats du solveur sont consignés dans "Points tranchés à l'implémentation" avec la mesure, avant tout changement de la contrainte.
+- Les critères de difficulté des salles ("Points tranchés à l'implémentation") sont vérifiés par `logic/levels.difficulty.ts`, hors AC-12 et hors de `vitest run` : ils explorent tous les états de chaque salle (jusqu'à 3,5 millions avec une plateforme mobile) et prennent environ une minute. Ils sont lancés par `npm run test:difficulty`, en CI comme à chaque modification des niveaux.
 
 ## Performance
 
@@ -104,3 +105,8 @@ Aucune.
 - **2026-11-02 / Atterrissage** : parmi les surfaces franchies pendant un pas, l'automate se pose sur la plus haute. Une plateforme mobile est franchie si le bas de la boîte, avant le pas, n'était pas sous son dessus au pas précédent, et l'atteint ou le dépasse après le pas, à sa position du pas courant. Raison : "au pas précédent" (étape 4) doit tenir compte du déplacement de la plateforme pendant le pas.
 - **2026-11-02 / Entraînement par une plateforme mobile** : le déplacement transmis s'arrête au contact d'un solide, sans demi-tour, et, vers le haut, sous un plafond. Raison : seule la course de l'automate le fait se retourner (règle 3).
 - **2026-11-02 / Levier retouché pendant une bascule en attente** : les deux bascules s'annulent, et plus rien n'est en attente. Raison : chaque contact échange les portes (règle 8).
+- **2026-11-02 / Fenêtre de saut** : la difficulté d'une salle se mesure par sa fenêtre W, en pas : la plus grande largeur w telle qu'il existe un chemin vers le but où chaque appui nécessaire peut tomber n'importe où dans une plage de w pas consécutifs. Elle est calculée sur le graphe complet des états de la salle, pour la sortie et pour la sortie avec le rouage ; elle est infinie si le but s'atteint sans appui. La fenêtre d'un niveau est la plus petite fenêtre de sortie de ses deux salles. Raison : la largeur de la fenêtre la plus étroite mesure la précision demandée, indépendamment du chemin choisi.
+- **2026-11-02 / Critères de difficulté** : toute fenêtre, rouage compris, fait au moins 4 pas ; la fenêtre d'un niveau fait au moins 10, 8, 6 puis 5 pas selon la série, et ne croît pas d'un niveau au suivant dans une série ; chaque salle demande au moins un saut, sauf si un ressort suffit ; la sortie la plus rapide prend de 2 à 20 secondes, sans minimum pour la première salle des niveaux 1, 6, 11 et 16 ; cette première salle a une fenêtre de sortie d'au moins 15 pas ; dans les séries 2 à 4, chaque salle a une mécanique de sa série sans laquelle la sortie est inatteignable (plateformes traversables ou ressorts, leviers, plateformes mobiles) ; le rouage demande un détour d'au moins 2 secondes, ou a une fenêtre plus étroite que la sortie. Raison : "Progression" (`functional-specifications.md`) demande une difficulté croissante, une mécanique évidente à son introduction et un rouage plus risqué, sans les mesurer. Le minimum, d'abord fixé à 3 secondes sans exception, est ramené à 2 : une salle se traverse en 1,7 seconde, et 3 secondes imposaient un aller-retour complet même aux salles d'introduction.
+- **2026-11-02 / Constantes** : aucun ajustement des constantes de `game-model.md` pour la conception des 40 salles.
+- **2026-11-02 / Clé des états du solveur** : le solveur élimine les états selon tout l'état de l'automate (y compris `grounded`, `coyote` et `onLever`) et la bascule en attente, en plus des champs cités par `game-model.md`. Raison : deux états qui ne diffèrent que par ces champs n'ont pas le même avenir ; les confondre peut faire manquer une solution.
+- **2026-11-02 / Périodes des plateformes mobiles** : les plateformes mobiles d'une même salle ont la même période. Raison : le nombre d'états croît avec le plus petit commun multiple des périodes ; avec deux périodes de 90 et 60 pas, une seule salle demandait 9 secondes de solveur, au-delà du budget d'AC-12.

@@ -28,7 +28,7 @@ Critère de fin : vitest run passe.
 
 **Critère :** AC-12 passe pour les 40 salles, en moins de 10 secondes.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

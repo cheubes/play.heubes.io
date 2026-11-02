@@ -127,7 +127,7 @@ Le libellé affiché d'un niveau est sa position ("Level 7" / "Niveau 7"), pas s
 
 ### Solveur
 
-`logic/solver.ts` fait une recherche en largeur sur les pas d'une salle. À chaque pas où un saut est possible, il essaie d'appuyer ou non ; aux autres pas, il n'appuie pas. Les états déjà vus sont éliminés (position, vitesse, sens, portes, rouage, et `roomTick` modulo le plus petit commun multiple des périodes des plateformes mobiles). Il cherche une suite d'appuis qui atteint la sortie, puis une qui atteint la sortie après avoir ramassé le rouage, en au plus 3 600 pas (une minute). Il n'est utilisé que par les tests.
+`logic/solver.ts` fait une recherche en largeur sur les pas d'une salle. À chaque pas où un saut est possible, il essaie d'appuyer ou non ; aux autres pas, il n'appuie pas. Les états déjà vus sont éliminés (tout l'état de l'automate, portes, bascule en attente, rouage, et `roomTick` modulo le plus petit commun multiple des périodes des plateformes mobiles). Il cherche une suite d'appuis qui atteint la sortie, puis une qui atteint la sortie après avoir ramassé le rouage, en au plus 3 600 pas (une minute). Il mesure aussi la fenêtre de saut d'une salle (voir "Points tranchés à l'implémentation" dans `technical-specifications.md`). Il n'est utilisé que par les tests.
 
 ## Données persistées
 
