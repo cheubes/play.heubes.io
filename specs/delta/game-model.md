@@ -82,7 +82,7 @@ Dans cet ordre :
 3. Production : chaque bassin du joueur ou du rival dont l'intervalle de production divise `tick`, et sous sa capacité, gagne une unité.
 4. Émission : si `tick` est un multiple de l'intervalle d'émission, chaque bassin avec une sortie dont le canal est ouvert et au moins une unité en perd une, qui entre dans le canal (`progress` à 0).
 5. Mouvement : chaque unité en route avance d'un pas.
-6. Croisements : dans chaque canal, tant que l'unité la plus avancée vers `b` et l'unité la plus avancée vers `a` sont de camps opposés et que la somme de leurs fractions parcourues (`progress / durée`) atteint 1, les deux sont retirées.
+6. Croisements : dans chaque canal et pour chaque camp, tant que l'unité la plus avancée de ce camp vers `b` et l'unité la plus avancée de l'autre camp vers `a` ont une somme de fractions parcourues (`progress / durée`) qui atteint 1, les deux sont retirées. Une unité croise ainsi chaque unité adverse qui vient en sens inverse, même quand une unité de son propre camp la précède.
 7. Arrivées : les unités dont `progress` atteint la durée du canal arrivent, dans l'ordre de `transit`, et appliquent la règle 7. Une prise par le rival d'un bassin du joueur incrémente `basinsLost`.
 8. `mostHeld` est mis à jour, puis `outcome` selon la règle 11.
 

@@ -8,7 +8,7 @@ Prérequis : specs du jeu validées, Fold fusionné sur `dev` (la sélection au
 
 **Critère :** AC-01 à AC-07 et AC-09 couverts par des tests ; `vitest run` passe.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
