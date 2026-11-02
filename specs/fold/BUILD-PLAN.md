@@ -8,7 +8,7 @@ Prérequis : specs du jeu validées, branche `game/fold` créée depuis `dev`.
 
 **Critère :** AC-01 à AC-08 couverts par des tests ; `vitest run` passe.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
