@@ -18,6 +18,7 @@ import {
   type BoardView,
 } from './render/board';
 import { bindInput, centerCursor, cursorFold, moveCursor, type Cursor, type FoldInput } from './render/input';
+import { createSounds } from './render/sounds';
 
 interface Victory {
   final: FoldState;
@@ -35,6 +36,7 @@ const foldGame: GameDefinition = {
     const { container, locale, t, hud, signal } = context;
     const levels: Level[] = LEVELS.map(parseLevel);
     const pluralRules = new Intl.PluralRules(locale);
+    const sounds = createSounds(context.audio);
     let level: Level | undefined;
     let state: FoldState | undefined;
     let view: BoardView | undefined;
@@ -140,6 +142,7 @@ const foldGame: GameDefinition = {
 
     // Starts once the winning flap has landed, on the rebuilt sheet.
     function celebrate(current: Level, currentView: BoardView, won: Victory): void {
+      sounds.victory();
       const animation = animateVictory(currentView, reducedMotion);
       if (!animation) {
         completeLevel(current, won);
@@ -159,6 +162,7 @@ const foldGame: GameDefinition = {
       }
       const check = canFold(current, state.sheet, move);
       if (check === 'pinned') {
+        sounds.blocked();
         animateBlockedPins(blockingPins(currentView, state.sheet, move), reducedMotion);
         context.announce(t('announce.pinned'));
         return;
@@ -180,7 +184,10 @@ const foldGame: GameDefinition = {
       } else {
         hud.setActionEnabled('undo', true);
       }
+      sounds.fold();
+      // The flap lands when its animation ends, even when an input finishes it early.
       afterAnimation(animateFold(currentView, current, before.sheet, next.sheet, move, reducedMotion), () => {
+        sounds.land();
         render(current, currentView, next);
         if (won) {
           celebrate(current, currentView, won);
@@ -202,6 +209,7 @@ const foldGame: GameDefinition = {
       placeSheet(currentView, current, previous.sheet);
       showStats(current, previous);
       hud.setActionEnabled('undo', previous.history.length > 0);
+      sounds.unfold();
       context.announce(t('announce.undo', { moves: previous.moves }));
       afterAnimation(animateUnfold(currentView, current, previous.sheet, after.sheet, lastFold, reducedMotion), () =>
         render(current, currentView, previous),
@@ -313,7 +321,8 @@ const foldGame: GameDefinition = {
       },
       restart() {
         if (level && view) {
-          settle();
+          // The pending fold is dropped, not landed: the sheet is rebuilt, and its landing sound must not play.
+          finishAnimations(container);
           input.cancelGesture();
           // The pause panel's Restart button restarts without calling resume().
           paused = false;
