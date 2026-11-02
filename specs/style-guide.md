@@ -165,6 +165,7 @@ Occupe toute la hauteur sous le HUD, fond `--color-bg` par défaut. Le jeu y cen
 - Voile `--color-scrim` sur l'aire de jeu, panneau centré : fond `--color-surface-raised`, `--radius-lg`, largeur maximale 400px, marges internes `--space-6`.
 - Titre en Chakra Petch 700 `2xl`, suivi en pause et en fin de niveau du libellé du niveau (Chakra Petch 600 `base`, `--color-text-muted`), puis statistiques sous forme de liste libellé / valeur, puis les boutons empilés sur toute la largeur (le principal en premier).
 - Apparition : fondu et mise à l'échelle de 0.96 à 1 en `--duration-base`.
+- Niveau en échec : même panneau, sans icône ni lueur.
 - Résultat parfait : icône étoile en `--color-highlight` au-dessus du titre, `--glow-highlight` sur le panneau, mise en valeur en `--duration-slow`.
 
 ### Sélecteur de niveaux

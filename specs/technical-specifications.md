@@ -227,7 +227,7 @@ export interface GameContext {
 }
 
 export interface LevelResult {
-  status: 'completed' | 'perfect';
+  status: 'completed' | 'perfect' | 'failed';
   stats: { label: string; value: string }[];
   message?: string;
 }
@@ -277,11 +277,12 @@ Règles :
 
 - Pointeur : Pointer Events uniquement (pas d'écouteurs `mouse*` ou `touch*` séparés). `touch-action: none` sur l'aire de jeu pendant la partie. Un contrôle propre à la souris se distingue par `pointerType`.
 - Cibles tactiles : au moins 44 × 44 px CSS pour les boutons de l'interface ; au moins 32 × 32 px pour les éléments touchables d'une grille de jeu, qui ne peut pas toujours tenir à 44px sur un téléphone en paysage (le minimum WCAG 2.2 AA est de 24px).
-- Une entrée reçue pendant une animation la termine immédiatement, puis est traitée : le jeu ne perd ni ne met en attente une entrée.
+- Une entrée reçue pendant une animation la termine immédiatement, puis est traitée : le jeu ne perd ni ne met en attente une entrée. Dans un jeu en temps réel, la simulation n'est pas une animation (voir "Animations") : une entrée ne la termine ni ne l'accélère.
 
 ### Animations
 
 - Les animations passent par CSS, la Web Animations API ou la boucle de rendu du jeu, jamais par des timers.
+- Dans un jeu en temps réel, la simulation (déplacements des unités, des personnages) n'est pas une animation : elle ne change pas en mouvement réduit (voir "Mouvement réduit" dans `functional-specifications.md`).
 - `context.reducedMotion()` est relu au début de chaque niveau. Le `technical-specifications.md` du jeu indique ce que devient chaque animation en mouvement réduit.
 
 ### Son

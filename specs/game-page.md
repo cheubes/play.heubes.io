@@ -56,12 +56,13 @@ Contenu, dans l'ordre :
 
 ## Fin de niveau
 
-- Le jeu signale la fin d'un niveau avec son résultat (statut `completed` ou `perfect`, statistiques, message facultatif). La sauvegarde est mise à jour avant l'affichage du panneau.
+- Le jeu signale la fin d'un niveau avec son résultat (statut `completed`, `perfect` ou `failed`, statistiques, message facultatif). La sauvegarde est mise à jour avant l'affichage du panneau.
 - Le panneau "Level complete" / "Niveau terminé" rappelle sous son titre le niveau joué (le libellé du HUD), puis affiche les statistiques du résultat, et la mise en valeur "perfect" le cas échéant (voir "Panneaux" dans `style-guide.md`). Il propose :
   - "Next level" / "Niveau suivant" (principal), s'il existe un niveau suivant ;
   - "Replay" / "Rejouer" ;
   - "Levels" / "Niveaux".
 - Après le dernier niveau, le titre devient "All levels complete!" / "Tous les niveaux sont terminés !", et "Levels" devient l'action principale.
+- Un niveau en échec (statut `failed`, pour les jeux où l'on peut perdre) ouvre le panneau "Level failed" / "Niveau perdu" : rappel du niveau joué, statistiques, message facultatif, puis "Try again" / "Réessayer" (principal) et "Levels" / "Niveaux". Un échec ne modifie pas la progression.
 - Pour un jeu sans niveaux, le panneau "Game over" / "Partie terminée" propose "Play again" / "Rejouer" et "Quit" / "Quitter".
 
 ## Sélecteur de niveaux

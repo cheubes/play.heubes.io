@@ -31,7 +31,7 @@ Objectifs :
 1. **Découvrir et lancer un jeu** : accueil, choix d'une tuile, page du jeu (titre, accroche, règles, contrôles), "Play", partie.
 2. **Reprendre sa progression** : page du jeu, sélecteur de niveaux affichant les niveaux terminés et le prochain disponible, choix d'un niveau, partie.
 3. **Interrompre une partie** : pause (bouton, touche ou perte de focus de l'onglet), puis reprise, recommencement ou retour au sélecteur de niveaux.
-4. **Terminer un niveau** : panneau de fin de niveau avec le résultat, puis niveau suivant, rejouer ou retour au sélecteur.
+4. **Terminer un niveau** : panneau de fin de niveau avec le résultat, puis niveau suivant, rejouer ou retour au sélecteur. Dans un jeu où l'on peut perdre, un échec ouvre un panneau qui propose de réessayer ou de revenir au sélecteur.
 5. **Changer de langue** : sélecteur de langue dans l'en-tête, même page dans l'autre langue.
 6. **Couper le son** : bouton "Son" dans l'interface du jeu, réglage conservé pour tous les jeux.
 
@@ -54,7 +54,7 @@ Objectifs :
 
 ### Cycle de vie d'une partie
 
-Chaque jeu suit le même cycle de vie, défini dans `game-page.md` : page du jeu (hors partie), partie en cours, pause, fin de niveau ou de partie. Un jeu n'invente pas ses propres écrans de pause ou de fin : il fournit le contenu (résultat, statistiques) affiché par les panneaux communs.
+Chaque jeu suit le même cycle de vie, défini dans `game-page.md` : page du jeu (hors partie), partie en cours, pause, fin de niveau (réussie ou en échec) ou de partie. Un jeu n'invente pas ses propres écrans de pause ou de fin : il fournit le contenu (résultat, statistiques) affiché par les panneaux communs.
 
 ### Contrôles
 
@@ -80,7 +80,7 @@ Chaque jeu suit le même cycle de vie, défini dans `game-page.md` : page du je
 
 ### Mouvement réduit
 
-Quand le système du joueur demande de réduire les animations (`prefers-reduced-motion`), les animations décoratives sont supprimées et les animations porteuses d'information (déplacement d'une pièce, par exemple) sont raccourcies au point d'être quasi instantanées. Chaque jeu précise dans son `technical-specifications.md` ce que devient chacune de ses animations.
+Quand le système du joueur demande de réduire les animations (`prefers-reduced-motion`), les animations décoratives sont supprimées et les animations porteuses d'information (déplacement d'une pièce, par exemple) sont raccourcies au point d'être quasi instantanées. Dans un jeu en temps réel, les déplacements qui font partie de la simulation (unités, personnages) ne sont pas des animations : ils restent inchangés, et seuls les effets décoratifs sont supprimés ou simplifiés. Chaque jeu précise dans son `technical-specifications.md` ce que devient chacune de ses animations.
 
 ### Orientation de l'écran
 
