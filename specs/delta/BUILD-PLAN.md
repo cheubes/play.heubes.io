@@ -29,7 +29,7 @@ Critère de fin : vitest run passe.
 
 **Critère :** AC-08 couvert par des tests ; `vitest run` passe.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

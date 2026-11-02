@@ -1,3 +1,4 @@
+import { decide } from './strategy';
 import { BASIN_SIZES, EMISSION_INTERVAL } from './types';
 import type { BasinState, Channel, DeltaState, Level, Side, Unit } from './types';
 
@@ -88,8 +89,9 @@ export function step(level: Level, state: DeltaState): DeltaState {
     return state;
   }
   const tick = state.tick + 1;
+  const decided = tick % level.rival.reaction === 0 ? decide(level, state, 'rival', level.rival) : state;
 
-  const basins = state.basins.map((basin, index) => {
+  const basins = decided.basins.map((basin, index) => {
     const { productionInterval, capacity } = BASIN_SIZES[level.basins[index]!.size];
     if (basin.owner !== 'neutral' && tick % productionInterval === 0 && basin.units < capacity) {
       return { ...basin, units: basin.units + 1 };
@@ -143,5 +145,5 @@ export function step(level: Level, state: DeltaState): DeltaState {
     basins.some((basin) => basin.owner === side) || transit.some((unit) => unit.side === side);
   const outcome = !alive('player') ? 'lost' : !alive('rival') ? 'won' : 'playing';
 
-  return { ...state, tick, basins, transit, basinsLost, mostHeld: Math.max(state.mostHeld, held), outcome };
+  return { ...decided, tick, basins, transit, basinsLost, mostHeld: Math.max(state.mostHeld, held), outcome };
 }

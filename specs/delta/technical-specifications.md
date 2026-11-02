@@ -105,4 +105,7 @@ Aucune.
 
 ## Points tranchés à l'implémentation
 
-Aucun pour l'instant.
+- **2026-11-02 / Croisements par paire de camps** : le pas 6 compare, dans chaque canal et pour chaque camp, l'unité la plus avancée de ce camp vers `b` et l'unité la plus avancée de l'autre camp vers `a`. Raison : la règle comparait les deux unités de tête du canal ; quand elles étaient toutes deux au joueur, une unité du rival placée derrière l'une d'elles traversait l'unité du joueur d'en face sans s'annuler.
+- **2026-11-02 / Seuil de menace** : un bassin n'est menacé que si au moins une unité adverse est en route vers lui. Raison : à la lettre, tout bassin vide était menacé (0 ≥ 0), même sans adversaire en route, et attirait un renfort ; ses voisins se vidaient vers les bassins vides de l'arrière.
+- **2026-11-02 / Lecture de la stratégie** : un bassin d'un autre camp inclut les neutres, dans toutes les phases ; la poursuite ne compte que les unités de son camp qui vont vers la cible ; un relais sans bassin d'un autre camp atteignable laisse le bassin en réserve. Raison : `game-model.md` ne précisait les neutres que pour l'attaque, et ne disait rien des deux autres cas.
+- **2026-11-02 / Tirage des égalités** : le générateur ne tire qu'en cas d'égalité ; le choix est le candidat d'indice `floor(valeur × n)` parmi les n ex aequo, dans l'ordre des canaux du niveau. Raison : `game-model.md` confiait les égalités au générateur sans fixer son usage ; un tirage à chaque décision consommerait le générateur sans effet.

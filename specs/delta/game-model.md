@@ -88,14 +88,14 @@ Dans cet ordre :
 
 ### Stratégie
 
-`decide(level, state, side, { reaction, margin })` donne de nouvelles sorties aux bassins de `side`, en trois phases. Les égalités sont départagées par le générateur.
+`decide(level, state, side, { reaction, margin })` donne de nouvelles sorties aux bassins de `side`, en trois phases. Un bassin d'un autre camp est un bassin adverse ou neutre. Les égalités sont départagées par le générateur : il ne tire qu'en cas d'égalité, et le choix est le candidat d'indice `floor(valeur × n)` parmi les n ex aequo, dans l'ordre des canaux du niveau.
 
-1. **Menaces** : un bassin est menacé si le nombre d'unités adverses en route vers lui est au moins égal à ses unités. Un bassin menacé est mis en réserve (pas de sortie).
+1. **Menaces** : un bassin est menacé si au moins une unité adverse est en route vers lui et que le nombre d'unités adverses en route vers lui est au moins égal à ses unités. Un bassin menacé est mis en réserve (pas de sortie).
 2. **Renforts** : pour chaque bassin menacé, dans l'ordre du niveau, son voisin du même camp non menacé, et pas encore choisi comme renfort, qui a le plus d'unités oriente sa sortie vers lui.
 3. **Autres bassins**, dans l'ordre du niveau, sauf les renforts :
-   - **Poursuite** : si sa sortie vise un bassin d'un autre camp et que ses unités, plus les unités de son camp en route sur ce canal, dépassent la garnison de la cible, il la garde ;
-   - **Attaque** : sinon, parmi ses voisins d'un autre camp (ou neutres) dont la garnison plus `margin` est inférieure à ses unités, il vise celui qui a la plus petite garnison ;
-   - **Relais** : sinon, si tous ses voisins sont de son camp, il vise le voisin le plus proche (en nombre de canaux) d'un bassin d'un autre camp ;
+   - **Poursuite** : si sa sortie vise un bassin d'un autre camp et que ses unités, plus les unités de son camp en route vers la cible sur ce canal, dépassent la garnison de la cible, il la garde ;
+   - **Attaque** : sinon, parmi ses voisins d'un autre camp dont la garnison plus `margin` est inférieure à ses unités, il vise celui qui a la plus petite garnison ;
+   - **Relais** : sinon, si tous ses voisins sont de son camp, il vise le voisin le plus proche (en nombre de canaux) d'un bassin d'un autre camp, s'il en existe un d'atteignable ;
    - **Réserve** : sinon, pas de sortie.
 
 La stratégie de référence, utilisée par les tests de validation des niveaux, est cette stratégie jouée pour le joueur avec `reaction` = 5 et `margin` = 0.

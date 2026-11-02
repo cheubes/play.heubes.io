@@ -10,11 +10,14 @@ function basin(id: string, at: [number, number], owner: Owner, units: number, si
   return { id, at, size, owner, units };
 }
 
-function createLevel(basins: BasinSource[], channels: [string, string, Tide?][] = []): Level {
+// The rival does not play within these runs, so that the rules are tested apart from its strategy.
+const PASSIVE_RIVAL = 1_000_000;
+
+function createLevel(basins: BasinSource[], channels: [string, string, Tide?][] = [], reaction = PASSIVE_RIVAL): Level {
   return parseLevel({
     id: 'test',
     seed: 7,
-    rival: { reaction: 10, margin: 0 },
+    rival: { reaction, margin: 0 },
     basins,
     channels: channels.map(([a, b, tide]) => (tide === undefined ? { between: [a, b] } : { between: [a, b], tide })),
   });
@@ -401,6 +404,7 @@ describe('determinism', () => {
       ['marsh', 'isle', { open: 30, closed: 20, phase: 5 }],
       ['isle', 'den'],
     ],
+    10,
   );
 
   const ORDERS: Record<number, Order> = {
@@ -413,11 +417,11 @@ describe('determinism', () => {
   };
 
   it('AC-09: two simulations of a level with the same orders give the same state at every step', () => {
-    const start = withBasin(createState(DELTA), 4, { output: 4 });
-    const first = run(DELTA, 400, start, ORDERS);
-    const second = run(DELTA, 400, start, ORDERS);
+    const first = run(DELTA, 400, createState(DELTA), ORDERS);
+    const second = run(DELTA, 400, createState(DELTA), ORDERS);
     expect(second).toEqual(first);
+    const owners = new Set(first.map((state) => state.basins.map((current) => current.owner).join()));
     expect(first.some((state) => state.transit.some((unit) => unit.side === 'rival'))).toBe(true);
-    expect(at(first, 400).basins.filter((current) => current.owner === 'player').length).toBeGreaterThan(1);
+    expect(owners.size).toBeGreaterThan(2);
   });
 });
