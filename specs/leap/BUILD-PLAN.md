@@ -129,7 +129,7 @@ son pendant la pause.
 
 **Critère :** tous les critères [manuel] revérifiés sur un téléphone réel.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
