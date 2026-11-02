@@ -8,7 +8,7 @@ Prérequis : specs du jeu validées, branche `game/fold` créée depuis `dev`.
 
 **Critère :** AC-01 à AC-08 couverts par des tests ; `vitest run` passe.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -27,7 +27,7 @@ Critère de fin : vitest run passe.
 
 **Critère :** AC-09 passe pour les 20 niveaux, en moins de 10 secondes.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -49,9 +49,9 @@ Critère de fin : vitest run passe, le test AC-09 prend moins de 10 secondes.
 
 ## 3. Rendu de la feuille et de la carte modèle
 
-**Critère :** "Play" affiche le niveau 1, feuille et carte modèle, conforme à la charte ; AC-13 et AC-14 vérifiés à la main.
+**Critère :** "Play" affiche le niveau 1, feuille et carte modèle, conforme à la charte ; AC-13 (hors ligne de pli, qui n'apparaît qu'à l'étape 4) et AC-14 vérifiés à la main.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -71,9 +71,9 @@ découpes et une épingle, en portrait et en paysage.
 
 ## 4. Contrôles et animations
 
-**Critère :** AC-10, AC-11 et AC-12 vérifiés à la main, sur desktop et sur mobile.
+**Critère :** AC-10, AC-11 et AC-12 vérifiés à la main, sur desktop et sur mobile ; la ligne de pli d'AC-13 vérifiée en niveaux de gris.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -92,7 +92,7 @@ un pli qui déborde et un pli bloqué par une épingle.
 
 **Critère :** AC-15 vérifié à la main ; la progression survit à un rechargement ; la réinitialisation fonctionne.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -111,7 +111,7 @@ rechargement ; la réinitialisation remet le sélecteur à zéro.
 
 **Critère :** chaque son se déclenche au bon moment, respecte le réglage "Son" et se coupe en pause.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -128,7 +128,7 @@ son pendant la pause.
 
 **Critère :** tous les critères [manuel] revérifiés sur un téléphone réel.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -148,4 +148,4 @@ Critère de fin : tous les critères d'acceptation sont vérifiés.
 
 Relecture de cohérence de l'ensemble des specs (voir "Avant chaque commit" dans `CLAUDE.md`), mise à jour de "Points tranchés à l'implémentation", ajout de Fold aux crédits de "About" s'il utilise des assets tiers (aucun prévu), fusion de `game/fold` sur `dev`. Le jeu est publié à la prochaine fusion de `dev` sur `main`.
 
-**Statut :** à faire.
+**Statut :** fait.

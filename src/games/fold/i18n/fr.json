@@ -1,0 +1,25 @@
+{
+  "level": "Niveau {number}",
+  "goal": "Modèle",
+  "actions": {
+    "undo": "Annuler"
+  },
+  "stats": {
+    "moves": "Coups",
+    "par": "Par",
+    "best": "Record"
+  },
+  "announce": {
+    "move": "Coup {moves}. Feuille de {width} sur {height}.",
+    "match": {
+      "one": "{matching} case sur {total} conforme.",
+      "other": "{matching} cases sur {total} conformes."
+    },
+    "pinned": "Une épingle retient ce côté.",
+    "undo": "Annulé. Coup {moves}."
+  },
+  "result": {
+    "perfect": "Parfait ! Résolu en un minimum de coups.",
+    "solved": "Résolu en {moves} coups. Sauras-tu le faire en {par} ?"
+  }
+}

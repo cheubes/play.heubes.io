@@ -1,0 +1,25 @@
+{
+  "level": "Level {number}",
+  "goal": "Goal",
+  "actions": {
+    "undo": "Undo"
+  },
+  "stats": {
+    "moves": "Moves",
+    "par": "Par",
+    "best": "Best"
+  },
+  "announce": {
+    "move": "Move {moves}. Sheet {width} by {height}.",
+    "match": {
+      "one": "{matching} of {total} squares match.",
+      "other": "{matching} of {total} squares match."
+    },
+    "pinned": "A pin holds this side.",
+    "undo": "Undo. Move {moves}."
+  },
+  "result": {
+    "perfect": "Perfect! Solved in the minimum number of moves.",
+    "solved": "Solved in {moves} moves. Can you do it in {par}?"
+  }
+}

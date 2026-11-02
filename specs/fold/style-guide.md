@@ -32,7 +32,7 @@ Custom properties déclarées sur `.game-fold`. Contrastes mesurés sur `--fold-
 | Épingle | Tête ronde `--fold-pin` de 0,3 case, cerclée de `--fold-ink`, au centre de la case, toujours au-dessus de sa pile. |
 | Carte modèle | La face à obtenir, dessinée comme la feuille (mêmes cases, motifs et découpes), en réduction, sans épaisseur ni épingle. Libellé "Goal" / "Modèle" au-dessus, en Chakra Petch 600 `sm`, `--color-text-muted`. |
 | Ligne de pli (aperçu et curseur clavier) | Trait de 2px `--color-accent` (token du site) doublé à l'intérieur d'un trait de 2px `--fold-ink`, sur toute la longueur de la feuille : l'encre reste lisible sur le papier, le cyan sur le fond. |
-| Rabat fantôme | La partie mobile, retournée, à sa position d'arrivée, à 40 % d'opacité. |
+| Rabat fantôme | La partie mobile, retournée, à sa position d'arrivée, à 40 % d'opacité, cases cerclées d'un trait fin `--fold-ink`. |
 
 ## Animations
 

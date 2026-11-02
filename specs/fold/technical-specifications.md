@@ -21,11 +21,11 @@ Alternatives écartées :
 | `logic/level-parser.ts` | `parseLevel`. |
 | `logic/sheet.ts` | Application d'un pli, normalisation, `visibleFace`. |
 | `logic/fold.ts` | `createState`, `canFold`, `fold`, `undo`, `restart`, `isSolved`. |
-| `logic/solver.ts` | Solveur, pour les tests uniquement. |
+| `logic/solver.ts` | Solveur et décompte des suites de plis, pour les tests uniquement. |
 | `levels/levels.ts` | Les 20 niveaux. |
-| `render/board.ts` | Construction de la feuille et de la carte modèle, disposition selon l'orientation, dimensionnement. |
+| `render/board.ts` | Construction de la feuille et de la carte modèle, disposition selon l'orientation, dimensionnement, aperçu (ligne de pli, rabat fantôme, épingles qui bloquent). |
 | `render/animations.ts` | Pli, pli impossible, annulation, victoire. |
-| `render/input.ts` | Geste de pli, ligne de pli au clavier, aperçu. |
+| `render/input.ts` | Geste de pli et ligne de pli au clavier : calcul du pli et du curseur, liaison des événements. |
 | `render/sounds.ts` | Synthèse des sons. |
 | `index.ts` | `GameDefinition`. |
 
@@ -68,6 +68,7 @@ Synthèse Web Audio, sans fichier, connectée à `context.audio.output()` :
 
 - Tests des critères AC-01 à AC-09 dans `logic/*.test.ts`.
 - AC-09 fait une recherche en largeur par niveau, élaguée par les dimensions du modèle : le test complet reste sous 10 secondes en CI.
+- Les critères de non-trivialité des niveaux ("Points tranchés à l'implémentation") sont vérifiés par `logic/levels.difficulty.ts`, hors AC-09 et hors de `vitest run` : le décompte des suites de plis explore tous les états jusqu'au par, là où AC-09 s'arrête à la première solution. Ils sont lancés par `npm run test:difficulty`, en CI comme à chaque modification des niveaux.
 
 ## Performance
 
@@ -81,4 +82,12 @@ Aucune.
 
 ## Points tranchés à l'implémentation
 
-Aucun pour l'instant.
+- **2026-11-02 / Profondeur du solveur** : la recherche s'arrête à 6 plis, le par maximal ; au-delà, le niveau est déclaré non résoluble. Raison : sans limite, un niveau non résoluble fait explorer tout l'espace des feuilles, qui épuise la mémoire pour une feuille de 6 × 6 et un modèle de 1 × 1.
+- **2026-11-02 / Non-trivialité des niveaux** : vérifiée par `logic/levels.difficulty.ts` (voir "Tests"). Critères : par d'au plus 2 pour les niveaux 1, 6, 11 et 16, de 1 ou 2 en série 1, d'au moins 3 pour les autres niveaux des séries 2 à 4, sans décroître d'un niveau au suivant dans une série ; hors niveau 1, parmi les suites d'au plus "par" plis qui mènent aux dimensions du modèle, au plus 50 % (série 1) ou 20 % (séries 2 à 4) résolvent le niveau ; dans les séries 2 à 4, l'état résolu par la solution du solveur porte au moins trois couches sur une position ; en série 3, la solution rejouée sur la feuille dont les découpes sont remplacées par du papier nu donne une face différente en au moins une position non vide du modèle ; en série 4, le niveau sans ses épingles se résout en moins de plis que le par, et chaque épingle bloque au moins un pli dans un état de la solution ; les niveaux 18 à 20 ont des découpes et des épingles ; au plus deux encres en série 1, au moins trois dans les niveaux 8 à 10 et 18 à 20. Raison : "Progression" (`functional-specifications.md`) demande une difficulté adaptée à la place du niveau sans la mesurer ; ces critères écartent les niveaux qui se résolvent en pliant au hasard jusqu'à la bonne taille, et les mécaniques décoratives. Les suites plus courtes que le par qui atteignent les dimensions du modèle comptent parmi les échecs : ce sont des pièges comme les autres.
+- **2026-11-02 / Budget d'AC-09** : le solveur prend environ 0,3 s pour les 20 niveaux, 135ms pour le plus coûteux (niveau 15), et le test de difficulté environ 2 s. Raison : les mesures sur une feuille de 6 × 6 montraient jusqu'à 5 s pour un seul niveau de par 6 avec un modèle de 2 × 2 ; les niveaux profonds ont donc des modèles d'au moins 6 cases, et les épingles réduisent les plis possibles.
+- **2026-11-02 / Contour du rabat fantôme** : chaque case du rabat fantôme est cerclée d'un trait fin `--fold-ink`. Raison : à 40 % d'opacité, du papier nu sur du papier nu ne montrait rien de l'endroit où le rabat allait se poser, alors qu'AC-10 demande que l'aperçu montre sa position d'arrivée.
+- **2026-11-02 / Perspective du pli** : la `perspective` est portée par la grille de la feuille, et le rabat qui tourne est un calque en `transform-style: preserve-3d` à l'intérieur. Raison : l'ombre portée de la feuille (`filter: drop-shadow`) l'aplatit, ce qui couperait une perspective posée sur un conteneur au-dessus ; posée sur la feuille elle-même, elle s'applique au rabat, qui reçoit aussi l'ombre.
+- **2026-11-02 / Accord des annonces** : "<k> cases sur <total> conformes." s'accorde avec le nombre de cases conformes ("1 case sur 9 conforme." en français), selon les règles de pluriel de la langue. Raison : `functional-specifications.md` ne donne que la forme au pluriel ; Prism accorde ses annonces de la même façon.
+- **2026-11-02 / Illumination de la carte modèle** : à la victoire, la carte modèle porte `--glow-accent` (jeton du site), qui apparaît en 320ms et reste jusqu'au recommencement du niveau. Raison : `style-guide.md` dit que la carte "s'illumine" sans en fixer l'apparence ; le jeton du site sert déjà à mettre en valeur une tuile ou le niveau en cours.
+- **2026-11-02 / Sauvegarde à la résolution** : le résultat est enregistré dès le pli gagnant, avant l'animation de victoire. Raison : quitter pendant l'animation garde la progression, comme dans Prism.
+- **2026-11-02 / Entrée après la résolution** : une fois le niveau résolu, "Undo" est désactivé et toute entrée termine les animations en cours, victoire comprise, ce qui ouvre le panneau de fin ; elle n'a pas d'autre effet. Raison : c'est la règle commune (une entrée termine les animations en cours) appliquée à la victoire, comme dans Prism et Tilt.
