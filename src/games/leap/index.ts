@@ -11,6 +11,7 @@ import { drawBackdropGear, drawDecor, drawScene, readPalette, type Palette, type
 import { createEffects, slideRooms, spinGears, type Effects } from './render/effects';
 import { bindInput, defaultInputSource, type InputSource } from './render/input';
 import { startLoop, type GameLoop } from './render/loop';
+import { createSounds } from './render/sounds';
 
 const INDICATOR_INSET = 4;
 
@@ -74,6 +75,7 @@ const leap: GameDefinition = {
     const { container, t, hud, signal } = context;
     const levels: Level[] = LEVELS.map(parseLevel);
     const layers = createRoomLayers();
+    const sounds = createSounds(context.audio);
     let level: Level | undefined;
     let loop: GameLoop | undefined;
     let palette: Palette | undefined;
@@ -189,22 +191,33 @@ const leap: GameDefinition = {
             () => undefined,
           );
         }
+        sounds.exitRoom();
         announceRoom(current);
         return;
       }
       if (current.falls > previous.falls) {
         effects.fall(previous.runner.x, previous.runner.y);
+        sounds.fall();
         context.announce(t('announce.fall'));
         return;
       }
       const { runner } = current;
-      if (runner.vy === GRAVITY - JUMP_SPEED || runner.vy === -SPRING_SPEED) {
+      if (runner.vy === GRAVITY - JUMP_SPEED) {
         effects.jump();
+        sounds.jump();
+      } else if (runner.vy === -SPRING_SPEED) {
+        effects.jump();
+        sounds.spring();
       } else if (runner.grounded && !previous.runner.grounded) {
         effects.land(runner.x + RUNNER_WIDTH / 2, runner.y + RUNNER_HEIGHT);
+        sounds.land();
       }
       if (runner.facing !== previous.runner.facing) {
         effects.turn(previous.runner.facing === 'right' ? runner.x + RUNNER_WIDTH : runner.x, runner.y + RUNNER_HEIGHT / 2, runner.facing);
+        sounds.turn();
+      }
+      if (runner.onLever && !previous.runner.onLever) {
+        sounds.lever();
       }
       if (current.doorsSwapped !== previous.doorsSwapped) {
         effects.swapDoors();
@@ -214,6 +227,7 @@ const leap: GameDefinition = {
         if (cog) {
           effects.collectCog((cog.col + 0.5) * CELL_SIZE, (cog.row + 0.5) * CELL_SIZE);
         }
+        sounds.cog();
         context.announce(t('announce.cog'));
       }
     }
@@ -231,6 +245,7 @@ const leap: GameDefinition = {
     function completeLevel(current: Level, state: LeapState): void {
       completed = true;
       finishEffects();
+      sounds.exitLevel();
       const run = { ticks: state.runTicks, cogs: state.cogs, falls: state.falls };
       const bestTicks = saveResult(context.storage, current.id, run);
       pendingResult = getLevelResult(t, run, bestTicks);
