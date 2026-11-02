@@ -19,7 +19,7 @@ const PALETTE_PROPERTIES = {
 export type Palette = Record<keyof typeof PALETTE_PROPERTIES, string>;
 
 export interface SceneFrame {
-  runner: { x: number; y: number; facing: Facing; scale: number; visible: boolean };
+  runner: { x: number; y: number; facing: Facing; scale: number; opacity: number; visible: boolean };
   movers: { x: number; y: number; length: number }[];
   doorsSwapped: boolean;
   // Progress of the last swap of the doors, from 0 to 1 once they are settled.
@@ -266,11 +266,12 @@ function drawLever(context: CanvasRenderingContext2D, palette: Palette, x: numbe
 }
 
 function drawRunner(context: CanvasRenderingContext2D, palette: Palette, frame: SceneFrame['runner']): void {
-  const { x, y, facing, scale, visible } = frame;
+  const { x, y, facing, scale, opacity, visible } = frame;
   if (!visible) {
     return;
   }
   context.save();
+  context.globalAlpha = opacity;
   context.translate(0, (y + RUNNER_HEIGHT) * (1 - scale));
   context.scale(1, scale);
   const cx = x + RUNNER_WIDTH / 2;

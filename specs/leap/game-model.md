@@ -146,7 +146,7 @@ interface LeapSave {
 - Statuts : `available` pour le premier niveau non terminé qui suit un niveau terminé (ou le niveau 1), `completed` pour un niveau terminé, `perfect` si `allCogs`, `locked` sinon. Ils ne sont pas stockés.
 - Une entrée dont l'`id` n'existe plus dans `levels.ts` est ignorée.
 
-La progression commune de `src/games/shell/progress.ts` ne s'applique pas : elle repose sur des coups et un par. La logique de statuts est la même que celle de Delta ; si elle devient commune, elle est extraite dans `src/games/shell/` (voir "Structure des fichiers" dans `technical-specifications.md`).
+La progression commune de `src/games/shell/progress.ts` ne s'applique pas : elle repose sur des coups et un par. La logique de statuts est propre à Leap tant qu'aucun autre jeu n'en a besoin. Delta, qui a la même, l'extraira dans `src/games/shell/` (étape 6 de `specs/delta/BUILD-PLAN.md`).
 
 ## Contraintes de validation
 

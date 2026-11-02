@@ -100,3 +100,12 @@ export interface LeapState {
   runTicks: number;
   outcome: 'playing' | 'complete';
 }
+
+export interface LevelRecord {
+  bestTicks: number;
+  allCogs: boolean;
+}
+
+export interface LeapSave {
+  levels: Record<string, LevelRecord>;
+}

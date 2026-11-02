@@ -9,6 +9,7 @@ const FALL_DURATION = 400;
 const COG_DURATION = 200;
 const DOOR_DURATION = 150;
 const SLIDE_DURATION = 300;
+const EXIT_DURATION = 300;
 const JUMP_STRETCH = 1.15;
 const LANDING_SQUASH = 0.85;
 const PIECE_GRAVITY = 0.004;
@@ -46,11 +47,14 @@ export interface Effects {
   fall(x: number, y: number): void;
   collectCog(x: number, y: number): void;
   swapDoors(): void;
+  exitLevel(): void;
   advance(elapsed: number): void;
   finish(): void;
   falling(): boolean;
   runnerScale(): number;
   doorProgress(): number;
+  // Progress of the runner into the exit arch, undefined outside the end of the level.
+  exitProgress(): number | undefined;
   draw(context: CanvasRenderingContext2D, palette: Palette, runner: { x: number; y: number }): void;
 }
 
@@ -65,6 +69,7 @@ export function createEffects(reducedMotion: boolean): Effects {
   let fall: Fall | undefined;
   let cog: CogFlight | undefined;
   let doors: Timed | undefined;
+  let exit: Timed | undefined;
 
   function drawDust(context: CanvasRenderingContext2D, dust: Dust): void {
     const t = progress(dust);
@@ -150,8 +155,11 @@ export function createEffects(reducedMotion: boolean): Effects {
         doors = { elapsed: 0, duration: DOOR_DURATION };
       }
     },
+    exitLevel() {
+      exit = { elapsed: 0, duration: EXIT_DURATION };
+    },
     advance(elapsed) {
-      for (const effect of [squash, fall, cog, doors, ...dusts]) {
+      for (const effect of [squash, fall, cog, doors, exit, ...dusts]) {
         if (effect) {
           effect.elapsed += elapsed;
         }
@@ -161,6 +169,9 @@ export function createEffects(reducedMotion: boolean): Effects {
       fall = running(fall);
       cog = running(cog);
       doors = running(doors);
+      if (exit) {
+        exit.elapsed = Math.min(exit.elapsed, exit.duration);
+      }
       dusts = dusts.filter((dust) => dust.elapsed < dust.duration);
     },
     finish() {
@@ -178,6 +189,9 @@ export function createEffects(reducedMotion: boolean): Effects {
     },
     doorProgress() {
       return doors ? progress(doors) : 1;
+    },
+    exitProgress() {
+      return exit ? progress(exit) : undefined;
     },
     draw(context, palette, runner) {
       context.fillStyle = palette.wallEdge;

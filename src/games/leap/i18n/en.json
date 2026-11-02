@@ -2,7 +2,9 @@
   "level": "Level {number}",
   "stats": {
     "cogs": "Cogs",
-    "time": "Time"
+    "time": "Time",
+    "falls": "Falls",
+    "best": "Best"
   },
   "indicator": {
     "pointer": "Tap to start",
@@ -12,5 +14,9 @@
     "room": "Room {number} of 2.",
     "cog": "Cog collected.",
     "fall": "Fall. Back to the start of the room."
+  },
+  "result": {
+    "perfect": "Perfect! Both cogs collected.",
+    "finished": "Finished in {time}. Can you find both cogs?"
   }
 }

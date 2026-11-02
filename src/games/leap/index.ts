@@ -1,9 +1,10 @@
-import type { GameDefinition, HudStat } from '../shell/types';
+import type { GameDefinition, HudStat, LevelResult } from '../shell/types';
 import { LEVELS } from './levels/levels';
 import { moverPosition } from './logic/collision';
 import { createState } from './logic/leap';
 import { parseLevel } from './logic/level-parser';
 import { CELL_SIZE, GRAVITY, JUMP_SPEED, ROOM_SIZE, RUNNER_HEIGHT, RUNNER_WIDTH, SPRING_SPEED } from './logic/types';
+import { formatTime, getLevelEntries, getLevelResult, parseSave, saveResult } from './logic/progress';
 import type { LeapState, Level, Room } from './logic/types';
 import { BACKDROP_GEARS, createRoomLayers, fitRoomLayers, gearRadius } from './render/canvas';
 import { drawBackdropGear, drawDecor, drawScene, readPalette, type Palette, type SceneFrame } from './render/draw';
@@ -11,14 +12,7 @@ import { createEffects, slideRooms, spinGears, type Effects } from './render/eff
 import { bindInput, defaultInputSource, type InputSource } from './render/input';
 import { startLoop, type GameLoop } from './render/loop';
 
-const TICKS_PER_TENTH = 6;
 const INDICATOR_INSET = 4;
-
-function formatTime(ticks: number): string {
-  const tenths = Math.floor(ticks / TICKS_PER_TENTH);
-  const seconds = Math.floor(tenths / 10);
-  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}.${tenths % 10}`;
-}
 
 function collectedCogs(state: LeapState): number {
   return state.cogs + (state.roomCog ? 1 : 0);
@@ -28,7 +22,7 @@ function lerp(from: number, to: number, alpha: number): number {
   return from + (to - from) * alpha;
 }
 
-function findTile(room: Room, tile: 'entry' | 'cog'): { row: number; col: number } | undefined {
+function findTile(room: Room, tile: 'entry' | 'cog' | 'exit'): { row: number; col: number } | undefined {
   for (const [row, line] of room.tiles.entries()) {
     const col = line.indexOf(tile);
     if (col !== -1) {
@@ -39,15 +33,25 @@ function findTile(room: Room, tile: 'entry' | 'cog'): { row: number; col: number
 }
 
 // A fall or a new room moves the runner without travelling: those steps are not interpolated.
+// At the end of the level, the runner walks into the exit arch while fading out.
 function sceneFrame(level: Level, previous: LeapState, current: LeapState, alpha: number, effects: Effects): SceneFrame {
   const continuous = previous.room === current.room && previous.falls === current.falls;
   const from = continuous ? previous : current;
+  let x = lerp(from.runner.x, current.runner.x, alpha);
+  let y = lerp(from.runner.y, current.runner.y, alpha);
+  const exitProgress = effects.exitProgress() ?? 0;
+  const exit = findTile(level.rooms[current.room], 'exit');
+  if (exitProgress > 0 && exit) {
+    x = lerp(x, exit.col * CELL_SIZE + (CELL_SIZE - RUNNER_WIDTH) / 2, exitProgress);
+    y = lerp(y, (exit.row + 1) * CELL_SIZE - RUNNER_HEIGHT, exitProgress);
+  }
   return {
     runner: {
-      x: lerp(from.runner.x, current.runner.x, alpha),
-      y: lerp(from.runner.y, current.runner.y, alpha),
+      x,
+      y,
       facing: current.runner.facing,
-      scale: effects.runnerScale(),
+      scale: effects.runnerScale() * (1 - 0.4 * exitProgress),
+      opacity: 1 - exitProgress,
       visible: !effects.falling(),
     },
     movers: level.rooms[current.room].movers.map((mover) => {
@@ -62,6 +66,10 @@ function sceneFrame(level: Level, previous: LeapState, current: LeapState, alpha
 }
 
 const leap: GameDefinition = {
+  getLevels(storage) {
+    return getLevelEntries(LEVELS, parseSave(storage.read()));
+  },
+
   create(context) {
     const { container, t, hud, signal } = context;
     const levels: Level[] = LEVELS.map(parseLevel);
@@ -77,6 +85,8 @@ const leap: GameDefinition = {
     let inputSource: InputSource = defaultInputSource();
     let paused = false;
     let completed = false;
+    // Result of the completed level, until the exit animation hands it to the host.
+    let pendingResult: LevelResult | undefined;
     let reducedMotion = false;
     let indicatorPlacement = '';
 
@@ -208,12 +218,36 @@ const leap: GameDefinition = {
       }
     }
 
+    function handOver(): void {
+      if (pendingResult) {
+        const result = pendingResult;
+        pendingResult = undefined;
+        loop?.stop();
+        context.complete(result);
+      }
+    }
+
+    // Saved as soon as the level is complete, so that leaving during the exit animation keeps the progress.
+    function completeLevel(current: Level, state: LeapState): void {
+      completed = true;
+      finishEffects();
+      const run = { ticks: state.runTicks, cogs: state.cogs, falls: state.falls };
+      const bestTicks = saveResult(context.storage, current.id, run);
+      pendingResult = getLevelResult(t, run, bestTicks);
+      if (reducedMotion) {
+        handOver();
+      } else {
+        effects.exitLevel();
+      }
+    }
+
     function begin(next: Level): void {
       loop?.stop();
       finishEffects();
       level = next;
       paused = false;
       completed = false;
+      pendingResult = undefined;
       shownStats = '';
       lastFrame = undefined;
       palette = readPalette(container);
@@ -234,23 +268,24 @@ const leap: GameDefinition = {
         onFrame(previous, current, alpha, elapsed) {
           effects.advance(elapsed);
           draw(previous, current, alpha);
+          if (effects.exitProgress() === 1) {
+            handOver();
+          }
         },
         onComplete(state) {
-          completed = true;
-          context.complete({
-            status: state.cogs === 2 ? 'perfect' : 'completed',
-            stats: [
-              { label: t('stats.time'), value: formatTime(state.runTicks) },
-              { label: t('stats.cogs'), value: `${state.cogs}/2` },
-            ],
-          });
+          completeLevel(next, state);
         },
       });
     }
 
     // An input finishes the effects in progress (a fall, a room change), then reaches the next step.
+    // Once the level is complete, it only finishes the exit animation.
     bindInput(container, signal, (source) => {
-      if (paused || completed) {
+      if (paused) {
+        return;
+      }
+      if (completed) {
+        handOver();
         return;
       }
       inputSource = source;

@@ -31,27 +31,31 @@ export function startLoop(level: Level, initial: LeapState, callbacks: LoopCallb
   function tick(time: number): void {
     frame = undefined;
     const elapsed = lastTime === undefined ? 0 : time - lastTime;
-    accumulated += elapsed;
     lastTime = time;
-    let steps = 0;
-    while (accumulated >= STEP_DURATION && steps < MAX_STEPS_PER_FRAME) {
-      accumulated -= STEP_DURATION;
-      steps++;
-      previous = current;
-      current = step(level, current, pressed);
-      pressed = false;
-      callbacks.onStep(previous, current);
-      if (current.outcome === 'complete') {
-        running = false;
-        callbacks.onFrame(previous, current, 1, elapsed);
-        callbacks.onComplete(current);
-        return;
+    // Once the level is complete, frames go on without steps, for the exit animation, until stop().
+    if (current.outcome !== 'complete') {
+      accumulated += elapsed;
+      let steps = 0;
+      while (accumulated >= STEP_DURATION && steps < MAX_STEPS_PER_FRAME) {
+        accumulated -= STEP_DURATION;
+        steps++;
+        previous = current;
+        current = step(level, current, pressed);
+        pressed = false;
+        callbacks.onStep(previous, current);
+        if (current.outcome === 'complete') {
+          callbacks.onComplete(current);
+          break;
+        }
       }
+      // Beyond four steps per frame, the delay is dropped rather than caught up.
+      accumulated %= STEP_DURATION;
     }
-    // Beyond four steps per frame, the delay is dropped rather than caught up.
-    accumulated %= STEP_DURATION;
-    callbacks.onFrame(previous, current, accumulated / STEP_DURATION, elapsed);
-    frame = requestAnimationFrame(tick);
+    const alpha = current.outcome === 'complete' ? 1 : accumulated / STEP_DURATION;
+    callbacks.onFrame(previous, current, alpha, elapsed);
+    if (running) {
+      frame = requestAnimationFrame(tick);
+    }
   }
 
   function schedule(): void {

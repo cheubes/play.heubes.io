@@ -2,7 +2,7 @@
 
 Huit étapes, chacune démontrable avant de passer à la suivante. Specs du jeu : `functional-specifications.md`, `game-model.md`, `technical-specifications.md`, `style-guide.md` de ce dossier.
 
-Prérequis : specs du jeu validées, Delta fusionné sur `dev`, branche `game/leap` créée depuis `dev`.
+Prérequis : specs du jeu validées, Prism fusionné sur `dev`, branche `game/leap` créée depuis `dev`.
 
 ## 1. Simulation
 
@@ -91,23 +91,19 @@ Critère de fin : AC-13, AC-14 et AC-15 vérifiés dans le navigateur, desktop 
 
 **Critère :** AC-11 couvert par des tests ; AC-18 vérifié à la main ; la progression survit à un rechargement ; la réinitialisation fonctionne.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
 Implémente l'étape 5 de specs/leap/BUILD-PLAN.md : progression et résultats de Leap.
 
-La logique de statuts de Leap est la même que celle de Delta (src/games/delta/logic/progress.ts) :
-extrais-la dans src/games/shell/, adapte Delta et ses tests, et mets à jour
-specs/technical-specifications.md ("Utilitaires communs actuels"), specs/delta/game-model.md,
-specs/delta/technical-specifications.md et specs/leap/game-model.md. Propose-moi ces
-modifications de specs avant de les appliquer.
+Crée src/games/leap/logic/progress.ts (voir "Données persistées" dans specs/leap/game-model.md) :
+la logique de statuts reste propre à Leap, Delta l'extraira dans src/games/shell/ à son étape 6.
+Puis getLevels, complete() avec le résultat et les messages de "Statistiques et résultats"
+(specs/leap/functional-specifications.md), et l'animation de fin de niveau. Écris les tests
+de AC-11.
 
-Puis crée src/games/leap/logic/progress.ts, getLevels, complete() avec le résultat et les
-messages de "Statistiques et résultats" (specs/leap/functional-specifications.md), et
-l'animation de fin de niveau. Écris les tests de AC-11.
-
-Critère de fin : vitest run passe, tests de Delta compris ; AC-18 vérifié ; terminer un niveau
+Critère de fin : vitest run passe ; AC-18 vérifié ; terminer un niveau
 déverrouille le suivant, y compris après rechargement ; la réinitialisation remet le
 sélecteur à zéro.
 ```
