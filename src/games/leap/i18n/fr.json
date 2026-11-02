@@ -3,5 +3,14 @@
   "stats": {
     "cogs": "Rouages",
     "time": "Temps"
+  },
+  "indicator": {
+    "pointer": "Touche pour partir",
+    "keyboard": "Appuie sur Espace"
+  },
+  "announce": {
+    "room": "Salle {number} sur 2.",
+    "cog": "Rouage récupéré.",
+    "fall": "Chute. Retour au début de la salle."
   }
 }

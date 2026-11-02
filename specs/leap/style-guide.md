@@ -38,7 +38,7 @@ Custom properties déclarées sur `.game-leap`. Contrastes mesurés sur `--leap-
 | Sortie | Arche `--leap-exit` qui occupe la case, avec une lueur intérieure. |
 | Rouage | Roue dentée `--leap-cog` à huit dents, qui flotte légèrement. |
 | Automate | Silhouette ronde `--leap-runner`, deux petites jambes, œil `--leap-cog` du côté où il court, clé de remontage dans le dos. |
-| Indicateur de départ | Texte (Chakra Petch 600 `sm`, `--color-text-muted`, token du site) sous l'entrée, avec une petite flèche dans le sens de départ. |
+| Indicateur de départ | Texte (Chakra Petch 600 `sm`, `--color-text-muted`, token du site) sous l'entrée, sur une pastille `--leap-bg` (`--radius-sm`) gardée dans la salle quand l'entrée touche un mur, avec une petite flèche dans le sens de départ. |
 
 ## Animations
 

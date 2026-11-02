@@ -19,9 +19,11 @@ const PALETTE_PROPERTIES = {
 export type Palette = Record<keyof typeof PALETTE_PROPERTIES, string>;
 
 export interface SceneFrame {
-  runner: { x: number; y: number; facing: Facing };
+  runner: { x: number; y: number; facing: Facing; scale: number; visible: boolean };
   movers: { x: number; y: number; length: number }[];
   doorsSwapped: boolean;
+  // Progress of the last swap of the doors, from 0 to 1 once they are settled.
+  doorProgress: number;
   cogVisible: boolean;
 }
 
@@ -42,7 +44,7 @@ function cellsOf(room: Room): { row: number; col: number; x: number; y: number }
   );
 }
 
-function drawGear(context: CanvasRenderingContext2D, cx: number, cy: number, radius: number, teeth: number): void {
+export function drawGear(context: CanvasRenderingContext2D, cx: number, cy: number, radius: number, teeth: number): void {
   const toothDepth = radius * 0.18;
   context.beginPath();
   for (let index = 0; index < teeth * 2; index++) {
@@ -180,12 +182,15 @@ function drawMoverRail(context: CanvasRenderingContext2D, palette: Palette, move
   context.globalAlpha = 1;
 }
 
-export function drawDecor(context: CanvasRenderingContext2D, room: Room, palette: Palette): void {
-  context.fillStyle = palette.bg;
-  context.fillRect(0, 0, ROOM_EXTENT, ROOM_EXTENT);
+export function drawBackdropGear(context: CanvasRenderingContext2D, palette: Palette, radius: number, teeth: number): void {
+  context.clearRect(0, 0, radius * 2, radius * 2);
   context.fillStyle = palette.backdrop;
-  drawGear(context, ROOM_EXTENT * 0.28, ROOM_EXTENT * 0.32, ROOM_EXTENT * 0.24, 14);
-  drawGear(context, ROOM_EXTENT * 0.78, ROOM_EXTENT * 0.74, ROOM_EXTENT * 0.18, 11);
+  drawGear(context, radius, radius, radius, teeth);
+}
+
+// The background and its cogs lie under the decor, which only draws the room's fixed tiles.
+export function drawDecor(context: CanvasRenderingContext2D, room: Room, palette: Palette): void {
+  context.clearRect(0, 0, ROOM_EXTENT, ROOM_EXTENT);
   for (const mover of room.movers) {
     drawMoverRail(context, palette, mover);
   }
@@ -216,27 +221,30 @@ export function drawDecor(context: CanvasRenderingContext2D, room: Room, palette
   }
 }
 
-function drawDoor(context: CanvasRenderingContext2D, palette: Palette, x: number, y: number, closed: boolean): void {
+// closure: 1 for a closed door, 0 for an open one; in between, the bars slide down from the top.
+function drawDoor(context: CanvasRenderingContext2D, palette: Palette, x: number, y: number, closure: number): void {
   context.strokeStyle = palette.mechanism;
   context.fillStyle = palette.mechanism;
-  if (closed) {
-    context.fillRect(x + 12, y + 12, CELL_SIZE - 24, 20);
-    context.fillRect(x + 12, y + CELL_SIZE - 32, CELL_SIZE - 24, 20);
-    for (let bar = 0; bar < 4; bar++) {
-      context.fillRect(x + 30 + bar * 50, y + 12, 24, CELL_SIZE - 24);
-    }
-  } else {
+  if (closure < 1) {
     context.lineWidth = 12;
     context.setLineDash([24, 20]);
     context.strokeRect(x + 18, y + 18, CELL_SIZE - 36, CELL_SIZE - 36);
     context.setLineDash([]);
   }
+  if (closure > 0) {
+    const barHeight = (CELL_SIZE - 24) * closure;
+    context.fillRect(x + 12, y + 12, CELL_SIZE - 24, 20);
+    context.fillRect(x + 12, y + 12 + barHeight - 20, CELL_SIZE - 24, 20);
+    for (let bar = 0; bar < 4; bar++) {
+      context.fillRect(x + 30 + bar * 50, y + 12, 24, barHeight);
+    }
+  }
 }
 
-function drawLever(context: CanvasRenderingContext2D, palette: Palette, x: number, y: number, swapped: boolean): void {
+function drawLever(context: CanvasRenderingContext2D, palette: Palette, x: number, y: number, swapped: boolean, progress: number): void {
   const cx = x + HALF;
   const pivotY = y + CELL_SIZE - 50;
-  const angle = (swapped ? 1 : -1) * (Math.PI / 6);
+  const angle = (swapped ? 1 : -1) * (Math.PI / 6) * (2 * progress - 1);
   const tipX = cx + Math.sin(angle) * 130;
   const tipY = pivotY - Math.cos(angle) * 130;
   context.strokeStyle = palette.mechanism;
@@ -258,7 +266,13 @@ function drawLever(context: CanvasRenderingContext2D, palette: Palette, x: numbe
 }
 
 function drawRunner(context: CanvasRenderingContext2D, palette: Palette, frame: SceneFrame['runner']): void {
-  const { x, y, facing } = frame;
+  const { x, y, facing, scale, visible } = frame;
+  if (!visible) {
+    return;
+  }
+  context.save();
+  context.translate(0, (y + RUNNER_HEIGHT) * (1 - scale));
+  context.scale(1, scale);
   const cx = x + RUNNER_WIDTH / 2;
   const cy = y + 92;
   const ahead = facing === 'right' ? 1 : -1;
@@ -276,6 +290,7 @@ function drawRunner(context: CanvasRenderingContext2D, palette: Palette, frame: 
   context.beginPath();
   context.arc(cx + ahead * 42, cy - 14, 18, 0, Math.PI * 2);
   context.fill();
+  context.restore();
 }
 
 export function drawScene(context: CanvasRenderingContext2D, room: Room, frame: SceneFrame, palette: Palette): void {
@@ -283,9 +298,10 @@ export function drawScene(context: CanvasRenderingContext2D, room: Room, frame: 
   for (const { row, col, x, y } of cellsOf(room)) {
     const tile = tileAt(room, { row, col });
     if (tile === 'door-closed-at-start' || tile === 'door-open-at-start') {
-      drawDoor(context, palette, x, y, isDoorClosed(tile, frame.doorsSwapped));
+      const closed = isDoorClosed(tile, frame.doorsSwapped);
+      drawDoor(context, palette, x, y, closed ? frame.doorProgress : 1 - frame.doorProgress);
     } else if (tile === 'lever') {
-      drawLever(context, palette, x, y, frame.doorsSwapped);
+      drawLever(context, palette, x, y, frame.doorsSwapped, frame.doorProgress);
     } else if (tile === 'cog' && frame.cogVisible) {
       context.fillStyle = palette.cog;
       drawGear(context, x + HALF, y + HALF - 16, 84, 8);

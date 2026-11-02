@@ -74,7 +74,7 @@ les types de cases, en portrait et en paysage.
 
 **Critère :** AC-13, AC-14 et AC-15 vérifiés à la main, sur desktop et sur mobile.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

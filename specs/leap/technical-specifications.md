@@ -2,10 +2,13 @@
 
 ## Rendu
 
-Canvas 2D. Deux `<canvas>` superposés, à la densité de l'écran (`devicePixelRatio`) :
+Canvas 2D, à la densité de l'écran (`devicePixelRatio`), sur le fond `--leap-bg` de la salle :
 
-1. **décor** : fond, murs, piques, plateformes fixes, ressorts, sortie ; dessiné une fois par salle (et à chaque redimensionnement), puisqu'il ne change pas ;
-2. **scène** : portes, leviers, plateformes mobiles, rouage, automate et effets ; redessiné à chaque image.
+1. **rouages du décor** : un petit `<canvas>` par grand rouage, dessiné une fois et tourné par la Web Animations API ;
+2. **décor** : murs, piques, plateformes fixes, ressorts, sortie, rails des plateformes mobiles ; dessiné une fois par salle (et à chaque redimensionnement), puisqu'il ne change pas ;
+3. **scène** : portes, leviers, plateformes mobiles, rouage, automate et effets ; redessinée à chaque image.
+
+Le décor et la scène forment la partie qui glisse au changement de salle ; les rouages du décor restent en place.
 
 Taille : `fitCellSize` (`src/games/shell/dom.ts`) avec une salle de 12 × 12 cases, cases plafonnées à 48px. Les positions de la logique (en unités, 240 par case) sont converties en pixels au dessin.
 
@@ -111,3 +114,7 @@ Aucune.
 - **2026-11-02 / Clé des états du solveur** : le solveur élimine les états selon tout l'état de l'automate (y compris `grounded`, `coyote` et `onLever`) et la bascule en attente, en plus des champs cités par `game-model.md`. Raison : deux états qui ne diffèrent que par ces champs n'ont pas le même avenir ; les confondre peut faire manquer une solution.
 - **2026-11-02 / Périodes des plateformes mobiles** : les plateformes mobiles d'une même salle ont la même période. Raison : le nombre d'états croît avec le plus petit commun multiple des périodes ; avec deux périodes de 90 et 60 pas, une seule salle demandait 9 secondes de solveur, au-delà du budget d'AC-12.
 - **2026-11-02 / Rail des plateformes mobiles** : le rail en pointillés est dessiné en `--leap-platform` à 35 % d'opacité, et non en `--leap-backdrop`. Raison : en `--leap-backdrop`, il était presque invisible sur le fond et disparaissait sur les rouages du décor, de la même couleur ; la couleur des plateformes le rattache à la plateforme qu'il guide.
+- **2026-11-02 / Rouages du décor à part** : le fond et les grands rouages ne sont plus dessinés dans le canvas du décor, mais dans un canvas par rouage, sous le décor, tourné par la Web Animations API. Raison : la rotation continue demandait de redessiner le décor à chaque image, que la spec réserve à la scène ; une rotation par le compositeur ne coûte rien au dessin et se met en pause avec les autres animations.
+- **2026-11-02 / Poussière** : les particules de poussière sont en `--leap-wall-edge`. Raison : la charte ne fixait pas leur couleur ; le laiton clair évoque la poussière soulevée du sol de l'horloge.
+- **2026-11-02 / Indicateur de départ avant toute entrée** : tant que le joueur n'a ni touché ni appuyé sur une touche, l'indicateur suppose le tactile si l'appareil a un pointeur grossier (`pointer: coarse`), le clavier sinon. La souris compte comme le tactile ("Tap to start" / "Touche pour partir") : la spec ne définit qu'un texte par type d'entrée, pointeur ou clavier.
+- **2026-11-02 / Pastille de l'indicateur** : l'indicateur de départ est posé sur une pastille `--leap-bg` et gardé dans la salle. Raison : sous l'entrée, il tombe sur le laiton du mur, où `--color-text-muted` était presque illisible (contraste d'environ 1,3:1, environ 7:1 sur la pastille) ; centré sous une entrée qui touche un mur, il débordait de la salle.

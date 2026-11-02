@@ -7,7 +7,8 @@ const MAX_STEPS_PER_FRAME = 4;
 export interface LoopCallbacks {
   onStep(previous: LeapState, current: LeapState): void;
   // alpha: share of the next step already elapsed, to interpolate between the two states.
-  onFrame(previous: LeapState, current: LeapState, alpha: number): void;
+  // elapsed: milliseconds since the previous frame, 0 after a pause.
+  onFrame(previous: LeapState, current: LeapState, alpha: number, elapsed: number): void;
   onComplete(state: LeapState): void;
 }
 
@@ -29,7 +30,8 @@ export function startLoop(level: Level, initial: LeapState, callbacks: LoopCallb
 
   function tick(time: number): void {
     frame = undefined;
-    accumulated += lastTime === undefined ? 0 : time - lastTime;
+    const elapsed = lastTime === undefined ? 0 : time - lastTime;
+    accumulated += elapsed;
     lastTime = time;
     let steps = 0;
     while (accumulated >= STEP_DURATION && steps < MAX_STEPS_PER_FRAME) {
@@ -41,14 +43,14 @@ export function startLoop(level: Level, initial: LeapState, callbacks: LoopCallb
       callbacks.onStep(previous, current);
       if (current.outcome === 'complete') {
         running = false;
-        callbacks.onFrame(previous, current, 1);
+        callbacks.onFrame(previous, current, 1, elapsed);
         callbacks.onComplete(current);
         return;
       }
     }
     // Beyond four steps per frame, the delay is dropped rather than caught up.
     accumulated %= STEP_DURATION;
-    callbacks.onFrame(previous, current, accumulated / STEP_DURATION);
+    callbacks.onFrame(previous, current, accumulated / STEP_DURATION, elapsed);
     frame = requestAnimationFrame(tick);
   }
 
