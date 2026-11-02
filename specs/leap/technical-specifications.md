@@ -1,0 +1,101 @@
+# Spécifications techniques : Leap
+
+## Rendu
+
+Canvas 2D. Deux `<canvas>` superposés, à la densité de l'écran (`devicePixelRatio`) :
+
+1. **décor** : fond, murs, piques, plateformes fixes, ressorts, sortie ; dessiné une fois par salle (et à chaque redimensionnement), puisqu'il ne change pas ;
+2. **scène** : portes, leviers, plateformes mobiles, rouage, automate et effets ; redessiné à chaque image.
+
+Taille : `fitCellSize` (`src/games/shell/dom.ts`) avec une salle de 12 × 12 cases, cases plafonnées à 48px. Les positions de la logique (en unités, 240 par case) sont converties en pixels au dessin.
+
+Alternatives écartées :
+- **DOM et CSS** : un seul personnage en mouvement serait abordable, mais l'interpolation entre pas, les effets de particules et le dessin des tuiles par code sont plus simples et plus sûrs à 60 images par seconde sur un canvas.
+- **SVG** : mêmes limites pour les effets, et rien à gagner sur le repérage des clics, puisque le bouton se touche n'importe où.
+- **Moteur de jeu 2D (Phaser...)** : nouvelle dépendance lourde pour une physique de quelques règles, que la logique pure doit de toute façon porter pour être testée.
+
+## Boucle de jeu
+
+- La logique avance par pas fixes de 1/60 s (`step`). Une boucle `requestAnimationFrame` accumule le temps écoulé et applique autant de pas que nécessaire, quatre au plus par image (au-delà, le retard est abandonné).
+- Les appuis sont enregistrés entre deux pas et transmis au pas suivant (`pressed`). Plusieurs appuis entre deux pas comptent pour un.
+- Le rendu interpole la position de l'automate et des plateformes mobiles entre le pas précédent et le pas courant, pour un mouvement fluide sur un écran à 120Hz.
+- `pause()` arrête la boucle et oublie le temps accumulé ; `resume()` la relance sans rattrapage.
+- Quand `outcome` passe à `complete`, la boucle joue la sortie de l'automate, puis appelle `complete()` avec le statut `completed` ou `perfect`.
+
+## Organisation du code
+
+| Module | Rôle |
+|---|---|
+| `logic/types.ts` | Types et constantes de `game-model.md`. |
+| `logic/level-parser.ts` | `parseLevel` : grilles, entrées, plateformes mobiles. |
+| `logic/collision.ts` | Boîtes, chevauchements, contacts avec les cases. |
+| `logic/leap.ts` | `createState`, `step`. |
+| `logic/solver.ts` | Solveur, pour les tests uniquement. |
+| `logic/progress.ts` | Statuts des niveaux, record et sauvegarde `LeapSave`. |
+| `levels/levels.ts` | Les 20 niveaux. |
+| `render/canvas.ts` | Canvas, densité, dimensionnement. |
+| `render/draw.ts` | Dessin du décor et de la scène. |
+| `render/loop.ts` | Boucle à pas fixe, interpolation, fin de niveau. |
+| `render/input.ts` | Appuis clavier et pointeur, indicateur de départ. |
+| `render/effects.ts` | Étirement, poussière, chute, rouage, changement de salle. |
+| `render/sounds.ts` | Synthèse des sons. |
+| `index.ts` | `GameDefinition`. |
+
+## Contrôles
+
+- Pointeur : un `pointerdown` n'importe où dans l'aire de jeu compte comme un appui. Pas de seuil ni de geste : la réactivité prime.
+- Clavier : `keydown` de `Espace`, `Entrée` ou `ArrowUp`, en ignorant les répétitions (`event.repeat`).
+- L'indicateur de départ affiche le texte adapté à la dernière entrée utilisée (pointeur ou clavier).
+- Un appui pendant un effet de chute ou de changement de salle termine l'effet (règle commune), puis est transmis au pas suivant : il lance l'automate.
+
+## Animations
+
+Le mouvement de l'automate et des plateformes mobiles est la simulation : il ne change ni en mouvement réduit ni sur une entrée (voir "Animations" dans `technical-specifications.md`).
+
+| Animation | Normale | Mouvement réduit |
+|---|---|---|
+| Étirement au saut, écrasement à l'atterrissage | Échelle verticale 1,15 au saut, 0,85 à l'atterrissage, retour en 120ms | Aucun |
+| Poussière | Quelques particules à l'atterrissage et au demi-tour, 250ms | Aucune |
+| Chute | L'automate se disloque en quatre pièces qui retombent, 400ms, puis réapparition à l'entrée | L'automate disparaît, 400ms d'attente, puis réapparition |
+| Rouage ramassé | Le rouage file vers l'automate avec un éclat, 200ms | Il disparaît |
+| Bascule des portes | Les barreaux glissent, 150ms | Changement immédiat |
+| Changement de salle | La nouvelle salle glisse à la place de l'ancienne, dans le sens de la sortie, 300ms, `--ease-in-out` | Changement immédiat |
+| Rouages du décor | Rotation lente et continue de grands rouages en fond | Rouages fixes |
+| Fin de niveau | L'automate entre dans l'arche de sortie et s'y efface, 300ms, puis `complete()` | `complete()` immédiat |
+
+L'attente de 400ms après une chute est conservée en mouvement réduit : elle marque la chute, sans mouvement.
+
+## Son
+
+Synthèse Web Audio, sans fichier, connectée à `context.audio.output()` :
+
+| Son | Synthèse | Déclencheur |
+|---|---|---|
+| Saut | Bip court ascendant (carré filtré, 300 à 600Hz), 80ms | Saut |
+| Atterrissage | Tic mécanique (bruit filtré passe-bande), 30ms, faible | Atterrissage |
+| Demi-tour | Clic métallique très bref, faible | Demi-tour contre un mur |
+| Ressort | "Boing" : sinusoïde de 200 à 700Hz avec vibrato, 250ms | Ressort |
+| Levier | Clac mécanique (deux clics à 30ms d'écart) | Levier |
+| Rouage | Carillon clair (deux notes ascendantes), 300ms | Rouage ramassé |
+| Chute | Bruit de ferraille descendant (bruit filtré dont la fréquence baisse), 350ms | Chute |
+| Sortie de salle | Deux notes en tierce, 250ms | Fin de la première salle |
+| Fin de niveau | Accord qui s'ouvre (trois notes décalées de 60ms), 900ms | Fin de niveau |
+
+## Tests
+
+- Tests des critères AC-01 à AC-12 dans `logic/*.test.ts`, sur de petites salles construites dans les tests pour AC-01 à AC-10.
+- AC-12 lance le solveur deux fois par salle (40 salles) : le test complet reste sous 10 secondes en CI. Si ce n'est pas tenable, les résultats du solveur sont consignés dans "Points tranchés à l'implémentation" avec la mesure, avant tout changement de la contrainte.
+
+## Performance
+
+- Un pas de simulation reste sous 0,1ms.
+- Le dessin d'une image reste sous 2ms sur un mobile milieu de gamme récent : le décor n'est pas redessiné à chaque image.
+- Le module publié reste sous 40 Ko compressé.
+
+## Nouvelles dépendances
+
+Aucune.
+
+## Points tranchés à l'implémentation
+
+Aucun pour l'instant.
