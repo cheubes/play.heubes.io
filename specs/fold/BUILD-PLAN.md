@@ -49,9 +49,9 @@ Critère de fin : vitest run passe, le test AC-09 prend moins de 10 secondes.
 
 ## 3. Rendu de la feuille et de la carte modèle
 
-**Critère :** "Play" affiche le niveau 1, feuille et carte modèle, conforme à la charte ; AC-13 et AC-14 vérifiés à la main.
+**Critère :** "Play" affiche le niveau 1, feuille et carte modèle, conforme à la charte ; AC-13 (hors ligne de pli, qui n'apparaît qu'à l'étape 4) et AC-14 vérifiés à la main.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -71,7 +71,7 @@ découpes et une épingle, en portrait et en paysage.
 
 ## 4. Contrôles et animations
 
-**Critère :** AC-10, AC-11 et AC-12 vérifiés à la main, sur desktop et sur mobile.
+**Critère :** AC-10, AC-11 et AC-12 vérifiés à la main, sur desktop et sur mobile ; la ligne de pli d'AC-13 vérifiée en niveaux de gris.
 
 **Statut :** à faire.
 

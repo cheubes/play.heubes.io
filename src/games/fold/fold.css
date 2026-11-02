@@ -1,0 +1,186 @@
+.game-fold {
+  --fold-paper: #f3ebd8;
+  --fold-crease: #ddd0b4;
+  --fold-paper-edge: #c9b996;
+  --fold-ink: #1e1b24;
+  --fold-vermilion: #c8432f;
+  --fold-indigo: #2e4691;
+  --fold-ochre: #9a6a12;
+  --fold-green: #1f7a5c;
+  --fold-pin: #d4a72c;
+  --fold-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='96' height='96' filter='url(%23grain)' opacity='0.04'/%3E%3C/svg%3E");
+
+  display: grid;
+  place-items: center;
+}
+
+.game-fold .fold-board {
+  display: flex;
+  gap: calc(var(--cell) * 0.5);
+  align-items: center;
+}
+
+.game-fold .fold-board.is-portrait {
+  flex-direction: column;
+}
+
+.game-fold .fold-goal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  align-items: center;
+}
+
+.game-fold .fold-goal-label {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+/* Fixed to the starting sheet, so that the goal card stays in place while the sheet shrinks. */
+.game-fold .fold-stage {
+  display: grid;
+  place-items: center;
+  width: calc(var(--sheet-cols) * var(--cell));
+  height: calc(var(--sheet-rows) * var(--cell));
+  perspective: calc(var(--cell) * 12);
+}
+
+.game-fold .fold-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--size));
+  grid-template-rows: repeat(var(--rows), var(--size));
+}
+
+.game-fold .fold-sheet {
+  --size: var(--cell);
+
+  filter: drop-shadow(0 var(--space-2) var(--space-4) var(--color-scrim));
+}
+
+.game-fold .fold-goal-grid {
+  --size: calc(var(--cell) * 0.4);
+
+  filter: drop-shadow(0 var(--space-1) var(--space-2) var(--color-scrim));
+}
+
+.game-fold .fold-cell {
+  --fold-edge: inset 0 0 0 0.5px var(--fold-crease);
+
+  position: relative;
+  background-color: var(--fold-color);
+  background-image: var(--fold-grain);
+  box-shadow: var(--fold-edge);
+}
+
+.game-fold .fold-cell.is-paper {
+  --fold-color: var(--fold-paper);
+}
+
+.game-fold .fold-cell.is-vermilion {
+  --fold-color: var(--fold-vermilion);
+}
+
+.game-fold .fold-cell.is-indigo {
+  --fold-color: var(--fold-indigo);
+}
+
+.game-fold .fold-cell.is-ochre {
+  --fold-color: var(--fold-ochre);
+}
+
+.game-fold .fold-cell.is-green {
+  --fold-color: var(--fold-green);
+}
+
+/* Each layer under the top one shifts the paper edge by 1px; neighbours cover it, so it shows at the sheet's edges. */
+.game-fold .fold-cell[data-thickness='1'] {
+  box-shadow:
+    var(--fold-edge),
+    1px 1px 0 var(--fold-paper-edge);
+}
+
+.game-fold .fold-cell[data-thickness='2'] {
+  box-shadow:
+    var(--fold-edge),
+    1px 1px 0 var(--fold-paper-edge),
+    2px 2px 0 var(--fold-paper-edge);
+}
+
+.game-fold .fold-cell[data-thickness='3'] {
+  box-shadow:
+    var(--fold-edge),
+    1px 1px 0 var(--fold-paper-edge),
+    2px 2px 0 var(--fold-paper-edge),
+    3px 3px 0 var(--fold-paper-edge);
+}
+
+.game-fold .fold-cell.is-top-left {
+  border-top-left-radius: calc(var(--size) * 0.12);
+}
+
+.game-fold .fold-cell.is-top-right {
+  border-top-right-radius: calc(var(--size) * 0.12);
+}
+
+.game-fold .fold-cell.is-bottom-left {
+  border-bottom-left-radius: calc(var(--size) * 0.12);
+}
+
+.game-fold .fold-cell.is-bottom-right {
+  border-bottom-right-radius: calc(var(--size) * 0.12);
+}
+
+.game-fold .fold-cell.is-empty {
+  background: none;
+  box-shadow: none;
+}
+
+.game-fold .fold-cell.is-empty::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: max(1px, calc(var(--size) * 0.04)) dashed var(--fold-paper-edge);
+  border-radius: calc(var(--size) * 0.12);
+}
+
+/* The patterns are symmetric about both axes, so that a flipped square reads the same. */
+.game-fold .fold-cell:is(.is-vermilion, .is-indigo, .is-ochre, .is-green)::after {
+  content: '';
+  position: absolute;
+  inset: 18%;
+}
+
+.game-fold .fold-cell.is-vermilion::after {
+  background: radial-gradient(circle closest-side, var(--fold-paper) 58%, transparent 66%) 0 0 / calc(100% / 3)
+    calc(100% / 3);
+}
+
+.game-fold .fold-cell.is-indigo::after {
+  background: linear-gradient(transparent 32%, var(--fold-paper) 32% 68%, transparent 68%) 0 0 / 100% calc(100% / 3);
+}
+
+.game-fold .fold-cell.is-ochre::after {
+  background:
+    linear-gradient(var(--fold-paper), var(--fold-paper)) center / 100% 24% no-repeat,
+    linear-gradient(var(--fold-paper), var(--fold-paper)) center / 24% 100% no-repeat;
+}
+
+.game-fold .fold-cell.is-green::after {
+  background-color: var(--fold-paper);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.game-fold .fold-pin {
+  position: absolute;
+  z-index: 1;
+  top: 35%;
+  left: 35%;
+  width: 30%;
+  height: 30%;
+  background-color: var(--fold-pin);
+  border-radius: 50%;
+  box-shadow: 0 0 0 max(2px, calc(var(--size) * 0.04)) var(--fold-ink);
+}
