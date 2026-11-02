@@ -245,7 +245,7 @@ Chaque jeu a son plan et son statut dans son dossier de specs. Cette liste donne
 3. **Shadow** : `specs/shadow/BUILD-PLAN.md`. Prérequis : Prism fusionné.
 4. **Fold** : `specs/fold/BUILD-PLAN.md`. Prérequis : Shadow fusionné.
 5. **Delta** : `specs/delta/BUILD-PLAN.md`. Prérequis : Fold fusionné.
-6. **Leap** : `specs/leap/BUILD-PLAN.md`. Prérequis : Delta fusionné.
+6. **Leap** : `specs/leap/BUILD-PLAN.md`. Prérequis : Prism fusionné. Construit avant Shadow, Fold et Delta, hors de l'ordre de la liste.
 
 ## 11. Retrait du jeu de test
 

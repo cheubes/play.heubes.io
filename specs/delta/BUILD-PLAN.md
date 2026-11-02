@@ -124,15 +124,19 @@ Implémente l'étape 6 de specs/delta/BUILD-PLAN.md : échec de niveau et progr
 1. Dans le socle (src/games/shell/, src/components/game-ui/, src/i18n/), ajoute le statut
    'failed' à LevelResult et le panneau d'échec, selon "Fin de niveau" dans
    specs/game-page.md et "Panneaux" dans specs/style-guide.md. Vérifie que Tilt, Prism,
-   Shadow et Fold ne sont pas affectés.
-2. Crée src/games/delta/logic/progress.ts (voir "Données persistées" dans
-   specs/delta/game-model.md), getLevels, complete() avec les résultats et messages de
+   Shadow, Fold et Leap ne sont pas affectés.
+2. La logique de statuts de Delta est la même que celle de Leap (src/games/leap/logic/progress.ts) :
+   extrais-la dans src/games/shell/, adapte Leap et ses tests, et mets à jour
+   specs/technical-specifications.md ("Utilitaires communs actuels"), specs/leap/game-model.md,
+   specs/leap/technical-specifications.md et specs/delta/game-model.md. Propose-moi ces
+   modifications de specs avant de les appliquer. Puis crée src/games/delta/logic/progress.ts
+   (voir "Données persistées" dans specs/delta/game-model.md), getLevels, complete() avec les résultats et messages de
    "Statistiques et résultats" (specs/delta/functional-specifications.md), animations de
    victoire et de défaite.
 
 Écris les tests de AC-10.
 
-Critère de fin : vitest run passe ; AC-17 vérifié ; gagner un niveau déverrouille le suivant,
+Critère de fin : vitest run passe, tests de Leap compris ; AC-17 vérifié ; gagner un niveau déverrouille le suivant,
 y compris après rechargement ; une défaite ne change rien ; la réinitialisation remet le
 sélecteur à zéro.
 ```

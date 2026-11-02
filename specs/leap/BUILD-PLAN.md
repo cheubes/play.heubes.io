@@ -2,13 +2,13 @@
 
 Huit étapes, chacune démontrable avant de passer à la suivante. Specs du jeu : `functional-specifications.md`, `game-model.md`, `technical-specifications.md`, `style-guide.md` de ce dossier.
 
-Prérequis : specs du jeu validées, Delta fusionné sur `dev`, branche `game/leap` créée depuis `dev`.
+Prérequis : specs du jeu validées, Prism fusionné sur `dev`, branche `game/leap` créée depuis `dev`.
 
 ## 1. Simulation
 
 **Critère :** AC-01 à AC-10 couverts par des tests ; `vitest run` passe.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -28,7 +28,7 @@ Critère de fin : vitest run passe.
 
 **Critère :** AC-12 passe pour les 40 salles, en moins de 10 secondes.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -53,7 +53,7 @@ Critère de fin : vitest run passe, le test AC-12 prend moins de 10 secondes.
 
 **Critère :** "Play" affiche la première salle du niveau 1, conforme à la charte ; AC-16 et AC-17 vérifiés à la main.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -74,7 +74,7 @@ les types de cases, en portrait et en paysage.
 
 **Critère :** AC-13, AC-14 et AC-15 vérifiés à la main, sur desktop et sur mobile.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -91,23 +91,19 @@ Critère de fin : AC-13, AC-14 et AC-15 vérifiés dans le navigateur, desktop 
 
 **Critère :** AC-11 couvert par des tests ; AC-18 vérifié à la main ; la progression survit à un rechargement ; la réinitialisation fonctionne.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
 Implémente l'étape 5 de specs/leap/BUILD-PLAN.md : progression et résultats de Leap.
 
-La logique de statuts de Leap est la même que celle de Delta (src/games/delta/logic/progress.ts) :
-extrais-la dans src/games/shell/, adapte Delta et ses tests, et mets à jour
-specs/technical-specifications.md ("Utilitaires communs actuels"), specs/delta/game-model.md,
-specs/delta/technical-specifications.md et specs/leap/game-model.md. Propose-moi ces
-modifications de specs avant de les appliquer.
+Crée src/games/leap/logic/progress.ts (voir "Données persistées" dans specs/leap/game-model.md) :
+la logique de statuts reste propre à Leap, Delta l'extraira dans src/games/shell/ à son étape 6.
+Puis getLevels, complete() avec le résultat et les messages de "Statistiques et résultats"
+(specs/leap/functional-specifications.md), et l'animation de fin de niveau. Écris les tests
+de AC-11.
 
-Puis crée src/games/leap/logic/progress.ts, getLevels, complete() avec le résultat et les
-messages de "Statistiques et résultats" (specs/leap/functional-specifications.md), et
-l'animation de fin de niveau. Écris les tests de AC-11.
-
-Critère de fin : vitest run passe, tests de Delta compris ; AC-18 vérifié ; terminer un niveau
+Critère de fin : vitest run passe ; AC-18 vérifié ; terminer un niveau
 déverrouille le suivant, y compris après rechargement ; la réinitialisation remet le
 sélecteur à zéro.
 ```
@@ -116,7 +112,7 @@ sélecteur à zéro.
 
 **Critère :** chaque son se déclenche au bon moment, respecte le réglage "Son" et se coupe en pause.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -133,7 +129,7 @@ son pendant la pause.
 
 **Critère :** tous les critères [manuel] revérifiés sur un téléphone réel.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -154,4 +150,4 @@ Critère de fin : tous les critères d'acceptation sont vérifiés.
 
 Relecture de cohérence de l'ensemble des specs (voir "Avant chaque commit" dans `CLAUDE.md`), mise à jour de "Points tranchés à l'implémentation", ajout de Leap aux crédits de "About" s'il utilise des assets tiers (aucun prévu), fusion de `game/leap` sur `dev`. Le jeu est publié à la prochaine fusion de `dev` sur `main`.
 
-**Statut :** à faire.
+**Statut :** fait.

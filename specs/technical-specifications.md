@@ -42,7 +42,7 @@ Icônes SVG issues de Lucide (licence ISC), copiées une à une dans `src/icons/
 
 - **GitHub Pages**, domaine personnalisé `play.heubes.io`, déclaré dans les paramètres Pages du dépôt (avec une publication par GitHub Actions, GitHub ignore tout fichier `CNAME`), enregistrement DNS `CNAME` vers `<compte>.github.io`, HTTPS forcé.
 - **GitHub Actions**, workflow unique `.github/workflows/ci.yml` :
-  - sur chaque pull request et chaque push : `npm ci`, vérification des types (`astro check`), tests unitaires (`vitest run`), build (`astro build`), tests de bout en bout sur le build (`playwright test`) ;
+  - sur chaque pull request et chaque push : `npm ci`, vérification des types (`astro check`), tests unitaires (`vitest run`), contrôles de difficulté des niveaux (`npm run test:difficulty`), build (`astro build`), tests de bout en bout sur le build (`playwright test`) ;
   - sur push sur `main` uniquement, si toutes les étapes passent : déploiement du dossier `dist/` sur GitHub Pages (`actions/upload-pages-artifact`, `actions/deploy-pages`).
 - Un test ou une vérification de types en échec bloque le déploiement.
 
@@ -67,6 +67,7 @@ Les versions retenues sont la dernière version stable de chaque package au mome
 ```
 .github/workflows/ci.yml
 playwright.config.ts           configuration des tests de bout en bout
+vitest.difficulty.config.ts    configuration des contrôles de difficulté des niveaux (*.difficulty.ts)
 e2e/                           tests de bout en bout (*.e2e.ts)
 public/
   robots.txt
@@ -298,7 +299,7 @@ Règles :
 
 ## Tests
 
-- **Outils** : Vitest pour les tests unitaires, colocalisés avec le code testé (`logic/*.test.ts`) ; Playwright pour les tests de bout en bout, dans `e2e/*.e2e.ts` (suffixe qui les tient à l'écart de Vitest).
+- **Outils** : Vitest pour les tests unitaires, colocalisés avec le code testé (`logic/*.test.ts`) ; Playwright pour les tests de bout en bout, dans `e2e/*.e2e.ts` (suffixe qui les tient à l'écart de Vitest). Les contrôles lents de la difficulté des niveaux d'un jeu, quand il en a, sont dans `logic/*.difficulty.ts`, tenus à l'écart de `vitest run` et lancés par `npm run test:difficulty` (configuration `vitest.difficulty.config.ts`).
 - **Périmètre obligatoire** : la logique pure de chaque jeu (`logic/`), le contenu des jeux (validité des niveaux, voir `game-model.md` de chaque jeu) et les utilitaires purs de `shell/` (enveloppe de stockage, migrations, progression).
 - **Traçabilité** : chaque critère d'acceptation d'une spec de jeu porte un identifiant (`AC-01`, `AC-02`...). Un critère qui porte sur la logique est couvert par au moins un test dont le nom commence par cet identifiant (`it('AC-03: a block stops on a sticky tile', ...)`). Les critères marqués "vérification manuelle" sont vérifiés dans le navigateur, en desktop et en mobile, au critère de fin de l'étape correspondante du `BUILD-PLAN.md` du jeu.
 - **Bout en bout** : le cycle de vie de l'hôte de jeu, qui dépend du DOM, du focus et du layout réels. Scénarios : lancer une partie ; pause (focus piégé, reprise, redémarrage) ; fin de niveau et niveau suivant ; sortie (focus sur "Play", sélecteur à jour, progression conservée après rechargement) ; réinitialisation de la progression. Ils jouent le premier niveau de Tilt en anglais, dans Chromium seul, sur le site construit (`astro preview`), et ne testent ni le rendu ni les règles des jeux.
