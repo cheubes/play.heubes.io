@@ -6,9 +6,14 @@ const FOLD_DURATION = 280;
 const UNFOLD_DURATION = 200;
 const PIN_PULSE_DURATION = 200;
 const PIN_RING_DURATION = 400;
+const VICTORY_DURATION = 320;
 
 function easeInOut(element: Element): string {
   return getComputedStyle(element).getPropertyValue('--ease-in-out').trim() || 'ease-in-out';
+}
+
+function easeOut(element: Element): string {
+  return getComputedStyle(element).getPropertyValue('--ease-out').trim() || 'ease-out';
 }
 
 // Where the folded sheet starts, in the positions of the sheet before the fold.
@@ -114,6 +119,26 @@ export function animateBlockedPins(pins: HTMLElement[], reducedMotion: boolean):
       });
     }
   }
+}
+
+// The goal card stays lit until the level restarts.
+export function animateVictory(view: BoardView, reducedMotion: boolean): Promise<void> | undefined {
+  view.goal.classList.add('is-solved');
+  if (reducedMotion) {
+    return undefined;
+  }
+  const easing = easeOut(view.element);
+  const card = view.goal.querySelector('.fold-goal-grid');
+  const press = view.sheet.animate([{ transform: 'scale(1.03)' }, { transform: 'scale(1)' }], { duration: VICTORY_DURATION, easing });
+  const glow = card?.animate([{ boxShadow: 'none' }, { boxShadow: getComputedStyle(card).boxShadow }], {
+    duration: VICTORY_DURATION,
+    easing,
+  });
+  return Promise.all([press.finished, glow?.finished]).then(() => undefined);
+}
+
+export function resetVictory(view: BoardView): void {
+  view.goal.classList.remove('is-solved');
 }
 
 export function finishAnimations(root: HTMLElement): void {

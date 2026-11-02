@@ -66,6 +66,11 @@
   --size: calc(var(--cell) * 0.4);
 
   filter: drop-shadow(0 var(--space-1) var(--space-2) var(--color-scrim));
+  border-radius: calc(var(--size) * 0.12);
+}
+
+.game-fold .fold-goal.is-solved .fold-goal-grid {
+  box-shadow: var(--glow-accent);
 }
 
 .game-fold .fold-cell {

@@ -4,6 +4,11 @@
   "actions": {
     "undo": "Undo"
   },
+  "stats": {
+    "moves": "Moves",
+    "par": "Par",
+    "best": "Best"
+  },
   "announce": {
     "move": "Move {moves}. Sheet {width} by {height}.",
     "match": {
@@ -12,5 +17,9 @@
     },
     "pinned": "A pin holds this side.",
     "undo": "Undo. Move {moves}."
+  },
+  "result": {
+    "perfect": "Perfect! Solved in the minimum number of moves.",
+    "solved": "Solved in {moves} moves. Can you do it in {par}?"
   }
 }

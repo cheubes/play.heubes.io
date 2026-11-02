@@ -1,10 +1,11 @@
+import { getLevelEntries, getLevelResult, getMoveStats, parseSave, saveResult } from '../shell/progress';
 import type { GameDefinition } from '../shell/types';
 import { LEVELS } from './levels/levels';
-import { canFold, createState, fold, restart, undo } from './logic/fold';
+import { canFold, createState, fold, isSolved, restart, undo } from './logic/fold';
 import { parseLevel } from './logic/level-parser';
 import { visibleFace } from './logic/sheet';
 import type { Fold, FoldState, Level } from './logic/types';
-import { animateBlockedPins, animateFold, animateUnfold, finishAnimations } from './render/animations';
+import { animateBlockedPins, animateFold, animateUnfold, animateVictory, finishAnimations, resetVictory } from './render/animations';
 import {
   blockingPins,
   clearPreview,
@@ -18,7 +19,16 @@ import {
 } from './render/board';
 import { bindInput, centerCursor, cursorFold, moveCursor, type Cursor, type FoldInput } from './render/input';
 
+interface Victory {
+  final: FoldState;
+  best: number;
+}
+
 const foldGame: GameDefinition = {
+  getLevels(storage) {
+    return getLevelEntries(LEVELS, parseSave(storage.read()));
+  },
+
   actions: [{ id: 'undo', icon: 'undo-2', labelKey: 'actions.undo', shortcut: 'z' }],
 
   create(context) {
@@ -36,6 +46,11 @@ const foldGame: GameDefinition = {
     let reducedMotion = false;
     // Rebuilds the sheet at the end of the running animation.
     let pending: (() => void) | undefined;
+    let victory: Victory | undefined;
+
+    function showStats(current: Level, next: FoldState): void {
+      hud.setStats(getMoveStats(t, next.moves, current.par));
+    }
 
     function showCursor(currentView: BoardView, current: FoldState): void {
       clearPreview(currentView);
@@ -79,11 +94,14 @@ const foldGame: GameDefinition = {
 
     function reset(current: Level, currentView: BoardView, next: FoldState): void {
       pending = undefined;
+      victory = undefined;
       folds = [];
       reducedMotion = context.reducedMotion();
       state = next;
       cursor = centerCursor(next.sheet, 'vertical');
+      resetVictory(currentView);
       render(current, currentView, next);
+      showStats(current, next);
       hud.setActionEnabled('undo', false);
     }
 
@@ -109,6 +127,32 @@ const foldGame: GameDefinition = {
       context.announce(message);
     }
 
+    function completeLevel(current: Level, { final, best }: Victory): void {
+      context.complete(getLevelResult(t, final.moves, current.par, best));
+    }
+
+    // Saved as soon as the level is solved, so that leaving during the victory animation keeps the progress.
+    function win(current: Level, final: FoldState): Victory {
+      hud.setActionEnabled('undo', false);
+      victory = { final, best: saveResult(context.storage, current.id, final.moves) };
+      return victory;
+    }
+
+    // Starts once the winning flap has landed, on the rebuilt sheet.
+    function celebrate(current: Level, currentView: BoardView, won: Victory): void {
+      const animation = animateVictory(currentView, reducedMotion);
+      if (!animation) {
+        completeLevel(current, won);
+        return;
+      }
+      void animation.then(() => {
+        // Restarting finishes the victory too: the level must not complete after that.
+        if (state === won.final) {
+          completeLevel(current, won);
+        }
+      });
+    }
+
     function foldAlong(current: Level, currentView: BoardView, move: Fold): void {
       if (!state) {
         return;
@@ -128,11 +172,20 @@ const foldGame: GameDefinition = {
       folds = [...folds, move];
       recenterCursor(next);
       clearPreview(currentView);
-      hud.setActionEnabled('undo', true);
+      showStats(current, next);
       announceMove(current, next);
-      afterAnimation(animateFold(currentView, current, before.sheet, next.sheet, move, reducedMotion), () =>
-        render(current, currentView, next),
-      );
+      const won = isSolved(current, next) ? win(current, next) : undefined;
+      if (won) {
+        cursorVisible = false;
+      } else {
+        hud.setActionEnabled('undo', true);
+      }
+      afterAnimation(animateFold(currentView, current, before.sheet, next.sheet, move, reducedMotion), () => {
+        render(current, currentView, next);
+        if (won) {
+          celebrate(current, currentView, won);
+        }
+      });
     }
 
     function undoFold(current: Level, currentView: BoardView): void {
@@ -147,6 +200,7 @@ const foldGame: GameDefinition = {
       recenterCursor(previous);
       // The flap turns back from where it had landed on the sheet before that fold.
       placeSheet(currentView, current, previous.sheet);
+      showStats(current, previous);
       hud.setActionEnabled('undo', previous.history.length > 0);
       context.announce(t('announce.undo', { moves: previous.moves }));
       afterAnimation(animateUnfold(currentView, current, previous.sheet, after.sheet, lastFold, reducedMotion), () =>
@@ -169,8 +223,15 @@ const foldGame: GameDefinition = {
     }
 
     // The arrow that reveals the cursor only shows it: the player sees the line before acting on it.
+    // Once solved, an input only finishes the victory animation, which opens the end panel.
     function handleInput(input: FoldInput): void {
       if (paused || !level || !view || !state) {
+        return;
+      }
+      if (victory) {
+        settle();
+        // Settling may have just started the victory, once the winning flap landed.
+        finishAnimations(container);
         return;
       }
       switch (input.type) {
@@ -217,12 +278,16 @@ const foldGame: GameDefinition = {
       onPointerDown() {
         if (!paused && view) {
           settle();
+          if (victory) {
+            finishAnimations(container);
+            return;
+          }
           cursorVisible = false;
           clearPreview(view);
         }
       },
       geometry() {
-        return !paused && view && state ? { rect: view.sheet.getBoundingClientRect(), cellSize: view.cellSize, sheet: state.sheet } : undefined;
+        return !paused && !victory && view && state ? { rect: view.sheet.getBoundingClientRect(), cellSize: view.cellSize, sheet: state.sheet } : undefined;
       },
     });
 

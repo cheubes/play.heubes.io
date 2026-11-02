@@ -92,7 +92,7 @@ un pli qui déborde et un pli bloqué par une épingle.
 
 **Critère :** AC-15 vérifié à la main ; la progression survit à un rechargement ; la réinitialisation fonctionne.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
