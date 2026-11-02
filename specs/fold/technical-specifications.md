@@ -68,6 +68,7 @@ Synthèse Web Audio, sans fichier, connectée à `context.audio.output()` :
 
 - Tests des critères AC-01 à AC-09 dans `logic/*.test.ts`.
 - AC-09 fait une recherche en largeur par niveau, élaguée par les dimensions du modèle : le test complet reste sous 10 secondes en CI.
+- Les critères de non-trivialité des niveaux ("Points tranchés à l'implémentation") sont vérifiés par `logic/levels.difficulty.ts`, hors AC-09 et hors de `vitest run` : le décompte des suites de plis explore tous les états jusqu'au par, là où AC-09 s'arrête à la première solution. Ils sont lancés par `npm run test:difficulty`, en CI comme à chaque modification des niveaux.
 
 ## Performance
 
@@ -81,4 +82,6 @@ Aucune.
 
 ## Points tranchés à l'implémentation
 
-Aucun pour l'instant.
+- **2026-11-02 / Profondeur du solveur** : la recherche s'arrête à 6 plis, le par maximal ; au-delà, le niveau est déclaré non résoluble. Raison : sans limite, un niveau non résoluble fait explorer tout l'espace des feuilles, qui épuise la mémoire pour une feuille de 6 × 6 et un modèle de 1 × 1.
+- **2026-11-02 / Non-trivialité des niveaux** : vérifiée par `logic/levels.difficulty.ts` (voir "Tests"). Critères : par d'au plus 2 pour les niveaux 1, 6, 11 et 16, de 1 ou 2 en série 1, d'au moins 3 pour les autres niveaux des séries 2 à 4, sans décroître d'un niveau au suivant dans une série ; hors niveau 1, parmi les suites d'au plus "par" plis qui mènent aux dimensions du modèle, au plus 50 % (série 1) ou 20 % (séries 2 à 4) résolvent le niveau ; dans les séries 2 à 4, l'état résolu par la solution du solveur porte au moins trois couches sur une position ; en série 3, la solution rejouée sur la feuille dont les découpes sont remplacées par du papier nu donne une face différente en au moins une position non vide du modèle ; en série 4, le niveau sans ses épingles se résout en moins de plis que le par, et chaque épingle bloque au moins un pli dans un état de la solution ; les niveaux 18 à 20 ont des découpes et des épingles ; au plus deux encres en série 1, au moins trois dans les niveaux 8 à 10 et 18 à 20. Raison : "Progression" (`functional-specifications.md`) demande une difficulté adaptée à la place du niveau sans la mesurer ; ces critères écartent les niveaux qui se résolvent en pliant au hasard jusqu'à la bonne taille, et les mécaniques décoratives. Les suites plus courtes que le par qui atteignent les dimensions du modèle comptent parmi les échecs : ce sont des pièges comme les autres.
+- **2026-11-02 / Budget d'AC-09** : le solveur prend environ 0,3 s pour les 20 niveaux, 135ms pour le plus coûteux (niveau 15), et le test de difficulté environ 2 s. Raison : les mesures sur une feuille de 6 × 6 montraient jusqu'à 5 s pour un seul niveau de par 6 avec un modèle de 2 × 2 ; les niveaux profonds ont donc des modèles d'au moins 6 cases, et les épingles réduisent les plis possibles.

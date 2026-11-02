@@ -1,0 +1,135 @@
+import type { LevelSource } from '../logic/types';
+
+export const LEVELS: readonly LevelSource[] = [
+  {
+    id: 'first-crease',
+    par: 1,
+    sheet: ['..vv', '..vv', '....'],
+    goal: ['vv', 'vv', '..'],
+  },
+  {
+    id: 'turn-down',
+    par: 1,
+    sheet: ['.i..', 'v..i', '..vv'],
+    goal: ['.i..', '..vv'],
+  },
+  {
+    id: 'side-by-side',
+    par: 2,
+    sheet: ['i.vi', '..v.', 'v..v'],
+    goal: ['ii', '..', 'vv'],
+  },
+  {
+    id: 'book-fold',
+    par: 2,
+    sheet: ['....', 'v.v.', 'vviv', 'v...'],
+    goal: ['..', 'v.', 'iv', '..'],
+  },
+  {
+    id: 'letter-fold',
+    par: 2,
+    sheet: ['..vv.', '...ii', '.iii.', 'i...v'],
+    goal: ['.vv', 'ii.'],
+  },
+  {
+    id: 'double-back',
+    par: 2,
+    sheet: ['v.i.', 'o..v', 'v.o.', 'o..v'],
+    goal: ['o..v', 'o..v'],
+  },
+  {
+    id: 'tuck-in',
+    par: 3,
+    sheet: ['....', '....', 'v..i', 'v.io'],
+    goal: ['...', 'i.v'],
+  },
+  {
+    id: 'layer-cake',
+    par: 3,
+    sheet: ['.....', '....v', '.oii.', 'i.iio'],
+    goal: ['..', 'v.', '..', 'oi'],
+  },
+  {
+    id: 'envelope',
+    par: 4,
+    sheet: ['.v..i', '...i.', 'ooovi', '.vv..', 'v..vv'],
+    goal: ['vv', 'oo', '..'],
+  },
+  {
+    id: 'pleats',
+    par: 4,
+    sheet: ['.o.i..', '..oigi', '.v.oi.', 'goi.o.', '...i..'],
+    goal: ['..i.', '.oig'],
+  },
+  {
+    id: 'window',
+    par: 2,
+    sheet: ['.._.', '._i.', 'v..v', '.ii.'],
+    goal: ['.i.', 'v.v', '.i.'],
+  },
+  {
+    id: 'peephole',
+    par: 3,
+    sheet: ['...v.', 'i..v.', '_.o_v', '...v.'],
+    goal: ['.ovv', '..v.'],
+  },
+  {
+    id: 'lattice',
+    par: 3,
+    sheet: ['....i', '._i..', '.oov.', '.oooo', '.o.._'],
+    goal: ['.o.', 'oo.'],
+  },
+  {
+    id: 'stencil',
+    par: 4,
+    sheet: ['.._o.', '.....', '.v..i', '_.io_', '.v.vo'],
+    goal: ['....', 'ooi.'],
+  },
+  {
+    id: 'lace',
+    par: 5,
+    sheet: ['..v.._', '_oo..g', '.__gg.', 'v..gi.', '.ogg..'],
+    goal: ['...v', 'gv..'],
+  },
+  {
+    id: 'thumbtack',
+    par: 2,
+    sheet: ['v.vv', 'v..v', 'v..v', 'v.vv'],
+    goal: ['v..v', 'v.vv'],
+    pins: [[0, 0]],
+  },
+  {
+    id: 'anchor',
+    par: 3,
+    sheet: ['i..vi', 'v...v', '.v...', '.v..i', '...v.'],
+    goal: ['v...v', 'i..vi'],
+    pins: [[4, 1]],
+  },
+  {
+    id: 'pinhole',
+    par: 4,
+    sheet: ['ii...', 'o....', '_voi.', 'oi.i_', '..vi.'],
+    goal: ['ovo.', '..v.'],
+    pins: [
+      [0, 3],
+      [0, 2],
+    ],
+  },
+  {
+    id: 'held-fast',
+    par: 5,
+    sheet: ['_o.i..', 'ooi.o.', '......', '_v..o.', 'vi._.o'],
+    goal: ['.io', 'o.o', '...'],
+    pins: [[4, 5]],
+  },
+  {
+    id: 'grand-fold',
+    par: 6,
+    sheet: ['v._.i.', 'i..i_.', 'vg.v..', 'g._ov.', '......', '..o..i'],
+    goal: ['.ii', '.o.', 'o..'],
+    pins: [
+      [4, 2],
+      [2, 4],
+    ],
+  },
+];

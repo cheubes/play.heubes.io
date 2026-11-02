@@ -116,7 +116,7 @@ Le libellé affiché d'un niveau est sa position ("Level 7" / "Niveau 7"), pas s
 
 ### Solveur
 
-`logic/solver.ts` fait une recherche en largeur depuis l'état initial, sur tous les plis possibles (au plus 20 par état pour une feuille de 6 × 6), avec élimination des feuilles déjà vues (sérialisation des piles). Une feuille plus étroite ou moins haute que le modèle est écartée, puisque ses dimensions ne peuvent plus que diminuer. Le par est la profondeur de la première feuille dont la face visible est le modèle. Le solveur n'est utilisé que par les tests.
+`logic/solver.ts` fait une recherche en largeur depuis l'état initial, sur tous les plis possibles (au plus 20 par état pour une feuille de 6 × 6), avec élimination des feuilles déjà vues (sérialisation des piles). Une feuille plus étroite ou moins haute que le modèle est écartée, puisque ses dimensions ne peuvent plus que diminuer. Le par est la profondeur de la première feuille dont la face visible est le modèle. La recherche s'arrête à 6 plis, le par maximal (voir "Points tranchés à l'implémentation" dans `technical-specifications.md`). Le solveur n'est utilisé que par les tests.
 
 ## Données persistées
 
