@@ -185,4 +185,4 @@ Critère de fin : tous les critères d'acceptation sont vérifiés.
 
 Relecture de cohérence de l'ensemble des specs (voir "Avant chaque commit" dans `CLAUDE.md`), mise à jour de "Points tranchés à l'implémentation", ajout de Delta aux crédits de "About" s'il utilise des assets tiers (aucun prévu), fusion de `game/delta` sur `dev`. Le jeu est publié à la prochaine fusion de `dev` sur `main`.
 
-**Statut :** à faire.
+**Statut :** fait.
