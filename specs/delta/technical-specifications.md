@@ -37,7 +37,7 @@ Alternatives écartées :
 | `logic/random.ts` | Générateur à graine (mulberry32), fonctions pures sur `rng`. |
 | `logic/simulation.ts` | `createState`, `setRoute`, `hold`, `step`. |
 | `logic/strategy.ts` | `decide`, et `REFERENCE_STRATEGY`, les paramètres de la stratégie de référence. |
-| `logic/progress.ts` | Statuts des niveaux, record et sauvegarde `DeltaSave`. |
+| `logic/progress.ts` | Record et sauvegarde `DeltaSave`. Statuts des niveaux par `src/games/shell/unlock.ts`. |
 | `levels/levels.ts` | Les 20 niveaux. |
 | `render/canvas.ts` | Canvas, densité, mise à l'échelle et rotation, conversion entre écran et carte. |
 | `render/draw.ts` | Dessin des couches. |
@@ -47,7 +47,7 @@ Alternatives écartées :
 | `render/sounds.ts` | Synthèse des sons. |
 | `index.ts` | `GameDefinition`. |
 
-Utilitaires communs : `fitCellSize` ne s'applique pas (pas de grille) ; la sélection au clavier commune (`src/games/shell/selection.ts`, issue de Prism) sert au curseur, avec les centres des bassins en coordonnées d'écran.
+Utilitaires communs : `fitCellSize` ne s'applique pas (pas de grille) ; la sélection au clavier commune (`src/games/shell/selection.ts`, issue de Prism) sert au curseur, avec les centres des bassins en coordonnées d'écran ; les statuts des niveaux viennent de `src/games/shell/unlock.ts`, partagé avec Leap.
 
 ## Contrôles
 

@@ -117,7 +117,7 @@ Le socle gagne une fin de niveau en échec (voir "Fin de niveau" dans `game-page
 
 **Critère :** les autres jeux fonctionnent comme avant ; AC-10 couvert par des tests ; AC-17 vérifié à la main ; la progression survit à un rechargement ; la réinitialisation fonctionne.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

@@ -26,6 +26,9 @@ const t = createTranslator(locale);
             <span data-end-title="all" hidden>
               {t('game.end.all-complete')}
             </span>
+            <span data-end-title="failed" hidden>
+              {t('game.end.failed')}
+            </span>
           </>
         ) : (
           <span>{t('game.end.game-over')}</span>
@@ -48,11 +51,15 @@ const t = createTranslator(locale);
             <Icon name="layout-grid" />
             {t('game.levels')}
           </button>
-          <button type="button" class="button button-secondary" data-command="restart">
+          <button type="button" class="button button-primary" data-command="restart" data-end-when="failed" hidden>
+            <Icon name="rotate-ccw" />
+            {t('game.end.try-again')}
+          </button>
+          <button type="button" class="button button-secondary" data-command="restart" data-end-when="next no-next">
             <Icon name="rotate-ccw" />
             {t('game.end.replay')}
           </button>
-          <button type="button" class="button button-secondary" data-command="exit" data-end-when="next">
+          <button type="button" class="button button-secondary" data-command="exit" data-end-when="next failed">
             <Icon name="layout-grid" />
             {t('game.levels')}
           </button>

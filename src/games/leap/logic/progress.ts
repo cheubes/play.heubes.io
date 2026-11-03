@@ -1,5 +1,6 @@
 import type { Translate } from '../../shell/i18n';
-import type { GameStorage, LevelEntry, LevelResult, LevelStatus } from '../../shell/types';
+import type { GameStorage, LevelEntry, LevelResult } from '../../shell/types';
+import { getUnlockEntries } from '../../shell/unlock';
 import type { LeapSave, LevelRecord } from './types';
 
 const TICKS_PER_TENTH = 6;
@@ -50,20 +51,8 @@ export function recordResult(save: LeapSave, levelId: string, result: RunResult)
   return { levels: { ...save.levels, [levelId]: record } };
 }
 
-export function getLevelStatuses(levels: readonly { id: string }[], save: LeapSave): LevelStatus[] {
-  return levels.map((level, index) => {
-    const record = save.levels[level.id];
-    if (record !== undefined) {
-      return record.allCogs ? 'perfect' : 'completed';
-    }
-    const previous = levels[index - 1];
-    return previous === undefined || save.levels[previous.id] !== undefined ? 'available' : 'locked';
-  });
-}
-
 export function getLevelEntries(levels: readonly { id: string }[], save: LeapSave): LevelEntry[] {
-  const statuses = getLevelStatuses(levels, save);
-  return levels.map((level, index) => ({ id: level.id, label: String(index + 1), status: statuses[index] ?? 'locked' }));
+  return getUnlockEntries(levels, save.levels, (record) => record.allCogs);
 }
 
 // Returns the best time of the level, in steps, this run included.

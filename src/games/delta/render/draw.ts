@@ -1,6 +1,6 @@
 import { isChannelOpen } from '../logic/simulation';
 import { BASIN_SIZES, MAP_HEIGHT, MAP_WIDTH } from '../logic/types';
-import type { BasinSize, Channel, DeltaState, Level, Owner, Point, Side } from '../logic/types';
+import type { BasinSize, Channel, DeltaState, Level, Owner, Point, Side, Unit } from '../logic/types';
 import { toDevice, useDeviceTransform, useMapTransform, type MapView } from './canvas';
 import type { FrameEffects } from './effects';
 
@@ -62,6 +62,7 @@ const CURSOR_GAP = 0.08;
 const CURSOR_WIDTH = 2;
 const CAPTURE_WAVE_REACH = 1;
 const CAPTURE_WAVE_WIDTH = 0.06;
+const PULSE_SCALE = 0.2;
 
 export function readPalette(element: HTMLElement): Palette {
   const style = getComputedStyle(element);
@@ -229,25 +230,34 @@ function traceShape(context: CanvasRenderingContext2D, side: Side, center: Point
   }
 }
 
+// opacities: the unit, then its trail.
+function drawUnit(context: CanvasRenderingContext2D, level: Level, unit: Unit, alpha: number, opacities: readonly number[], palette: Palette): void {
+  const channel = level.channels[unit.channel]!;
+  const [a, b] = ends(level, channel);
+  const [from, to] = unit.towards === 'b' ? [a, b] : [b, a];
+  const position = Math.min(unit.progress + alpha, channel.duration);
+  context.fillStyle = palette[unit.side];
+  for (const [step, opacity] of opacities.entries()) {
+    const share = (position - step) / channel.duration;
+    if (share < 0) {
+      break;
+    }
+    context.globalAlpha = opacity;
+    traceShape(context, unit.side, { x: from.x + (to.x - from.x) * share, y: from.y + (to.y - from.y) * share }, UNIT_RADIUS);
+    context.fill();
+  }
+}
+
 function drawUnits(view: MapView, level: Level, state: DeltaState, alpha: number, palette: Palette, overlay: Overlay, focus: Emphasis): void {
   const { context } = view;
   const trail = overlay.effects.trails ? TRAIL_OPACITIES : [];
   for (const unit of state.transit) {
-    const channel = level.channels[unit.channel]!;
-    const [a, b] = ends(level, channel);
-    const [from, to] = unit.towards === 'b' ? [a, b] : [b, a];
-    const position = Math.min(unit.progress + alpha, channel.duration);
     const opacity = focus.channel(unit.channel);
-    context.fillStyle = palette[unit.side];
-    for (const [step, trailOpacity] of [1, ...trail].entries()) {
-      const share = (position - step) / channel.duration;
-      if (share < 0) {
-        break;
-      }
-      context.globalAlpha = opacity * trailOpacity;
-      traceShape(context, unit.side, { x: from.x + (to.x - from.x) * share, y: from.y + (to.y - from.y) * share }, UNIT_RADIUS);
-      context.fill();
-    }
+    drawUnit(context, level, unit, alpha, [1, ...trail].map((trailOpacity) => opacity * trailOpacity), palette);
+  }
+  const { fading } = overlay.effects;
+  for (const unit of fading?.units ?? []) {
+    drawUnit(context, level, unit, 0, [1 - fading!.progress], palette);
   }
   context.globalAlpha = 1;
 }
@@ -297,11 +307,16 @@ function drawBasins(view: MapView, level: Level, state: DeltaState, palette: Pal
       context.stroke();
     }
 
-    const capture = overlay.effects.captures.find((candidate) => candidate.basin === index);
-    if (capture) {
-      drawBasinBody(context, capture.from, at, radius, palette, opacity * (1 - capture.progress));
+    const { fading } = overlay.effects;
+    const crossFade = fading?.basins.includes(index)
+      ? { from: 'player' as const, progress: fading.progress }
+      : overlay.effects.captures.find((candidate) => candidate.basin === index);
+    const pulse = overlay.effects.pulses.find((candidate) => candidate.basin === index);
+    const bodyRadius = radius * (1 + PULSE_SCALE * Math.sin(Math.PI * (pulse?.progress ?? 0)));
+    if (crossFade) {
+      drawBasinBody(context, crossFade.from, at, bodyRadius, palette, opacity * (1 - crossFade.progress));
     }
-    drawBasinBody(context, basin.owner, at, radius, palette, opacity * (capture?.progress ?? 1));
+    drawBasinBody(context, basin.owner, at, bodyRadius, palette, opacity * (crossFade?.progress ?? 1));
   }
   context.globalAlpha = 1;
 

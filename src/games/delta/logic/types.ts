@@ -107,3 +107,12 @@ export interface DeltaState {
   mostHeld: number;
   outcome: 'playing' | 'won' | 'lost';
 }
+
+export interface LevelRecord {
+  bestTicks: number;
+  flawless: boolean;
+}
+
+export interface DeltaSave {
+  levels: Record<string, LevelRecord>;
+}

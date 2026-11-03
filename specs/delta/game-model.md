@@ -163,7 +163,7 @@ interface DeltaSave {
 - Statuts : `available` pour le premier niveau non gagné qui suit un niveau gagné (ou le niveau 1), `completed` pour un niveau gagné, `perfect` si `flawless`, `locked` sinon. Ils ne sont pas stockés.
 - Une entrée dont l'`id` n'existe plus dans `levels.ts` est ignorée.
 
-La progression commune de `src/games/shell/progress.ts` ne s'applique pas : elle repose sur des coups et un par.
+La progression commune de `src/games/shell/progress.ts` ne s'applique pas : elle repose sur des coups et un par. Les statuts viennent de `src/games/shell/unlock.ts`, partagé avec Leap.
 
 ## Contraintes de validation
 

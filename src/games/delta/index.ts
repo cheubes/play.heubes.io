@@ -1,9 +1,10 @@
 import { nextSelection } from '../shell/selection';
-import type { GameDefinition, HudStat } from '../shell/types';
+import type { GameDefinition, HudStat, LevelResult } from '../shell/types';
 import { LEVELS } from './levels/levels';
 import { parseLevel } from './logic/level-parser';
+import { formatTime, getLevelEntries, getLevelResult, parseSave, saveResult } from './logic/progress';
 import { createState, hold, setRoute } from './logic/simulation';
-import { BASIN_SIZES, TICK_MS } from './logic/types';
+import { BASIN_SIZES } from './logic/types';
 import type { DeltaState, Level, Point } from './logic/types';
 import { createMapView, fitMapView, toScreen } from './render/canvas';
 import { drawMap, readPalette, type Palette } from './render/draw';
@@ -13,16 +14,15 @@ import { startLoop, type GameLoop } from './render/loop';
 
 const MIN_TOUCH_RADIUS = 22;
 
-function formatTime(ticks: number): string {
-  const seconds = Math.floor((ticks * TICK_MS) / 1000);
-  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
-}
-
 function playerBasins(state: DeltaState): number {
   return state.basins.filter((basin) => basin.owner === 'player').length;
 }
 
 const delta: GameDefinition = {
+  getLevels(storage) {
+    return getLevelEntries(LEVELS, parseSave(storage.read()));
+  },
+
   create(context) {
     const { container, t, hud, signal } = context;
     const levels: Level[] = LEVELS.map(parseLevel);
@@ -34,6 +34,7 @@ const delta: GameDefinition = {
     let shown: { state: DeltaState; alpha: number } | undefined;
     let shownStats = '';
     let paused = false;
+    let pendingResult: LevelResult | undefined;
     let source: number | undefined;
     let drag: Point | undefined;
     let cursor = 0;
@@ -192,10 +193,14 @@ const delta: GameDefinition = {
     }
 
     function onInput(input: DeltaInput): void {
-      if (paused || !loop || loop.state().outcome !== 'playing') {
+      if (paused || !loop) {
         return;
       }
       effects.finish();
+      if (loop.state().outcome !== 'playing') {
+        handOver();
+        return;
+      }
       if (input.type === 'press' || input.type === 'drag' || input.type === 'release') {
         onPointer(input);
       } else {
@@ -224,10 +229,43 @@ const delta: GameDefinition = {
       }
     }
 
+    function handOver(): void {
+      if (pendingResult && !effects.ending()) {
+        const result = pendingResult;
+        pendingResult = undefined;
+        loop?.stop();
+        context.complete(result);
+      }
+    }
+
+    // Saved as soon as the level ends, so that leaving during the end animation keeps the progress.
+    function end(previous: DeltaState, state: DeltaState): void {
+      deselect();
+      cursorVisible = false;
+      const run = {
+        outcome: state.outcome === 'won' ? ('won' as const) : ('lost' as const),
+        ticks: state.tick,
+        basinsLost: state.basinsLost,
+        mostHeld: state.mostHeld,
+        basinCount: state.basins.length,
+      };
+      pendingResult = getLevelResult(t, run, saveResult(context.storage, level!.id, run));
+      if (run.outcome === 'won') {
+        effects.won(state.basins.flatMap((basin, index) => (basin.owner === 'player' ? [index] : [])));
+      } else {
+        effects.lost(
+          previous.basins.flatMap((basin, index) => (basin.owner === 'player' ? [index] : [])),
+          previous.transit.filter((unit) => unit.side === 'player'),
+        );
+      }
+      handOver();
+    }
+
     function begin(next: Level): void {
       loop?.stop();
       level = next;
       paused = false;
+      pendingResult = undefined;
       shown = undefined;
       shownStats = '';
       press = undefined;
@@ -240,17 +278,20 @@ const delta: GameDefinition = {
       showStats(state);
       fitMapView(container, view);
       draw(state, 0);
+      let previousStep = state;
       loop = startLoop(next, state, {
         onStep(previous, current) {
+          previousStep = previous;
           react(previous, current);
           showStats(current);
         },
         onFrame(current, alpha, elapsed) {
           effects.advance(elapsed);
           draw(current, alpha);
+          handOver();
         },
-        onEnd() {
-          deselect();
+        onEnd(current) {
+          end(previousStep, current);
         },
       });
     }
