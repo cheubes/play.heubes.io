@@ -62,10 +62,12 @@
     "end": {
       "title": "Level complete",
       "all-complete": "All levels complete!",
+      "failed": "Level failed",
       "game-over": "Game over",
       "perfect": "Perfect",
       "next": "Next level",
       "replay": "Replay",
+      "try-again": "Try again",
       "play-again": "Play again"
     },
     "reset": {

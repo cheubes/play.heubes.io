@@ -242,9 +242,9 @@ Chaque jeu a son plan et son statut dans son dossier de specs. Cette liste donne
 
 1. **Tilt** : `specs/tilt/BUILD-PLAN.md`. Prérequis : étapes 1 à 10.
 2. **Prism** : `specs/prism/BUILD-PLAN.md`. Prérequis : Tilt fusionné.
-3. **Shadow** : `specs/shadow/BUILD-PLAN.md`. Prérequis : Prism fusionné.
+3. **Shadow** : `specs/shadow/BUILD-PLAN.md`. Prérequis : Delta fusionné (la sélection au clavier commune existe).
 4. **Fold** : `specs/fold/BUILD-PLAN.md`. Prérequis : Prism fusionné. Construit avant Shadow, hors de l'ordre de la liste.
-5. **Delta** : `specs/delta/BUILD-PLAN.md`. Prérequis : Fold fusionné.
+5. **Delta** : `specs/delta/BUILD-PLAN.md`. Prérequis : Fold fusionné. Construit avant Shadow, hors de l'ordre de la liste.
 6. **Leap** : `specs/leap/BUILD-PLAN.md`. Prérequis : Prism fusionné. Construit avant Shadow, Fold et Delta, hors de l'ordre de la liste.
 
 ## 11. Retrait du jeu de test

@@ -1,9 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { createGameTranslator } from '../../shell/i18n';
 import type { GameStorage } from '../../shell/types';
-import { formatTime, getLevelEntries, getLevelResult, getLevelStatuses, parseSave, recordResult, saveResult } from './progress';
+import type { LeapSave } from './types';
+import { formatTime, getLevelEntries, getLevelResult, parseSave, recordResult, saveResult } from './progress';
 
 const LEVELS = [{ id: 'first' }, { id: 'second' }, { id: 'third' }];
+
+function getLevelStatuses(levels: readonly { id: string }[], save: LeapSave) {
+  return getLevelEntries(levels, save).map((entry) => entry.status);
+}
 
 const t = createGameTranslator(
   {

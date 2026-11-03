@@ -34,7 +34,7 @@ Alternatives écartées :
 | `logic/collision.ts` | Boîtes, chevauchements, contacts avec les cases. |
 | `logic/leap.ts` | `createState`, `step`. |
 | `logic/solver.ts` | Solveur et mesure de la fenêtre de saut, pour les tests uniquement. |
-| `logic/progress.ts` | Statuts des niveaux, record et sauvegarde `LeapSave`. |
+| `logic/progress.ts` | Record et sauvegarde `LeapSave`. Statuts des niveaux par `src/games/shell/unlock.ts`. |
 | `levels/levels.ts` | Les 20 niveaux. |
 | `render/canvas.ts` | Canvas, densité, dimensionnement. |
 | `render/draw.ts` | Dessin du décor et de la scène. |

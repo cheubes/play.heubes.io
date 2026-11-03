@@ -62,10 +62,12 @@
     "end": {
       "title": "Niveau terminé",
       "all-complete": "Tous les niveaux sont terminés !",
+      "failed": "Niveau perdu",
       "game-over": "Partie terminée",
       "perfect": "Parfait",
       "next": "Niveau suivant",
       "replay": "Rejouer",
+      "try-again": "Réessayer",
       "play-again": "Rejouer"
     },
     "reset": {

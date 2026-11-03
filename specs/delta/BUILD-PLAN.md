@@ -2,13 +2,13 @@
 
 Neuf étapes, chacune démontrable avant de passer à la suivante. Specs du jeu : `functional-specifications.md`, `game-model.md`, `technical-specifications.md`, `style-guide.md` de ce dossier.
 
-Prérequis : specs du jeu validées, Fold fusionné sur `dev` (la sélection au clavier commune existe), branche `game/delta` créée depuis `dev`.
+Prérequis : specs du jeu validées, Fold fusionné sur `dev`, branche `game/delta` créée depuis `dev`.
 
 ## 1. Simulation
 
 **Critère :** AC-01 à AC-07 et AC-09 couverts par des tests ; `vitest run` passe.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -29,7 +29,7 @@ Critère de fin : vitest run passe.
 
 **Critère :** AC-08 couvert par des tests ; `vitest run` passe.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -48,7 +48,7 @@ Critère de fin : vitest run passe.
 
 **Critère :** AC-11 passe pour les 20 niveaux, en moins de 10 secondes.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -73,7 +73,7 @@ Critère de fin : vitest run passe, le test AC-11 prend moins de 10 secondes.
 
 **Critère :** "Play" lance le niveau 1, la simulation tourne et s'affiche conformément à la charte ; AC-13, AC-15 et AC-16 vérifiés à la main.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -94,9 +94,11 @@ vérifiés dans le navigateur, avec une carte de 14 bassins, en portrait et en p
 
 ## 5. Contrôles et effets
 
+Delta est le premier jeu après Prism à avoir besoin de la sélection au clavier : `nextSelection` est extraite de Prism vers `src/games/shell/selection.ts` dans cette étape (voir "Utilitaires communs actuels" dans `technical-specifications.md`).
+
 **Critère :** AC-12 et AC-14 vérifiés à la main, sur desktop et sur mobile.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -115,7 +117,7 @@ Le socle gagne une fin de niveau en échec (voir "Fin de niveau" dans `game-page
 
 **Critère :** les autres jeux fonctionnent comme avant ; AC-10 couvert par des tests ; AC-17 vérifié à la main ; la progression survit à un rechargement ; la réinitialisation fonctionne.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -145,7 +147,7 @@ sélecteur à zéro.
 
 **Critère :** chaque son se déclenche au bon moment, respecte le réglage "Son" et se coupe en pause.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -162,7 +164,7 @@ son pendant la pause.
 
 **Critère :** tous les critères [manuel] revérifiés sur un téléphone réel.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```
@@ -183,4 +185,4 @@ Critère de fin : tous les critères d'acceptation sont vérifiés.
 
 Relecture de cohérence de l'ensemble des specs (voir "Avant chaque commit" dans `CLAUDE.md`), mise à jour de "Points tranchés à l'implémentation", ajout de Delta aux crédits de "About" s'il utilise des assets tiers (aucun prévu), fusion de `game/delta` sur `dev`. Le jeu est publié à la prochaine fusion de `dev` sur `main`.
 
-**Statut :** à faire.
+**Statut :** fait.

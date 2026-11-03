@@ -263,17 +263,19 @@ export function initGameHost(shell: HTMLElement): void {
     session.nextLevelId = nextLevel && nextLevel.status !== 'locked' ? nextLevel.id : undefined;
     const hasNext = session.nextLevelId !== undefined;
     const isPerfect = result.status === 'perfect';
+    const isFailed = result.status === 'failed';
+    const ending = isFailed ? 'failed' : hasNext ? 'next' : 'no-next';
 
     endPanel.toggleAttribute('data-perfect', isPerfect);
     endStar.hidden = !isPerfect;
     for (const title of endPanel.querySelectorAll<HTMLElement>('[data-end-title]')) {
-      title.hidden = title.dataset.endTitle !== (isLastLevel ? 'all' : 'level');
+      title.hidden = title.dataset.endTitle !== (isFailed ? 'failed' : isLastLevel ? 'all' : 'level');
     }
     endMessage.textContent = result.message ?? '';
     endMessage.hidden = !result.message;
     endStats.replaceChildren(...result.stats.map((stat) => createStatElement(stat.label, stat.value)));
     for (const button of endPanel.querySelectorAll<HTMLElement>('[data-end-when]')) {
-      button.hidden = button.dataset.endWhen !== (hasNext ? 'next' : 'no-next');
+      button.hidden = !button.dataset.endWhen?.split(' ').includes(ending);
     }
     openPanel(endPanel, 'ended');
   }

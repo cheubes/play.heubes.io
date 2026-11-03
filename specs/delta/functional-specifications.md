@@ -67,7 +67,7 @@ Un bassin choisi comme source reste sélectionné, avec ses canaux mis en évide
 - **Sortie** : une sortie du joueur est marquée par des chevrons le long du canal, dans le sens du courant ; les sorties du rival aussi, dans sa couleur.
 - **Bassin pris** : il change de camp avec une onde, et un son différent selon qu'on le gagne ou qu'on le perd.
 - **Marée** : un canal fermé est assombri et en pointillés, avec un arc qui montre le temps restant avant son ouverture ; un canal ouvert montre de même le temps avant sa fermeture.
-- **Victoire** : tous les bassins pulsent l'un après l'autre, puis le panneau de fin de niveau s'ouvre.
+- **Victoire** : les bassins du joueur pulsent l'un après l'autre, puis le panneau de fin de niveau s'ouvre.
 - **Défaite** : la lumière du joueur s'éteint, puis le panneau d'échec s'ouvre.
 
 ## Orientation

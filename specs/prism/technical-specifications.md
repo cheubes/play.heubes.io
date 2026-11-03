@@ -36,7 +36,7 @@ Alternatives écartées :
 | `render/sounds.ts` | Synthèse des sons. |
 | `index.ts` | `GameDefinition`. |
 
-La progression (statuts des niveaux, record, stats du HUD, panneau de fin) vient de `src/games/shell/progress.ts` et la taille de case de `fitCellSize` (`src/games/shell/dom.ts`), partagées avec Tilt (voir "Structure des fichiers" dans `technical-specifications.md`).
+La progression (statuts des niveaux, record, stats du HUD, panneau de fin) vient de `src/games/shell/progress.ts` et la taille de case de `fitCellSize` (`src/games/shell/dom.ts`), partagées avec Tilt (voir "Structure des fichiers" dans `technical-specifications.md`). `render/input.ts` délègue à `nextSelection` (`src/games/shell/selection.ts`) le choix de l'élément suivant au clavier, en lui passant les positions des éléments orientables ; il garde la sélection de départ.
 
 ## Contrôles
 

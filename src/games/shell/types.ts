@@ -45,7 +45,7 @@ export interface GameAudio {
 }
 
 export interface LevelResult {
-  status: 'completed' | 'perfect';
+  status: 'completed' | 'perfect' | 'failed';
   stats: { label: string; value: string }[];
   message?: string;
 }

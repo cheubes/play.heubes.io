@@ -36,8 +36,8 @@ Alternatives écartées :
 | `logic/level-parser.ts` | `parseLevel` : canaux, longueurs, durées, voisinages. |
 | `logic/random.ts` | Générateur à graine (mulberry32), fonctions pures sur `rng`. |
 | `logic/simulation.ts` | `createState`, `setRoute`, `hold`, `step`. |
-| `logic/strategy.ts` | `decide`. |
-| `logic/progress.ts` | Statuts des niveaux, record et sauvegarde `DeltaSave`. |
+| `logic/strategy.ts` | `decide`, et `REFERENCE_STRATEGY`, les paramètres de la stratégie de référence. |
+| `logic/progress.ts` | Record et sauvegarde `DeltaSave`. Statuts des niveaux par `src/games/shell/unlock.ts`. |
 | `levels/levels.ts` | Les 20 niveaux. |
 | `render/canvas.ts` | Canvas, densité, mise à l'échelle et rotation, conversion entre écran et carte. |
 | `render/draw.ts` | Dessin des couches. |
@@ -47,7 +47,7 @@ Alternatives écartées :
 | `render/sounds.ts` | Synthèse des sons. |
 | `index.ts` | `GameDefinition`. |
 
-Utilitaires communs : `fitCellSize` ne s'applique pas (pas de grille) ; la sélection au clavier commune (`src/games/shell/selection.ts`, issue de Prism et Shadow) sert au curseur, avec les centres des bassins en coordonnées d'écran.
+Utilitaires communs : `fitCellSize` ne s'applique pas (pas de grille) ; la sélection au clavier commune (`src/games/shell/selection.ts`, issue de Prism) sert au curseur, avec les centres des bassins en coordonnées d'écran ; les statuts des niveaux viennent de `src/games/shell/unlock.ts`, partagé avec Leap.
 
 ## Contrôles
 
@@ -92,6 +92,7 @@ Les sons de prise par le rival d'un bassin neutre ne sont pas joués : seuls le
 
 - Tests des critères AC-01 à AC-11 dans `logic/*.test.ts`.
 - AC-11 simule, pour chaque niveau, au plus deux fois 3 000 pas : le test complet reste sous 10 secondes en CI.
+- Les critères de difficulté des niveaux ("Points tranchés à l'implémentation") sont vérifiés par `logic/levels.difficulty.ts`, hors AC-11 et hors de `vitest run`, lancé par `npm run test:difficulty` comme pour les autres jeux. Il simule une dizaine de parties par niveau, en moins d'une seconde.
 
 ## Performance
 
@@ -105,4 +106,19 @@ Aucune.
 
 ## Points tranchés à l'implémentation
 
-Aucun pour l'instant.
+- **2026-11-02 / Croisements par paire de camps** : le pas 6 compare, dans chaque canal et pour chaque camp, l'unité la plus avancée de ce camp vers `b` et l'unité la plus avancée de l'autre camp vers `a`. Raison : la règle comparait les deux unités de tête du canal ; quand elles étaient toutes deux au joueur, une unité du rival placée derrière l'une d'elles traversait l'unité du joueur d'en face sans s'annuler.
+- **2026-11-02 / Seuil de menace** : un bassin n'est menacé que si au moins une unité adverse est en route vers lui. Raison : à la lettre, tout bassin vide était menacé (0 ≥ 0), même sans adversaire en route, et attirait un renfort ; ses voisins se vidaient vers les bassins vides de l'arrière.
+- **2026-11-02 / Lecture de la stratégie** : un bassin d'un autre camp inclut les neutres, dans toutes les phases ; la poursuite ne compte que les unités de son camp qui vont vers la cible ; un relais sans bassin d'un autre camp atteignable laisse le bassin en réserve. Raison : `game-model.md` ne précisait les neutres que pour l'attaque, et ne disait rien des deux autres cas.
+- **2026-11-02 / Tirage des égalités** : le générateur ne tire qu'en cas d'égalité ; le choix est le candidat d'indice `floor(valeur × n)` parmi les n ex aequo, dans l'ordre des canaux du niveau. Raison : `game-model.md` confiait les égalités au générateur sans fixer son usage ; un tirage à chaque décision consommerait le générateur sans effet.
+- **2026-11-02 / Partie de la stratégie de référence** : elle décide pour le joueur à chaque pas dont `tick` est un multiple de sa réaction, avant `step`, dès le pas 0. Raison : `game-model.md` fixe ses paramètres, pas le moment de ses décisions.
+- **2026-11-02 / Mesures de difficulté** : T_ref est le temps de victoire de la stratégie de référence ; la marge d'un niveau est la plus grande réaction R parmi 5, 10, 20, 40 et 80 pas telle que la stratégie de référence jouée avec R (et `margin` = 0) gagne pour R et pour toutes les valeurs inférieures de la liste ; la part de croisements est la part des unités émises par le rival, dans la partie de référence, qui disparaissent d'un canal avant leur arrivée (les unités annulées au pas de leur émission ou de leur arrivée ne sont pas comptées). Raison : la marge mesure la lenteur qu'un joueur peut se permettre, la contrainte d'un humain face à un rival qui réagit en quelques secondes ; un bonus d'unités au rival, essayé, ne variait pas de façon monotone.
+- **2026-11-02 / Critères de difficulté** : vérifiés par `logic/levels.difficulty.ts`. La réaction du rival ne croît jamais d'un niveau au suivant et vaut 40 en série 1 (le niveau 1 est l'exemple de `game-model.md`), de 35 à 25 en série 2, de 25 à 20 en série 3, de 15 à 10 en série 4 ; sa `margin` vaut 6, 4, 3 puis 2 selon la série ; 3 à 6 bassins en série 1, 5 à 9 en série 2, 6 à 10 en série 3, 10 à 14 en série 4, et 14 au niveau 20 ; T_ref sous 90 secondes pour les niveaux 1, 6, 11 et 16, de 20 secondes à 3 minutes pour les autres ; la marge vaut au moins 40 en série 1, 20 en séries 2 et 3, 10 en série 4, et ne croît pas dans une série ; à partir de la série 2, la stratégie de référence jouée avec une réaction de 80 pas ne gagne pas. Raison : "Progression" (`functional-specifications.md`) demande un rival de plus en plus vif et des cartes plus grandes sans mesurer la difficulté ; ces critères la rendent croissante et écartent les niveaux qu'un joueur distrait gagnerait.
+- **2026-11-02 / Critères d'intérêt** : chaque niveau a un bassin neutre, et un joueur qui ne donne aucun ordre perd en moins de 5 minutes ; à partir du niveau 6, le rival commence avec au moins autant d'unités que le joueur ; aux niveaux 3 à 5, un bassin du joueur n'a au départ que des voisins à lui (relais) ; en séries 2 et 4, un niveau a au moins deux tailles de bassin ; le niveau 6 introduit les tailles : avec des bassins tous moyens, la stratégie de référence perd ou gagne 1,5 fois plus lentement ; aux niveaux 6 à 10, la part de croisements atteint 20 % (contre-courants) ; au niveau 11, le joueur ne peut atteindre le rival sans canal à marée ; aux niveaux 12 à 15, deux canaux à marée ou plus, et des canaux toujours ouverts changent l'issue ou T_ref d'au moins 20 % ; en série 4, au moins un canal à marée. Raison : "Progression" demande que chaque mécanique soit indispensable et évidente au niveau qui l'introduit ; la série 2 en introduit deux, les tailles sont rendues évidentes au niveau 6, les contre-courants sont garantis sur toute la série.
+- **2026-11-02 / Constantes** : aucune constante de `game-model.md` n'a été ajustée pour la conception des niveaux.
+- **2026-11-03 / Pression sur un voisin de la source** : un `pointerdown` sur un bassin du joueur voisin de la source sélectionnée ne le sélectionne pas tout de suite ; le toucher qui suit donne l'ordre `setRoute` vers ce voisin. Raison : à la lettre, la pression faisait de ce bassin la nouvelle source, et un ordre par toucher vers un bassin du joueur était impossible.
+- **2026-11-03 / Pointeur annulé** : un `pointercancel` (geste système) abandonne l'ordre en cours, comme un relâcher hors d'un voisin. Raison : la spec ne disait rien de ce cas.
+- **2026-11-03 / Mise en évidence de la sélection** : avec une source choisie, tout ce qui n'est ni ses canaux ni ses voisins passe à 50 % d'opacité ; le trait du glisser part du bord de la source. Raison : "voisins mis en évidence" ne fixait pas le moyen, et un trait parti du centre couvrait le chiffre de la source.
+- **2026-11-03 / Sauvegarde à la fin du niveau** : le résultat est enregistré dès que `outcome` change, avant l'animation de fin, et une entrée pendant celle-ci ouvre aussitôt le panneau. Raison : quitter pendant l'animation garde la progression, comme dans Leap et Prism ; l'entrée suit la règle commune.
+- **2026-11-03 / Animations de fin** : à la victoire, chaque bassin du joueur pulse 300ms, dans l'ordre des bassins du niveau ; à la défaite, ce sont les bassins et les unités du joueur au pas précédent qui s'éteignent, puisqu'il n'en a plus au pas final. Raison : la durée d'une pulsation et l'ordre n'étaient pas fixés, et "les dernières lueurs du joueur" n'existent plus à la fin.
+- **2026-11-03 / "Most held"** : affiché `k/total`, comme le compteur "Basins" du HUD. Raison : le nombre seul ne disait pas sur combien de bassins.
+- **2026-11-03 / Sons** : la cloche suit la gamme pentatonique de sol à partir de sol4, un degré par bassin tenu ; l'accord de victoire est do-mi-sol, celui de défaite la-do-mi grave ; le son de la dernière prise se superpose à l'accord de fin. Raison : la spec fixait la forme des sons, pas leurs hauteurs.

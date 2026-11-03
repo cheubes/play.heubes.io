@@ -1,0 +1,21 @@
+{
+  "level": "Niveau {number}",
+  "stats": {
+    "time": "Temps",
+    "basins": "Bassins",
+    "lost": "Perdus",
+    "best": "Record",
+    "most-held": "Au plus fort"
+  },
+  "announce": {
+    "route": "Courant établi.",
+    "hold": "En réserve.",
+    "taken": "Tu as pris un bassin. {held} sur {total}.",
+    "lost": "Le rival t'a pris un bassin. {held} sur {total}."
+  },
+  "result": {
+    "perfect": "Sans faute ! Tu n'as perdu aucun bassin.",
+    "won": "Gagné en {time}. Sauras-tu gagner sans perdre un seul bassin ?",
+    "failed": "Le rival a pris ton dernier bassin."
+  }
+}

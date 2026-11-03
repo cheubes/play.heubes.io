@@ -1,0 +1,21 @@
+{
+  "level": "Level {number}",
+  "stats": {
+    "time": "Time",
+    "basins": "Basins",
+    "lost": "Lost",
+    "best": "Best",
+    "most-held": "Most held"
+  },
+  "announce": {
+    "route": "Route set.",
+    "hold": "Holding.",
+    "taken": "You took a basin. {held} of {total}.",
+    "lost": "The rival took one of your basins. {held} of {total}."
+  },
+  "result": {
+    "perfect": "Flawless! You didn't lose a single basin.",
+    "won": "Won in {time}. Can you win without losing a basin?",
+    "failed": "The rival took your last basin."
+  }
+}

@@ -82,20 +82,20 @@ Dans cet ordre :
 3. Production : chaque bassin du joueur ou du rival dont l'intervalle de production divise `tick`, et sous sa capacité, gagne une unité.
 4. Émission : si `tick` est un multiple de l'intervalle d'émission, chaque bassin avec une sortie dont le canal est ouvert et au moins une unité en perd une, qui entre dans le canal (`progress` à 0).
 5. Mouvement : chaque unité en route avance d'un pas.
-6. Croisements : dans chaque canal, tant que l'unité la plus avancée vers `b` et l'unité la plus avancée vers `a` sont de camps opposés et que la somme de leurs fractions parcourues (`progress / durée`) atteint 1, les deux sont retirées.
+6. Croisements : dans chaque canal et pour chaque camp, tant que l'unité la plus avancée de ce camp vers `b` et l'unité la plus avancée de l'autre camp vers `a` ont une somme de fractions parcourues (`progress / durée`) qui atteint 1, les deux sont retirées. Une unité croise ainsi chaque unité adverse qui vient en sens inverse, même quand une unité de son propre camp la précède.
 7. Arrivées : les unités dont `progress` atteint la durée du canal arrivent, dans l'ordre de `transit`, et appliquent la règle 7. Une prise par le rival d'un bassin du joueur incrémente `basinsLost`.
 8. `mostHeld` est mis à jour, puis `outcome` selon la règle 11.
 
 ### Stratégie
 
-`decide(level, state, side, { reaction, margin })` donne de nouvelles sorties aux bassins de `side`, en trois phases. Les égalités sont départagées par le générateur.
+`decide(level, state, side, { reaction, margin })` donne de nouvelles sorties aux bassins de `side`, en trois phases. Un bassin d'un autre camp est un bassin adverse ou neutre. Les égalités sont départagées par le générateur : il ne tire qu'en cas d'égalité, et le choix est le candidat d'indice `floor(valeur × n)` parmi les n ex aequo, dans l'ordre des canaux du niveau.
 
-1. **Menaces** : un bassin est menacé si le nombre d'unités adverses en route vers lui est au moins égal à ses unités. Un bassin menacé est mis en réserve (pas de sortie).
+1. **Menaces** : un bassin est menacé si au moins une unité adverse est en route vers lui et que le nombre d'unités adverses en route vers lui est au moins égal à ses unités. Un bassin menacé est mis en réserve (pas de sortie).
 2. **Renforts** : pour chaque bassin menacé, dans l'ordre du niveau, son voisin du même camp non menacé, et pas encore choisi comme renfort, qui a le plus d'unités oriente sa sortie vers lui.
 3. **Autres bassins**, dans l'ordre du niveau, sauf les renforts :
-   - **Poursuite** : si sa sortie vise un bassin d'un autre camp et que ses unités, plus les unités de son camp en route sur ce canal, dépassent la garnison de la cible, il la garde ;
-   - **Attaque** : sinon, parmi ses voisins d'un autre camp (ou neutres) dont la garnison plus `margin` est inférieure à ses unités, il vise celui qui a la plus petite garnison ;
-   - **Relais** : sinon, si tous ses voisins sont de son camp, il vise le voisin le plus proche (en nombre de canaux) d'un bassin d'un autre camp ;
+   - **Poursuite** : si sa sortie vise un bassin d'un autre camp et que ses unités, plus les unités de son camp en route vers la cible sur ce canal, dépassent la garnison de la cible, il la garde ;
+   - **Attaque** : sinon, parmi ses voisins d'un autre camp dont la garnison plus `margin` est inférieure à ses unités, il vise celui qui a la plus petite garnison ;
+   - **Relais** : sinon, si tous ses voisins sont de son camp, il vise le voisin le plus proche (en nombre de canaux) d'un bassin d'un autre camp, s'il en existe un d'atteignable ;
    - **Réserve** : sinon, pas de sortie.
 
 La stratégie de référence, utilisée par les tests de validation des niveaux, est cette stratégie jouée pour le joueur avec `reaction` = 5 et `margin` = 0.
@@ -163,7 +163,7 @@ interface DeltaSave {
 - Statuts : `available` pour le premier niveau non gagné qui suit un niveau gagné (ou le niveau 1), `completed` pour un niveau gagné, `perfect` si `flawless`, `locked` sinon. Ils ne sont pas stockés.
 - Une entrée dont l'`id` n'existe plus dans `levels.ts` est ignorée.
 
-La progression commune de `src/games/shell/progress.ts` ne s'applique pas : elle repose sur des coups et un par.
+La progression commune de `src/games/shell/progress.ts` ne s'applique pas : elle repose sur des coups et un par. Les statuts viennent de `src/games/shell/unlock.ts`, partagé avec Leap.
 
 ## Contraintes de validation
 
