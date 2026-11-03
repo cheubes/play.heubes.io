@@ -1,0 +1,7 @@
+{
+  "level": "Level {number}",
+  "stats": {
+    "time": "Time",
+    "basins": "Basins"
+  }
+}

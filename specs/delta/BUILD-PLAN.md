@@ -73,7 +73,7 @@ Critère de fin : vitest run passe, le test AC-11 prend moins de 10 secondes.
 
 **Critère :** "Play" lance le niveau 1, la simulation tourne et s'affiche conformément à la charte ; AC-13, AC-15 et AC-16 vérifiés à la main.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

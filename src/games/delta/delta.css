@@ -1,0 +1,16 @@
+.game-delta {
+  --delta-water: #0a1520;
+  --delta-channel: #4a6680;
+  --delta-player: #ffb627;
+  --delta-rival: #ff5c8a;
+  --delta-neutral: #8a97ab;
+  --delta-ink: #0a1520;
+
+  display: grid;
+  place-items: center;
+}
+
+.game-delta .delta-map {
+  display: block;
+  border-radius: var(--radius-lg);
+}
