@@ -1,6 +1,8 @@
 import { nextRandom } from './random';
 import type { DeltaState, Level, Link, Side, StrategyParams } from './types';
 
+export const REFERENCE_STRATEGY: StrategyParams = { reaction: 5, margin: 0 };
+
 interface Choice<T> {
   choice: T | undefined;
   rng: number;
