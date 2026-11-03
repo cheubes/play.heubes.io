@@ -147,7 +147,7 @@ sélecteur à zéro.
 
 **Critère :** chaque son se déclenche au bon moment, respecte le réglage "Son" et se coupe en pause.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

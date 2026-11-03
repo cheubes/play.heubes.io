@@ -3,7 +3,7 @@ import type { GameDefinition, HudStat, LevelResult } from '../shell/types';
 import { LEVELS } from './levels/levels';
 import { parseLevel } from './logic/level-parser';
 import { formatTime, getLevelEntries, getLevelResult, parseSave, saveResult } from './logic/progress';
-import { createState, hold, setRoute } from './logic/simulation';
+import { createState, hold, isChannelOpen, setRoute } from './logic/simulation';
 import { BASIN_SIZES } from './logic/types';
 import type { DeltaState, Level, Point } from './logic/types';
 import { createMapView, fitMapView, toScreen } from './render/canvas';
@@ -11,6 +11,7 @@ import { drawMap, readPalette, type Palette } from './render/draw';
 import { createEffects, type Effects } from './render/effects';
 import { bindInput, type DeltaInput } from './render/input';
 import { startLoop, type GameLoop } from './render/loop';
+import { createSounds } from './render/sounds';
 
 const MIN_TOUCH_RADIUS = 22;
 
@@ -27,6 +28,7 @@ const delta: GameDefinition = {
     const { container, t, hud, signal } = context;
     const levels: Level[] = LEVELS.map(parseLevel);
     const view = createMapView();
+    const sounds = createSounds(context.audio);
     let level: Level | undefined;
     let loop: GameLoop | undefined;
     let palette: Palette | undefined;
@@ -112,28 +114,36 @@ const delta: GameDefinition = {
       return from !== undefined && to !== undefined && neighbors(from).includes(to);
     }
 
+    function choose(index: number): void {
+      if (source !== index) {
+        source = index;
+        sounds.select();
+      }
+    }
+
     function deselect(): void {
       source = undefined;
       drag = undefined;
     }
 
-    function order(next: DeltaState, announcement: string): void {
+    function order(next: DeltaState, announcement: string, sound: () => void): void {
       if (loop && next !== loop.state()) {
         loop.apply(next);
         context.announce(t(announcement));
+        sound();
       }
       deselect();
     }
 
     function routeTo(from: number, to: number): void {
       if (level && loop) {
-        order(setRoute(level, loop.state(), level.basins[from]!.id, level.basins[to]!.id), 'announce.route');
+        order(setRoute(level, loop.state(), level.basins[from]!.id, level.basins[to]!.id), 'announce.route', sounds.route);
       }
     }
 
     function holdBasin(index: number): void {
       if (level && loop) {
-        order(hold(level, loop.state(), level.basins[index]!.id), 'announce.hold');
+        order(hold(level, loop.state(), level.basins[index]!.id), 'announce.hold', sounds.hold);
       }
     }
 
@@ -149,7 +159,7 @@ const delta: GameDefinition = {
         deselect();
       } else if (source === undefined) {
         if (isPlayers(cursor)) {
-          source = cursor;
+          choose(cursor);
         }
       } else if (cursor === source) {
         holdBasin(source);
@@ -165,11 +175,11 @@ const delta: GameDefinition = {
         press = { basin, previousSource: source };
         // A press on a neighbor of the source may be a tap that gives the order: it does not select yet.
         if (isPlayers(basin) && !(source !== undefined && basin !== source && isNeighbor(source, basin))) {
-          source = basin;
+          choose(basin);
         }
       } else if (input.type === 'drag') {
         if (isPlayers(press?.basin)) {
-          source = press.basin;
+          choose(press.basin);
           drag = input.point;
         }
       } else if (input.type === 'release' && press) {
@@ -220,9 +230,14 @@ const delta: GameDefinition = {
         effects.capture(index, before, basin.owner);
         if (basin.owner === 'player') {
           context.announce(t('announce.taken', { held, total }));
+          sounds.taken(held);
         } else if (before === 'player') {
           context.announce(t('announce.lost', { held, total }));
+          sounds.lost();
         }
+      }
+      if (level!.channels.some((channel) => channel.tide !== null && isChannelOpen(channel, previous.tick) !== isChannelOpen(channel, current.tick))) {
+        sounds.tide();
       }
       if (source !== undefined && current.basins[source]?.owner !== 'player') {
         deselect();
@@ -251,8 +266,10 @@ const delta: GameDefinition = {
       };
       pendingResult = getLevelResult(t, run, saveResult(context.storage, level!.id, run));
       if (run.outcome === 'won') {
+        sounds.victory();
         effects.won(state.basins.flatMap((basin, index) => (basin.owner === 'player' ? [index] : [])));
       } else {
+        sounds.defeat();
         effects.lost(
           previous.basins.flatMap((basin, index) => (basin.owner === 'player' ? [index] : [])),
           previous.transit.filter((unit) => unit.side === 'player'),
