@@ -49,7 +49,13 @@ export function useDeviceTransform(view: MapView): void {
   view.context.setTransform(1, 0, 0, 1, 0, 0);
 }
 
+// CSS pixels from the top left corner of the canvas.
+export function toScreen(view: MapView, point: Point): Point {
+  const { scale } = view;
+  return view.rotated ? { x: (MAP_HEIGHT - point.y) * scale, y: point.x * scale } : { x: point.x * scale, y: point.y * scale };
+}
+
 export function toDevice(view: MapView, point: Point): Point {
-  const unit = view.scale * window.devicePixelRatio;
-  return view.rotated ? { x: (MAP_HEIGHT - point.y) * unit, y: point.x * unit } : { x: point.x * unit, y: point.y * unit };
+  const screen = toScreen(view, point);
+  return { x: screen.x * window.devicePixelRatio, y: screen.y * window.devicePixelRatio };
 }

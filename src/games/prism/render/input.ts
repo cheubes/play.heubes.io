@@ -1,3 +1,4 @@
+import { nextSelection as nextSharedSelection } from '../../shell/selection';
 import type { Direction, Level, Position } from '../logic/types';
 
 export type PrismInput =
@@ -33,26 +34,7 @@ export function firstSelection(level: Level): Position | undefined {
 }
 
 export function nextSelection(level: Level, from: Position, direction: Direction): Position {
-  let best = from;
-  let bestScore = Infinity;
-  for (const position of orientablePositions(level)) {
-    const rowOffset = position.row - from.row;
-    const colOffset = position.col - from.col;
-    const [axis, perpendicular] =
-      direction === 'up'
-        ? [-rowOffset, colOffset]
-        : direction === 'down'
-          ? [rowOffset, colOffset]
-          : direction === 'left'
-            ? [-colOffset, rowOffset]
-            : [colOffset, rowOffset];
-    const score = axis + 2 * Math.abs(perpendicular);
-    if (axis > 0 && score < bestScore) {
-      best = position;
-      bestScore = score;
-    }
-  }
-  return best;
+  return nextSharedSelection(orientablePositions(level), from, direction, (position) => ({ x: position.col, y: position.row }));
 }
 
 export function bindInput(container: HTMLElement, signal: AbortSignal, handlers: InputHandlers): void {

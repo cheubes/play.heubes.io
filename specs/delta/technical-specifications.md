@@ -47,7 +47,7 @@ Alternatives écartées :
 | `render/sounds.ts` | Synthèse des sons. |
 | `index.ts` | `GameDefinition`. |
 
-Utilitaires communs : `fitCellSize` ne s'applique pas (pas de grille) ; la sélection au clavier commune (`src/games/shell/selection.ts`, issue de Prism et Shadow) sert au curseur, avec les centres des bassins en coordonnées d'écran.
+Utilitaires communs : `fitCellSize` ne s'applique pas (pas de grille) ; la sélection au clavier commune (`src/games/shell/selection.ts`, issue de Prism) sert au curseur, avec les centres des bassins en coordonnées d'écran.
 
 ## Contrôles
 

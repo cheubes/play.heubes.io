@@ -40,7 +40,7 @@ Alternatives écartées :
 
 Utilitaires communs (`src/games/shell/`) :
 - `progress.ts` pour la progression, et `fitCellSize` (`dom.ts`) pour la taille de case, partagés avec Tilt et Prism ;
-- la sélection au clavier de Prism (`firstSelection`, `nextSelection`, dans `src/games/prism/render/input.ts`) devient commune : Shadow en est le deuxième utilisateur (voir "Structure des fichiers" dans `technical-specifications.md`). Elle est déplacée dans `src/games/shell/selection.ts` et travaille sur une liste de positions sélectionnables, fournie par le jeu.
+- la sélection au clavier commune, `nextSelection` (`src/games/shell/selection.ts`), partagée avec Prism et Delta : Shadow lui passe les positions de ses éléments sélectionnables (voir "Structure des fichiers" dans `technical-specifications.md`). La sélection de départ reste propre à Shadow.
 
 ## Contrôles
 

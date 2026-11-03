@@ -2,7 +2,7 @@
 
 Huit étapes, chacune démontrable avant de passer à la suivante. Specs du jeu : `functional-specifications.md`, `game-model.md`, `technical-specifications.md`, `style-guide.md` de ce dossier.
 
-Prérequis : specs du jeu validées, branche `game/shadow` créée depuis `dev`.
+Prérequis : specs du jeu validées, Delta fusionné sur `dev` (la sélection au clavier commune existe), branche `game/shadow` créée depuis `dev`.
 
 ## 1. Logique pure
 
@@ -69,32 +69,25 @@ vérifiés dans le navigateur, avec un niveau 8 × 8 à deux lumières qui utili
 d'éléments et toutes les hauteurs.
 ```
 
-## 4. Sélection commune, contrôles et animations
+## 4. Contrôles et animations
 
-Extraction de la sélection au clavier de Prism vers `src/games/shell/` (elle sert désormais à deux jeux, voir "Organisation du code" dans `technical-specifications.md`), puis contrôles et animations de Shadow.
+Contrôles et animations de Shadow. La sélection au clavier vient de `src/games/shell/selection.ts`, extraite de Prism par Delta (voir "Organisation du code" dans `technical-specifications.md`).
 
-**Critère :** le comportement de Prism au clavier est inchangé ; AC-10, AC-11 et AC-12 vérifiés à la main, sur desktop et sur mobile.
+**Critère :** AC-10, AC-11 et AC-12 vérifiés à la main, sur desktop et sur mobile.
 
 **Statut :** à faire.
 
 **Prompt :**
 ```
-Implémente l'étape 4 de specs/shadow/BUILD-PLAN.md : sélection commune, contrôles et
-animations de Shadow.
+Implémente l'étape 4 de specs/shadow/BUILD-PLAN.md : contrôles et animations de Shadow.
 
-1. Déplace firstSelection et nextSelection de src/games/prism/render/input.ts vers
-   src/games/shell/selection.ts, en les faisant travailler sur une liste de positions
-   sélectionnables fournie par le jeu. Adapte Prism, et mets à jour
-   specs/technical-specifications.md ("Utilitaires communs actuels") et
-   specs/prism/technical-specifications.md ("Organisation du code"). Propose-moi ces
-   modifications de specs avant de les appliquer.
-2. Crée src/games/shadow/render/input.ts et render/animations.ts selon "Contrôles" et
-   "Animations" dans specs/shadow/technical-specifications.md. Déclare l'action "undo" dans la
-   GameDefinition et gère son état. Ajoute les annonces de "Accessibilité" dans
-   specs/shadow/functional-specifications.md.
+Crée src/games/shadow/render/input.ts et render/animations.ts selon "Contrôles" et
+"Animations" dans specs/shadow/technical-specifications.md, avec la sélection au clavier
+commune (src/games/shell/selection.ts). Déclare l'action "undo" dans la GameDefinition et
+gère son état. Ajoute les annonces de "Accessibilité" dans
+specs/shadow/functional-specifications.md.
 
-Critère de fin : Prism se joue au clavier comme avant ; AC-10, AC-11 et AC-12 de Shadow
-vérifiés dans le navigateur, desktop et mobile.
+Critère de fin : AC-10, AC-11 et AC-12 vérifiés dans le navigateur, desktop et mobile.
 ```
 
 ## 5. Progression et résultats

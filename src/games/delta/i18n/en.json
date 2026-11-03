@@ -3,5 +3,11 @@
   "stats": {
     "time": "Time",
     "basins": "Basins"
+  },
+  "announce": {
+    "route": "Route set.",
+    "hold": "Holding.",
+    "taken": "You took a basin. {held} of {total}.",
+    "lost": "The rival took one of your basins. {held} of {total}."
   }
 }

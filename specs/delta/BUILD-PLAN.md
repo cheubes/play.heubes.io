@@ -2,7 +2,7 @@
 
 Neuf étapes, chacune démontrable avant de passer à la suivante. Specs du jeu : `functional-specifications.md`, `game-model.md`, `technical-specifications.md`, `style-guide.md` de ce dossier.
 
-Prérequis : specs du jeu validées, Fold fusionné sur `dev` (la sélection au clavier commune existe), branche `game/delta` créée depuis `dev`.
+Prérequis : specs du jeu validées, Fold fusionné sur `dev`, branche `game/delta` créée depuis `dev`.
 
 ## 1. Simulation
 
@@ -94,9 +94,11 @@ vérifiés dans le navigateur, avec une carte de 14 bassins, en portrait et en p
 
 ## 5. Contrôles et effets
 
+Delta est le premier jeu après Prism à avoir besoin de la sélection au clavier : `nextSelection` est extraite de Prism vers `src/games/shell/selection.ts` dans cette étape (voir "Utilitaires communs actuels" dans `technical-specifications.md`).
+
 **Critère :** AC-12 et AC-14 vérifiés à la main, sur desktop et sur mobile.
 
-**Statut :** à faire.
+**Statut :** fait.
 
 **Prompt :**
 ```

@@ -8,13 +8,15 @@ const START_DELAY = 3000;
 export interface LoopCallbacks {
   onStep(previous: DeltaState, current: DeltaState): void;
   // alpha: share of the next step already elapsed, to interpolate the units.
-  onFrame(current: DeltaState, alpha: number): void;
+  // elapsed: milliseconds since the previous frame, 0 after a pause.
+  onFrame(current: DeltaState, alpha: number, elapsed: number): void;
   onEnd(state: DeltaState): void;
-  // Development only: orders given before each step, removed with the controls.
-  beforeStep?(state: DeltaState): DeltaState;
 }
 
 export interface GameLoop {
+  state(): DeltaState;
+  // An order, applied between two steps: it starts the time at once.
+  apply(next: DeltaState): void;
   pause(): void;
   resume(): void;
   stop(): void;
@@ -38,7 +40,7 @@ export function startLoop(level: Level, initial: DeltaState, callbacks: LoopCall
     while (accumulated >= TICK_MS && steps < MAX_STEPS_PER_FRAME) {
       accumulated -= TICK_MS;
       steps++;
-      const previous = callbacks.beforeStep?.(current) ?? current;
+      const previous = current;
       current = step(level, previous);
       callbacks.onStep(previous, current);
       if (current.outcome !== 'playing') {
@@ -58,7 +60,7 @@ export function startLoop(level: Level, initial: DeltaState, callbacks: LoopCall
     if (current.outcome === 'playing') {
       advance(elapsed);
     }
-    callbacks.onFrame(current, accumulated / TICK_MS);
+    callbacks.onFrame(current, accumulated / TICK_MS, elapsed);
     if (running) {
       frame = requestAnimationFrame(tick);
     }
@@ -74,6 +76,13 @@ export function startLoop(level: Level, initial: DeltaState, callbacks: LoopCall
   frame = requestAnimationFrame(tick);
 
   return {
+    state() {
+      return current;
+    },
+    apply(next) {
+      current = next;
+      waited = START_DELAY;
+    },
     pause() {
       cancel();
       accumulated = 0;

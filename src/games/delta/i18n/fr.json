@@ -3,5 +3,11 @@
   "stats": {
     "time": "Temps",
     "basins": "Bassins"
+  },
+  "announce": {
+    "route": "Courant établi.",
+    "hold": "En réserve.",
+    "taken": "Tu as pris un bassin. {held} sur {total}.",
+    "lost": "Le rival t'a pris un bassin. {held} sur {total}."
   }
 }
