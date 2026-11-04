@@ -179,6 +179,7 @@ Occupe toute la hauteur sous le HUD, fond `--color-bg` par défaut. Le jeu y cen
 | `completed` | Comme `available`, avec une petite coche en `--color-success` dans le coin supérieur droit. |
 | `perfect` | Comme `available`, avec une petite étoile en `--color-highlight` dans le coin supérieur droit et une bordure `--color-highlight`. |
 
+- Un niveau en cours (voir "Reprise d'un niveau" dans `game-page.md`) porte en plus une petite icône `play` en `--color-accent` dans le coin inférieur droit.
 - Le premier niveau `available` (le prochain à jouer) porte `--glow-accent`.
 - Le statut est aussi donné dans le nom accessible du bouton ("Level 4, completed").
 - Variante de la page 404 (voir `not-found-page.md`) : mêmes cases, décoratives et non interactives. Le niveau 404 garde son numéro, en `--color-text-muted` sur fond `--color-surface`, avec une petite icône cadenas en `--color-text-muted` dans le coin supérieur droit, et porte `--glow-accent`. Les autres niveaux suivent le tableau des statuts.
@@ -228,7 +229,7 @@ Icônes Lucide (voir "Icônes" dans `technical-specifications.md`), trait de 2px
 
 | Icône Lucide | Usage |
 |---|---|
-| `play` | Bouton "Play". |
+| `play` | Bouton "Play", marque d'un niveau en cours. |
 | `pause` | Pause (HUD). |
 | `rotate-ccw` | Recommencer le niveau. |
 | `undo-2` | Annuler un coup (action de jeu). |
@@ -239,5 +240,7 @@ Icônes Lucide (voir "Icônes" dans `technical-specifications.md`), trait de 2px
 | `lock`, `check`, `star` | Statuts de niveau. |
 | `smartphone` | Invite d'orientation. |
 | `lightbulb` | Demander un indice (action de jeu, Coffer). |
+| `flame` | Voiler ou rallumer la lanterne (action de jeu, Lantern). |
+| `door-open` | Revenir à l'entrée de la salle (action de jeu, Lantern). |
 
 Ajouter une icône impose de la déclarer d'abord dans ce tableau.

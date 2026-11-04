@@ -203,6 +203,7 @@ export interface LevelEntry {
   id: string;
   label: string;
   status: 'locked' | 'available' | 'completed' | 'perfect';
+  inProgress?: boolean;  // niveau commencé et gardé par le jeu (voir "Reprise d'un niveau" dans game-page.md)
 }
 
 export interface GameAction {
@@ -264,6 +265,7 @@ Règles :
 - `index.ts` est aussi importé au build, pour générer les boutons d'action du HUD. Il n'accède pas au DOM au niveau du module et n'importe pas sa feuille de style. L'hôte charge `<slug>.css` avec le module et l'injecte dans la page.
 - L'hôte pose la classe `.game-<slug>` sur `container`.
 - `destroy()` libère toutes les ressources. L'usage de `signal` pour les écouteurs est obligatoire.
+- Un jeu qui garde un niveau en cours enregistre lui-même son état dans sa sauvegarde et le signale par `inProgress` dans `getLevels`. `start(levelId)` reprend cet état s'il existe ; `restart()` l'efface et recommence le niveau depuis le début. L'hôte demande la confirmation avant d'appeler `restart()` sur un niveau en cours (voir "Reprise d'un niveau" dans `game-page.md`).
 - `complete()` est appelé une seule fois par niveau. Le jeu ne traite plus d'entrée ensuite, jusqu'au prochain `start()` ou `restart()`.
 - Le versionnement de la sauvegarde est déclaré par le jeu (`save` : numéro de version et migrations) et appliqué par l'hôte (voir "Persistance" dans `data-model.md`). Une migration qui lève une exception rend la sauvegarde non migrable.
 

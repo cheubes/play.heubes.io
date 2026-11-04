@@ -26,7 +26,7 @@ Le chrome n'est masqué que pendant le jeu effectif : dès qu'un panneau s'ouvr
 Contenu, dans l'ordre :
 
 1. **Titre** (`h1`), badge de genre, accroche.
-2. **Bouton "Play" / "Jouer"** (principal). Il démarre le premier niveau `available` (le prochain à jouer), ou le premier niveau si tous sont terminés. Pour un jeu sans niveaux, il démarre une partie.
+2. **Bouton "Play" / "Jouer"** (principal). Il démarre le premier niveau `available` (le prochain à jouer), ou le premier niveau si tous sont terminés. S'il existe un niveau en cours, il le reprend, et s'appelle "Resume" / "Reprendre" (voir "Reprise d'un niveau"). Pour un jeu sans niveaux, il démarre une partie.
 3. **Sélecteur de niveaux**, pour les jeux à niveaux (voir "Sélecteur de niveaux").
 4. **Règles** : le corps du fichier de contenu du jeu, avec ses deux sections obligatoires :
    - "How to play" / "Comment jouer" : but du jeu et règles, en quelques phrases ;
@@ -38,7 +38,7 @@ Contenu, dans l'ordre :
 - L'aire de jeu occupe tout l'écran, sous le HUD. L'en-tête et le pied de page sont masqués, et la page ne défile plus.
 - Le HUD (voir `style-guide.md`) affiche : pause, libellé du niveau, statistiques fournies par le jeu, actions du jeu, recommencer, son, plein écran.
 - Le focus passe à l'aire de jeu.
-- **Recommencer** (bouton ou `R`) : redémarre le niveau en cours immédiatement, sans confirmation.
+- **Recommencer** (bouton ou `R`) : redémarre le niveau en cours immédiatement, sans confirmation, sauf pour un niveau gardé en cours par le jeu (voir "Reprise d'un niveau").
 - **Son** : bascule le réglage commun (voir "Son" dans `functional-specifications.md`). L'icône reflète l'état.
 - **Plein écran natif** : le bouton n'est affiché que si le navigateur le permet (`document.fullscreenEnabled`). Il demande le plein écran pour toute la page, pas seulement pour l'aire de jeu, et l'icône reflète l'état. Sur iPhone, où l'API n'existe pas, seul le mode "en partie" s'applique, sans bouton.
 - Le plein écran natif est conservé en pause et en fin de niveau, et quitté en sortant de la partie.
@@ -50,7 +50,7 @@ Contenu, dans l'ordre :
 - Le panneau "Paused" / "Pause" rappelle sous son titre le niveau en cours (le libellé du HUD), pour un jeu à niveaux. Il propose :
   - "Resume" / "Reprendre" (principal) ;
   - "Restart level" / "Recommencer le niveau" ;
-  - "Levels" / "Niveaux" (pour un jeu à niveaux) ou "Quit" / "Quitter" (sans niveaux) : retour au mode hors partie, la progression du niveau en cours est perdue.
+  - "Levels" / "Niveaux" (pour un jeu à niveaux) ou "Quit" / "Quitter" (sans niveaux) : retour au mode hors partie, la progression du niveau en cours est perdue, sauf pour un jeu qui la garde (voir "Reprise d'un niveau").
 - `Échap` ou `P` dans le panneau reprend la partie.
 - Une reprise après une pause automatique se fait toujours par une action du joueur, jamais automatiquement au retour du focus.
 
@@ -71,6 +71,15 @@ Contenu, dans l'ordre :
 - Un niveau `locked` n'est pas sélectionnable. Les autres démarrent directement la partie sur ce niveau.
 - La règle de déverrouillage est propre à chaque jeu et décrite dans sa spec fonctionnelle.
 - Navigation au clavier : `Tab` entre les niveaux disponibles, `Entrée` ou `Espace` pour lancer.
+
+## Reprise d'un niveau
+
+- Un jeu peut garder un niveau commencé puis quitté (sélecteur, rechargement, fermeture de la page) : ce niveau est alors "en cours". Le jeu décide de ce qu'il garde et de l'endroit où il reprend (voir son `game-model.md`).
+- Dans le sélecteur, un niveau en cours porte une marque, quel que soit son statut (voir "Sélecteur de niveaux" dans `style-guide.md`), et son nom accessible le dit ("Level 3, completed, in progress" / "Niveau 3, terminé, en cours"). Le choisir le reprend.
+- Le bouton "Play" reprend le premier niveau en cours, dans l'ordre des niveaux.
+- Recommencer un niveau en cours (bouton du HUD, `R`, ou "Restart level" du panneau de pause) ouvre d'abord un panneau de confirmation, partie en pause : "Restart <level> from the beginning? Your progress in it will be lost." / "Recommencer <niveau> depuis le début ? Ta progression dans ce niveau sera perdue.", avec "Restart" (danger) et "Cancel" (secondaire). "Cancel" revient à l'écran précédent, sans reprendre la partie si elle était en pause.
+- Un niveau terminé n'est plus en cours : "Replay" / "Rejouer" le recommence sans confirmation.
+- Réinitialiser la progression efface aussi les niveaux en cours.
 
 ## États
 

@@ -246,7 +246,8 @@ Chaque jeu a son plan et son statut dans son dossier de specs. Cette liste donne
 4. **Delta** : `specs/delta/BUILD-PLAN.md`. Prérequis : Fold fusionné.
 5. **Leap** : `specs/leap/BUILD-PLAN.md`. Prérequis : Prism fusionné. Construit avant Fold et Delta, hors de l'ordre de la liste.
 6. **Slash** : `specs/slash/BUILD-PLAN.md`. Prérequis : Delta et Leap fusionnés (Slash en extrait la boucle commune).
-7. **Coffer** : `specs/coffer/BUILD-PLAN.md`. Prérequis : Delta et Leap fusionnés (Coffer utilise `unlock.ts`) ; indépendant de Slash.
+7. **Coffer** : `specs/coffer/BUILD-PLAN.md`. Prérequis : Delta et Leap fusionnés (Coffer utilise `unlock.ts`) ; indépendant de Slash ; ajoute au socle la reprise d'un niveau en cours si Lantern ne l'a pas encore fait.
+8. **Lantern** : `specs/lantern/BUILD-PLAN.md`. Prérequis : Delta et Leap fusionnés ; ajoute au socle la reprise d'un niveau en cours, et extrait la boucle commune si Slash ne l'a pas encore fait.
 
 ## 11. Retrait du jeu de test
 

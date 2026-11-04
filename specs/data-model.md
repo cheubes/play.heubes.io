@@ -42,7 +42,7 @@ Réglages communs à tous les jeux, sauvegardés dans le navigateur.
 
 ### Sauvegarde d'un jeu
 
-Données persistées par un jeu (progression, meilleurs résultats). Leur contenu est propre à chaque jeu et décrit dans la section "Données persistées" de son `game-model.md`. Leur enveloppe est commune (voir "Persistance").
+Données persistées par un jeu (progression, meilleurs résultats, et l'état d'un niveau en cours pour un jeu qui le garde). Leur contenu est propre à chaque jeu et décrit dans la section "Données persistées" de son `game-model.md`. Leur enveloppe est commune (voir "Persistance").
 
 ### Statut d'un niveau
 
@@ -54,6 +54,8 @@ Pour les jeux à niveaux, le sélecteur de niveaux commun (voir `game-page.md`) 
 | `available` | Accessible, jamais terminé. |
 | `completed` | Terminé au moins une fois. |
 | `perfect` | Terminé avec le résultat optimal. Chaque jeu définit ce qu'est un résultat optimal. |
+
+Indépendamment de son statut, un niveau peut être en cours, pour un jeu qui garde les niveaux commencés (voir "Reprise d'un niveau" dans `game-page.md`). Ce n'est pas un statut : le jeu le signale à part.
 
 ## Persistance
 
