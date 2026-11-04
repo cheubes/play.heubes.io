@@ -25,7 +25,7 @@ Alternatives écartées :
 | `logic/coffer.ts` | `createState`, `rotate`, `activate`, ouvertures automatiques. |
 | `logic/search.ts` | États et actions abstraits, recherche en largeur (partagée par les indices et les tests). |
 | `logic/hints.ts` | `hint`. |
-| `logic/progress.ts` | Sauvegarde `CofferSave` et règle du statut `perfect`, autour de `getUnlockEntries`. |
+| `logic/progress.ts` | Sauvegarde `CofferSave`, parties en cours, règle du statut `perfect`, autour de `getUnlockEntries`. |
 | `levels/levels.ts` | Les 12 coffrets. |
 | `render/box.ts` | Cube, faces, flèches de bord, dimensionnement. |
 | `render/elements.ts` | Dessin de chaque type d'élément et de ses états, noms accessibles. |
@@ -33,9 +33,16 @@ Alternatives écartées :
 | `render/animations.ts` | Rotations, ouvertures, objets ramassés, indices, victoire. |
 | `render/input.ts` | Pointeur et clavier. |
 | `render/sounds.ts` | Synthèse des sons. |
-| `index.ts` | `GameDefinition`, action "hint". |
+| `index.ts` | `GameDefinition`, action "hint", reprise. |
 
 Utilitaires communs : `getUnlockEntries` (`unlock.ts`) et `nextSelection` (`selection.ts`) pour le curseur clavier, avec les centres des éléments à l'écran.
+
+## Reprise
+
+- `getLevels` signale les coffrets présents dans `inProgress` (voir "Contrat d'un jeu" dans `technical-specifications.md`).
+- `start(levelId)` crée l'état depuis la partie en cours s'il y en a une, sinon depuis l'état initial du coffret ; le temps reprend à `elapsedMs`.
+- `restart()` efface la partie en cours et recommence le coffret. La confirmation est demandée par l'hôte avant l'appel (voir "Reprise d'un niveau" dans `game-page.md`).
+- `pause()` écrit la partie en cours, pour qu'une fermeture de la page après une perte de focus ne perde rien.
 
 ## Contrôles
 

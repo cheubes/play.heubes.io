@@ -2,7 +2,7 @@
 
 Huit étapes, chacune démontrable avant de passer à la suivante. Specs du jeu : `functional-specifications.md`, `game-model.md`, `technical-specifications.md`, `style-guide.md` de ce dossier.
 
-Prérequis : specs du jeu validées, branche `game/coffer` créée depuis `dev`.
+Prérequis : specs du jeu validées, branche `game/coffer` créée depuis `dev`. La reprise d'un niveau en cours doit exister dans le socle ; si Lantern ne l'a pas encore ajoutée, l'étape 6 l'ajoute.
 
 ## 1. Logique pure
 
@@ -110,23 +110,29 @@ Crée src/games/coffer/render/input.ts et render/animations.ts selon "Contrôles
 Critère de fin : AC-10, AC-11 et AC-12 vérifiés dans le navigateur, desktop et mobile.
 ```
 
-## 6. Résultats et accessibilité
+## 6. Résultats, reprise et accessibilité
 
-**Critère :** AC-15 et AC-16 vérifiés à la main ; la progression survit à un rechargement ; la réinitialisation fonctionne.
+**Critère :** AC-15, AC-16 et AC-17 vérifiés à la main ; la progression survit à un rechargement ; la réinitialisation fonctionne et efface les parties en cours.
 
 **Statut :** à faire.
 
 **Prompt :**
 ```
-Implémente l'étape 6 de specs/coffer/BUILD-PLAN.md : résultats et accessibilité de Coffer.
+Implémente l'étape 6 de specs/coffer/BUILD-PLAN.md : résultats, reprise et accessibilité de
+Coffer.
+
+Si le socle n'a pas encore la reprise d'un niveau en cours, ajoute-la d'abord comme décrit à
+l'étape 3 de specs/lantern/BUILD-PLAN.md (sans la boucle commune, dont Coffer n'a pas besoin).
 
 Branche getLevels, complete() avec les résultats et messages de "Statistiques et résultats"
-(specs/coffer/functional-specifications.md), la sauvegarde CofferSave et l'animation de
+(specs/coffer/functional-specifications.md), la sauvegarde CofferSave avec les parties en
+cours (voir "Reprise" dans specs/coffer/technical-specifications.md) et l'animation de
 victoire. Puis vérifie AC-15 avec VoiceOver sur desktop et sur iPhone, et corrige les noms et
 états accessibles qui ne suffisent pas.
 
-Critère de fin : AC-15 et AC-16 vérifiés ; ouvrir un coffret déverrouille le suivant, y
-compris après rechargement ; la réinitialisation remet le sélecteur à zéro.
+Critère de fin : AC-15, AC-16 et AC-17 vérifiés ; ouvrir un coffret déverrouille le suivant,
+y compris après rechargement ; la réinitialisation remet le sélecteur à zéro et efface les
+parties en cours.
 ```
 
 ## 7. Son et finitions
@@ -145,7 +151,7 @@ src/content/games/coffer.en.md et .fr.md ("Textes" dans
 specs/coffer/functional-specifications.md), les textes de src/games/coffer/i18n/, et la
 couverture public/covers/coffer.webp ("Couverture" dans specs/coffer/style-guide.md).
 
-Repasse sur tous les critères [manuel] (AC-10 à AC-16) sur desktop et sur un téléphone, ouvre
+Repasse sur tous les critères [manuel] (AC-10 à AC-17) sur desktop et sur un téléphone, ouvre
 les 12 coffrets sans indice en notant le temps, et liste-moi ce qui reste à corriger, y compris
 les coffrets trop faciles, trop longs ou dont une inscription prête à confusion.
 

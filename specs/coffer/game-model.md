@@ -152,10 +152,17 @@ Clé `play:coffer`, version 1 :
 ```ts
 interface CofferSave {
   levels: Record<string, { charm: boolean }>;   // coffret ouvert au moins une fois ; charm : avec sa breloque
+  inProgress: Record<string, {
+    state: Omit<CofferState, 'selected' | 'hint'>;   // ensembles enregistrés en tableaux
+    elapsedMs: number;                              // temps de jeu, hors pause
+  }>;
 }
 ```
 
-Les entrées du sélecteur viennent de `getUnlockEntries` (`src/games/shell/unlock.ts`), avec `charm` comme règle du statut `perfect`. Une entrée dont l'`id` n'existe plus dans `levels.ts` est ignorée.
+- La partie en cours est écrite après chaque rotation ou changement de l'état abstrait, et à chaque pause ; elle est effacée quand le couvercle s'ouvre (avant l'animation de victoire) ou quand le coffret est recommencé.
+- Reprendre restaure l'état enregistré, sans objet sélectionné ni indice affiché.
+
+Les entrées du sélecteur viennent de `getUnlockEntries` (`src/games/shell/unlock.ts`), avec `charm` comme règle du statut `perfect`, et la marque "en cours" pour les coffrets présents dans `inProgress`. Une entrée dont l'`id` n'existe plus dans `levels.ts` est ignorée, et une partie en cours illisible ou incohérente avec le coffret est effacée.
 
 ## Contraintes de validation
 

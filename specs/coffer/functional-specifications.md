@@ -28,7 +28,7 @@ Ouvrir le couvercle du coffret. Objectif secondaire : trouver la breloque cach�
 8. La breloque est un objet à part, dans le compartiment secret du coffret : elle est trouvée dès que ce compartiment s'ouvre.
 9. Le niveau est terminé quand le couvercle s'ouvre.
 10. Indices : le bouton "Hint" / "Indice" du HUD guide vers la prochaine étape d'un plus court chemin vers le couvercle, en trois paliers de plus en plus précis : la face où agir, puis le mécanisme (mis en évidence), puis l'action (par exemple la valeur à afficher sur un cadran, ou l'objet à utiliser). Chaque appui passe au palier suivant ; le palier revient au premier dès que l'étape est faite. Les indices ne mènent jamais à la breloque.
-11. Il n'y a pas d'annulation. Recommencer remet le coffret dans son état initial. Aucun état du coffret n'est une impasse (voir "Contraintes de validation" dans `game-model.md`).
+11. Il n'y a pas d'annulation. Recommencer remet le coffret dans son état initial, après confirmation, et efface sa partie en cours. Aucun état du coffret n'est une impasse (voir "Contraintes de validation" dans `game-model.md`).
 
 ## Contrôles
 
@@ -52,6 +52,7 @@ Glisser vers la gauche montre la face de droite, comme si l'on tournait l'objet 
   - coffrets 10 à 12 : leviers et compartiments automatiques, combinaison de tous les mécanismes.
 - Un coffret se résout en 3 à 6 minutes pour un joueur qui le découvre. Le premier coffret d'une série rend son mécanisme évident : il n'en contient qu'un exemplaire, sur la face avant.
 - Déverrouillage : le coffret 1 est disponible au départ ; chaque coffret ouvert déverrouille le suivant.
+- Reprise : un coffret commencé et quitté (sélecteur, rechargement, fermeture de la page) est gardé en cours ; le rouvrir le reprend exactement là où il en était, face affichée, inventaire, indices demandés et temps compris (voir "Reprise d'un niveau" dans `game-page.md`). Chaque coffret a au plus une partie en cours.
 - Statut `perfect` : le coffret a été ouvert au moins une fois après avoir trouvé sa breloque.
 
 ## Statistiques et résultats
@@ -106,7 +107,7 @@ Controls / Contrôles : le tableau de la section "Contrôles", traduit.
 - **AC-05** [test] Un objet visible se ramasse ; un objet ou un mécanisme dans un compartiment fermé n'est ni visible ni actionnable.
 - **AC-06** [test] Le niveau est terminé quand le couvercle s'ouvre ; la breloque est trouvée quand le compartiment secret s'ouvre.
 - **AC-07** [test] L'indice désigne la prochaine étape d'un plus court chemin vers le couvercle, avec les trois paliers de la règle 10 ; le palier revient au premier quand l'étape est faite ; aucun indice ne désigne le compartiment secret ni un mécanisme qui ne sert qu'à lui.
-- **AC-08** [test] Sans sauvegarde, le coffret 1 est `available` et les suivants `locked` ; ouvrir le coffret n rend le coffret n+1 `available` ; un coffret ouvert une fois avec sa breloque est `perfect`.
+- **AC-08** [test] Sans sauvegarde, le coffret 1 est `available` et les suivants `locked` ; ouvrir le coffret n rend le coffret n+1 `available` ; un coffret ouvert une fois avec sa breloque est `perfect` ; un coffret commencé est signalé en cours, et ne l'est plus une fois ouvert ou recommencé ; reprendre un coffret restaure exactement l'état enregistré.
 - **AC-09** [test] Chaque coffret du jeu est valide (voir "Contraintes de validation" dans `game-model.md`) : le couvercle et la breloque sont atteignables, aucun état atteignable n'est une impasse, et chaque mécanisme sert au couvercle ou à la breloque.
 - **AC-10** [manuel] Toucher ou cliquer actionne les mécanismes et ramasse les objets ; glisser et les flèches de bord font pivoter le coffret ; au clavier, les flèches parcourent les mécanismes, les objets et les flèches de bord, `Espace` ou `Entrée` agit, `Maj` + flèche fait pivoter, `H` demande un indice.
 - **AC-11** [manuel] Une entrée reçue pendant une rotation ou l'ouverture d'un compartiment termine l'animation, puis est traitée.
@@ -115,11 +116,12 @@ Controls / Contrôles : le tableau de la section "Contrôles", traduit.
 - **AC-14** [manuel] Une face et l'inventaire tiennent ensemble dans l'aire de jeu d'un téléphone de 360 × 640 px, en portrait comme en paysage, avec des zones de toucher d'au moins 32 px pour les mécanismes et de 44 px pour les objets et les flèches de bord.
 - **AC-15** [manuel] Avec VoiceOver, sur desktop et sur iPhone, le coffret 1 peut être ouvert en s'aidant des noms et des états annoncés.
 - **AC-16** [manuel] Le panneau de fin de niveau affiche temps, indices et breloque, et la mise en valeur "perfect" quand la breloque a été trouvée.
+- **AC-17** [manuel] Quitter un coffret en cours (sélecteur, rechargement) puis le rouvrir le reprend dans le même état ; recommencer demande confirmation.
 
 ## Hors périmètre
 
 - Combinaison d'objets entre eux dans l'inventaire.
 - Énigmes avec du texte, coffrets générés aléatoirement.
-- Sauvegarde d'un coffret en cours : quitter le coffret perd sa progression, comme dans les autres jeux.
+- Plusieurs parties en cours pour un même coffret.
 - Rotation libre en 3D, zoom sur un détail.
 - Classement par temps ou par nombre d'indices.
