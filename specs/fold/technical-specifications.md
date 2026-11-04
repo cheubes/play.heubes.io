@@ -29,7 +29,7 @@ Alternatives écartées :
 | `render/sounds.ts` | Synthèse des sons. |
 | `index.ts` | `GameDefinition`. |
 
-Utilitaires communs : `progress.ts` et `fitCellSize` (`src/games/shell/`), partagés avec les autres jeux. La sélection au clavier commune (Prism, Shadow) ne s'applique pas : Fold sélectionne des lignes, pas des éléments.
+Utilitaires communs : `progress.ts` et `fitCellSize` (`src/games/shell/`), partagés avec les autres jeux. La sélection au clavier commune (Prism, Delta) ne s'applique pas : Fold sélectionne des lignes, pas des éléments.
 
 ## Contrôles
 

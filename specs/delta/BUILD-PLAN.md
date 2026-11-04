@@ -126,7 +126,7 @@ Implémente l'étape 6 de specs/delta/BUILD-PLAN.md : échec de niveau et progr
 1. Dans le socle (src/games/shell/, src/components/game-ui/, src/i18n/), ajoute le statut
    'failed' à LevelResult et le panneau d'échec, selon "Fin de niveau" dans
    specs/game-page.md et "Panneaux" dans specs/style-guide.md. Vérifie que Tilt, Prism,
-   Shadow, Fold et Leap ne sont pas affectés.
+   Fold et Leap ne sont pas affectés.
 2. La logique de statuts de Delta est la même que celle de Leap (src/games/leap/logic/progress.ts) :
    extrais-la dans src/games/shell/, adapte Leap et ses tests, et mets à jour
    specs/technical-specifications.md ("Utilitaires communs actuels"), specs/leap/game-model.md,
