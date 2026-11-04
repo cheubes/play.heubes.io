@@ -238,5 +238,6 @@ Icônes Lucide (voir "Icônes" dans `technical-specifications.md`), trait de 2px
 | `chevron-right` | Niveau suivant. |
 | `lock`, `check`, `star` | Statuts de niveau. |
 | `smartphone` | Invite d'orientation. |
+| `lightbulb` | Demander un indice (action de jeu, Coffer). |
 
 Ajouter une icône impose de la déclarer d'abord dans ce tableau.
