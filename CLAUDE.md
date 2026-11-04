@@ -26,7 +26,7 @@ Les fichiers `BUILD-PLAN.md` décrivent l'ordre de construction et l'avancement�
   - `style-guide.md` : direction artistique de l'aire de jeu (palette, formes, animations, sons, assets tiers).
   - `BUILD-PLAN.md` : étapes de construction du jeu, de la logique pure à la fusion sur `dev`.
 
-Cinq dossiers `<game-slug>/` existent à ce stade : `tilt/`, `prism/`, `fold/`, `delta/` et `leap/`.
+Six dossiers `<game-slug>/` existent à ce stade : `tilt/`, `prism/`, `fold/`, `delta/`, `leap/` et `slash/`.
 
 ## Quand et comment utiliser ces specs
 
